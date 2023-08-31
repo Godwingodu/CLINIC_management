@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Add New Therapist
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1>ADD NEW THERAPIST</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="mb-4">
+                <!-- General Information -->
+                <legend>General Information</legend>
+                {{ form.name.label_tag }} {{ form.name }}
+                {{ form.address.label_tag }} {{ form.address }}
+                {{ form.qualification.label_tag }} {{ form.qualification }}
+                {{ form.phone.label_tag }} {{ form.phone }}
+                {{ form.date_of_birth.label_tag }} {{ form.date_of_birth }}
+                {{ form.gender.label_tag }}
+                {{ form.gender }}
+                {{ form.appointment_interval.label_tag }}
+                {{ form.appointment_interval }}
+                {{ form.profile_photo.label_tag }} {{ form.profile_photo }}
+            </fieldset>
+
+            <fieldset class="mb-4">
+                <!-- Specialities -->
+                <legend>Select Specialities</legend>
+                {{ form.specialities.label_tag }}
+                {{ form.specialities }}
+            </fieldset>
+
+            <fieldset class="mb-4">
+                <!-- Branch -->
+                <legend>Select Branch</legend>
+                {{ form.branch.label_tag }}
+                {{ form.branch }}
+            </fieldset>
+
+            <fieldset class="mb-4">
+                <!-- Working Days and Time Slots -->
+                <legend>Working Days & Time Slots</legend>
+                {{ form.working_days.label_tag }}
+                {{ form.working_days }}
+                {% for day in form.fields.working_days.queryset %}
+                    <div class="mb-2" id="{{ day.day_name|lower }}">
+                        <label>{{ day.day_name }}:</label>
+                        <div class="time-slots">
+                            {{ form|get_item:day.day_name }}
+                            <button type="button" onclick="addTimeSlot('{{ day.day_name|lower }}')">+</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </fieldset>
+
+            <fieldset class="mb-4">
+                <!-- Create Login -->
+                <legend>Create Login</legend>
+                {{ form.email.label_tag }} {{ form.email }}
+                {{ form.password1.label_tag }} {{ form.password1 }}
+                {{ form.password2.label_tag }} {{ form.password2 }}
+            </fieldset>
+
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a href="{% url 'cancel_url_here' %}" class="btn btn-danger">Cancel</a>
+        </form>
+    </div>
+
+    {% block additional_js %}
+    <script>
+        // Function to add a new time slot input field
+        function addTimeSlot(dayName) {
+            const container = document.getElementById(dayName).querySelector('.time-slots');
+            const newTimeSlot = document.createElement('input');
+            newTimeSlot.type = 'text';
+            newTimeSlot.placeholder = 'e.g. 14:00-18:00';
+            container.insertBefore(newTimeSlot, container.lastElementChild);
+        }
+
+        // Basic Client-Side Validation
+        document.getElementById("therapistForm").addEventListener("submit", function(event) {
+            // Validate email
+            const email = document.getElementsByName("email")[0].value;
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailPattern.test(email)) {
+                alert("Invalid email address");
+                event.preventDefault();
+                return;
+            }
+
+            // Validate password match
+            const password1 = document.getElementsByName("password1")[0].value;
+            const password2 = document.getElementsByName("password2")[0].value;
+            if (password1 !== password2) {
+                alert("Passwords do not match");
+                event.preventDefault();
+            }
+        });
+    </script>
+   {% endblock %}
+{% endblock %}
+

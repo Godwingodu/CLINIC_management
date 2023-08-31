@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Add New Patient{% endblock %}
+
+{% block content %}
+    <h1>Add New Patient</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <h2>Basic Information</h2>
+        <div class="form-group">
+            <label for="{{ form.name.id_for_label }}">Name</label>
+            <input type="text" class="form-control" name="{{ form.name.name }}" id="{{ form.name.id_for_label }}" value="{{ form.name.value|default_if_none:'' }}">
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.address.id_for_label }}">Address</label>
+            <textarea class="form-control" name="{{ form.address.name }}" id="{{ form.address.id_for_label }}">{{ form.address.value|default_if_none:'' }}</textarea>
+        </div>
+        <!-- more fields, like specialities, branch, phone... -->
+
+        <h2>Medical Information</h2>
+        <div class="form-group">
+            <label for="{{ form.height.id_for_label }}">Height (in cm)</label>
+            <input type="number" class="form-control" name="{{ form.height.name }}" id="{{ form.height.id_for_label }}" value="{{ form.height.value|default_if_none:'' }}">
+        </div>
+        <!-- more fields, like weight, blood group, notes... -->
+
+        <h2>Create Login</h2>
+        <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">Email</label>
+            <input type="email" class="form-control" name="{{ form.email.name }}" id="{{ form.email.id_for_label }}" value="{{ form.email.value|default_if_none:'' }}">
+        </div>
+        <!-- more fields, like password, confirm password... -->
+
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+{% endblock %}

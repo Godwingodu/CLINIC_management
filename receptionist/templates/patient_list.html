@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="filter-bar py-3">
+    <form method="get" action=".">
+        <div class="form-row">
+            <!-- Search by Name -->
+            <div class="col-md-3">
+                <input type="text" class="form-control" name="name" placeholder="Search by name...">
+            </div>
+            
+            <!-- Gender Dropdown -->
+            <div class="col-md-2">
+                <select class="custom-select" name="gender">
+                    <option value="">All Genders</option>
+                    <!-- Populate dynamically -->
+                    {% for value, display in form.fields.gender.choices %}
+                    <option value="{{ value }}" {% if form.cleaned_data.gender == value %}selected{% endif %}>{{ display }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <!-- Location Dropdown -->
+            <div class="col-md-2">
+                <select class="custom-select" name="location">
+                    <option value="">All Locations</option>
+                    <!-- Populate dynamically -->
+                    {% for location in form.fields.location.queryset %}
+                    <option value="{{ location.id }}" {% if form.cleaned_data.location == location %}selected{% endif %}>{{ location.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Date Range -->
+            <div class="col-md-2">
+                <input type="date" class="form-control" name="date_added_from">
+            </div>
+            <div class="col-md-2">
+                <input type="date" class="form-control" name="date_added_to">
+            </div>
+            
+            <!-- Export and Add Patient -->
+            <div class="col-md-1">
+                <button class="btn btn-primary" type="submit" name="export_excel">Export</button>
+            </div>
+            
+            <div class="col-md-2">
+                <a class="btn btn-success" href="{% url 'add_patient' %}">Add Patient</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="table-responsive">
+    <table class="table table-hover table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">No.</th>
+                <th scope="col">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="select_all">
+                        <label class="custom-control-label" for="select_all"></label> Patient Name
+                    </div>
+                </th>
+                <th scope="col">Gender</th>
+                <th scope="col">Date Added</th>
+                <th scope="col">Time Added</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for patient in patients %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" name="patient" value="{{ patient.id }}" id="patient-{{ patient.id }}">
+                        <label class="custom-control-label" for="patient-{{ patient.id }}"></label>
+                        {{ patient.user.first_name }} {{ patient.user.last_name }}
+                    </div>
+                </td>
+                <td>{{ patient.gender }}</td>
+                <td>{{ patient.date_added|date:"Y-m-d" }}</td>
+                <td>{{ patient.date_added|time:"H:i:s" }}</td>
+                <td>
+                    <a href="{% url 'update_patient' patient.id %}" class="btn btn-primary btn-sm">Update</a>
+                    <a href="{% url 'delete_patient' patient.id %}" class="btn btn-danger btn-sm">Delete</a>
+                    <button class="btn btn-info btn-sm view-profile" data-patient-id="{{ patient.id }}" data-toggle="modal" data-target="#patientProfileModal"><i class="fa fa-eye"></i></button>
+
+
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Pagination using Bootstrap styles -->
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        {% if patients.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ patients.previous_page_number }}">Previous</a></li>
+        {% else %}
+            <li class="page-item disabled"><a class="page-link" href="#">First</a></li>
+            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+        {% endif %}
+
+        <!-- Add a few page numbers around the current page (optional) -->
+
+        <li class="page-item active">
+            <a class="page-link" href="?page={{ patients.number }}">{{ patients.number }} <span class="sr-only">(current)</span></a>
+        </li>
+
+        {% if patients.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ patients.next_page_number }}">Next</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ patients.paginator.num_pages }}">Last</a></li>
+        {% else %}
+            <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+            <li class="page-item disabled"><a class="page-link" href="#">Last</a></li>
+        {% endif %}
+    </ul>
+</nav>
+{% include 'patient_profile.html' %}
+
+
+{% endblock %}
+
+{% block additional_js %}
+<script>
+    $(".view-profile").click(function() {
+        const patientId = $(this).data("patient-id");
+        showPatientProfile(patientId);
+    });
+    
+</script>
+
+{% endblock %}
+
+
+

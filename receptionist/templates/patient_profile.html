@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<!-- Profile Popup Card -->
+<div class="profile-card" id="profileCard">
+    <!-- Patient Profile Picture -->
+    <div class="profile-picture">
+        {% if patient.profile_photo %}
+            <img id="profileImg" src="{{ patient.profile_photo.url }}" alt="{{ patient.user.first_name }}'s Profile Picture">
+        {% else %}
+            <img id="profileImg" src="{% static 'path_to_blank_image.jpg' %}" alt="Blank Profile Picture">
+        {% endif %}
+    </div>
+
+    <!-- Patient Details -->
+    <div class="patient-details">
+        <h2 id="patientName">{{ patient.username }}</h2>
+
+        <p><strong>ID:</strong> <span id="patientID">{{ patient.id }}</span></p>
+        <p><strong>Phone:</strong> <span id="patientPhone">{{ patient.phone }}</span></p>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="profile-actions">
+        <a href="{% url 'treatment_package_view' patient.id %}" class="btn">Add Treatment Package</a>
+        <a href="{% url 'schedule_appointment_view' patient.id %}" class="btn">Schedule Appointment</a>
+        <a href="{% url 'create_invoice_view' patient.id %}" class="btn">Create Invoice</a>
+    </div>
+
+    <!-- Close Button for Popup -->
+    <button class="close-btn" onclick="closeProfilePopup()">X</button>
+</div>
+
+{% endblock %}
+{% block additional_js %}
+<script>
+    function showPatientProfile(patientId) {
+        $.ajax({
+            url: `/path_to_get_patient_details/${patientId}/`, // Update with your API endpoint
+            method: "GET",
+            success: function(data) {
+                fillProfilePopup(data);
+            },
+            error: function(err) {
+                console.error("Error fetching patient data", err);
+            }
+        });
+    }
+    
+    function fillProfilePopup(data) {
+        // Fill the profile card using the received data
+        $("#profileImg").attr("src", data.profile_photo || "{% static 'path_to_blank_image.jpg' %}");
+        $("#patientName").text(data.username);
+        $("#patientID").text(data.id);
+        $("#patientPhone").text(data.phone);
+    
+        // Now show the profile card
+        $(".profile-overlay").fadeIn();
+        $("#profileCard").fadeIn();
+    }
+    
+    function closeProfilePopup() {
+        // Hide the profile card and overlay
+        $(".profile-overlay").fadeOut();
+        $("#profileCard").fadeOut();
+    }
+  
+</script>
+{% endblock %}
+
+
+
+
+

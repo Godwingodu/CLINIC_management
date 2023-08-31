@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Add New Speciality
+{% endblock %}
+
+{% block additional_css %}
+  <!-- No additional CSS for now -->
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Add New Speciality</h1>
+
+    <!-- Add New Speciality Form -->
+    <form id="add-speciality-form" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="add">
+        <div class="form-group">
+            <label for="id_name">Name</label>
+            {{ form.name }}
+        </div>
+        <div class="form-group">
+            <label for="id_description">Description</label>
+            {{ form.description }}
+        </div>
+        <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+
+    <hr>
+
+    <!-- List Existing Specialities -->
+    <h2>Existing Specialities</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody id="specialities-list">
+        {% for speciality in specialities %}
+            <tr data-id="{{ speciality.id }}">
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ speciality.name }}</td>
+                <td>{{ speciality.description }}</td>
+                <td>
+                    <button class="btn btn-success edit-btn">Edit</button>
+                    <button class="btn btn-danger delete-btn">Delete</button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block additional_js %}
+<script>
+    $(document).ready(function() {
+        // Edit button clicked
+        $(".edit-btn").click(function() {
+            let row = $(this).closest('tr');
+            let specialityId = row.data('id');
+            let name = row.find('td:eq(0)').text();
+            let description = row.find('td:eq(1)').text();
+
+            // Update form fields
+            $("#id_name").val(name);
+            $("#id_description").val(description);
+
+            // Update hidden field to set the action as 'update'
+            $("input[name='action']").val('update');
+            $("input[name='speciality_id']").val(specialityId);
+        });
+
+        // Delete button clicked
+        $(".delete-btn").click(function() {
+            let row = $(this).closest('tr');
+            let specialityId = row.data('id');
+
+            // Update hidden field to set the action as 'delete'
+            $("input[name='action']").val('delete');
+            $("input[name='speciality_id']").val(specialityId);
+
+            // Submit the form
+            $("#add-speciality-form").submit();
+        });
+    });
+</script>
+{% endblock %}

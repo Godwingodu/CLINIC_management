@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Create Invoice
+{% endblock %}
+
+{% block additional_css %}
+<!-- Your additional CSS here -->
+{% endblock %}
+
+{% block content %}
+<h1>Create Invoice</h1>
+
+<form method="POST" id="invoice-form">
+    {% csrf_token %}
+    
+    <!-- Render Invoice Form -->
+    <div>
+        <label>Invoice Number: </label>
+        {{ form.invoice_number }}
+    </div>
+    
+    <div>
+        <label for="id_patient">Patient: </label>
+        <input list="autocomplete-list" id="id_patient" name="patient">
+        <datalist id="autocomplete-list">
+            <!-- Options will be populated by JavaScript -->
+        </datalist>
+    </div>
+    
+    <div>
+        <label>Invoice Date: </label>
+        {{ form.invoice_date }}
+    </div>
+    
+    <div>
+        <label>Status: </label>
+        {{ form.status }}
+    </div>
+
+    <div>
+        <label>Payment Mode: </label>
+        {{ form.payment_mode }}
+    </div>
+    
+    <div>
+        <label>Therapist: </label>
+        {{ form.therapist }}
+    </div>
+    
+    <!-- Render Invoice Item Formset -->
+    <table id="item-formset">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Item</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{ formset.management_form }}
+            {% for item_form in formset %}
+                <tr class="item-form">
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ item_form.item_name }}</td>
+                    <td>{{ item_form.description }}</td>
+                    <td>{{ item_form.amount }}</td>
+                    <td><button type="button" class="remove-item">X</button></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <!-- Button to Add More Items -->
+    <button type="button" id="add-item">Add Item</button>
+    
+    <!-- Subtotal, Tax, and Total Fields -->
+    <div>
+        <label>Subtotal: </label>
+        <span id="subtotal">0</span>
+    </div>
+    <div>
+        <label>Tax: </label>
+        <span id="tax">0</span>
+    </div>
+    <div>
+        <label>Total: </label>
+        <span id="total">0</span>
+    </div>
+
+    <!-- Save and Cancel Buttons -->
+    <button type="submit">Save</button>
+    <button type="button" id="cancel">Cancel</button>
+</form>
+{% endblock %}
+{% block additional_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // For autocomplete of patient names
+        const patientInput = document.getElementById('id_patient');
+        const autocompleteList = document.getElementById('autocomplete-list');
+        patientInput.addEventListener('keyup', function() {
+            fetch(`/search_patients/?q=${patientInput.value}`)
+                .then(response => response.json())
+                .then(data => updatePatientOptions(data))
+                .catch(error => console.error('An error occurred:', error)); // Added error handling
+        });
+        
+        // For dynamically adding invoice items
+        const addItemButton = document.getElementById('add-item');
+        addItemButton.addEventListener('click', function() {
+            const newRow = document.querySelector('.item-form').cloneNode(true);
+            newRow.querySelectorAll('input').forEach(input => input.value = '');
+            document.querySelector('#item-formset tbody').appendChild(newRow);
+            recalculateTotals();
+        });
+        
+        // For removing invoice items
+        const itemFormset = document.getElementById('item-formset');
+        itemFormset.addEventListener('click', function(event) {
+            if (event.target.classList.contains('remove-item')) {
+                event.target.closest('tr').remove();
+                recalculateTotals();
+            }
+        });
+        
+        // For recalculating Subtotal, Tax, and Total
+        itemFormset.addEventListener('change', function() {
+            recalculateTotals();
+        });
+    });
+
+    function recalculateTotals() {
+        let subtotal = 0;
+        document.querySelectorAll('[name$="-amount"]').forEach(amountInput => {
+            subtotal += parseFloat(amountInput.value || 0);
+        });
+
+        const tax = subtotal * 0.10;  // 10% tax for now
+        const total = subtotal + tax;
+
+        document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+        document.getElementById('tax').textContent = tax.toFixed(2);
+        document.getElementById('total').textContent = total.toFixed(2);
+    }
+
+    function updatePatientOptions(data) {
+        // Clear existing options
+        autocompleteList.innerHTML = "";
+        
+        // Populate new options
+        if (data.patients) { // Make sure the 'patients' key exists
+            data.patients.forEach(patient => {
+                const option = document.createElement('option');
+                option.value = patient.name; // Assuming the object has a 'name' property
+                autocompleteList.appendChild(option);
+            });
+        }
+    }
+</script>
+{% endblock %}
+
+

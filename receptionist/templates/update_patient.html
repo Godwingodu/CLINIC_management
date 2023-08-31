@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block title %}Update Patient{% endblock %}
+
+{% block content %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <h2 class="mb-4">Update Patient Information</h2>
+        
+        <!-- Name -->
+           <div class="form-group">
+               <label for="{{ form.username.id_for_label }}">Name</label>
+                 {{ form.username|add_class:"form-control" }}
+            </div>
+            <!-- Address -->
+            <div class="form-group">
+                <label for="{{ form.address.id_for_label }}">Address</label>
+                {{ form.address|add_class:"form-control" }}
+            </div>
+            
+            <!-- Specialities -->
+            <div class="form-group">
+                <label for="{{ form.specialities.id_for_label }}">Select Specialities</label>
+                {{ form.specialities|add_class:"form-control" }}
+            </div>
+
+            <!-- Location -->
+            <div class="form-group">
+                <label for="{{ form.location.id_for_label }}">Select Location</label>
+                {{ form.location|add_class:"form-control" }}
+            </div>
+
+            <!-- Phone -->
+            <div class="form-group">
+                <label for="{{ form.phone.id_for_label }}">Phone Number</label>
+                {{ form.phone|add_class:"form-control" }}
+            </div>
+            
+            <!-- Date of Birth -->
+            <div class="form-group">
+                <label for="{{ form.date_of_birth.id_for_label }}">Date of Birth</label>
+                {{ form.date_of_birth|add_class:"form-control" }}
+            </div>
+
+            <!-- Gender -->
+            <div class="form-group">
+                <label>Gender</label><br>
+                {{ form.gender }}
+            </div>
+
+            <h2 class="mb-4">MEDICAL INFORMATION</h2>
+            
+            <!-- Height -->
+            <div class="form-group">
+                <label for="{{ form.height.id_for_label }}">Height (in cm)</label>
+                {{ form.height|add_class:"form-control" }}
+            </div>
+
+            <!-- Weight -->
+            <div class="form-group">
+                <label for="{{ form.weight.id_for_label }}">Weight (in kg)</label>
+                {{ form.weight|add_class:"form-control" }}
+            </div>
+
+            <!-- Blood Group -->
+            <div class="form-group">
+                <label for="{{ form.blood_group.id_for_label }}">Blood Group</label>
+                {{ form.blood_group|add_class:"form-control" }}
+            </div>
+
+            <!-- Notes -->
+            <div class="form-group">
+                <label for="{{ form.notes.id_for_label }}">Notes</label>
+                {{ form.notes|add_class:"form-control" }}
+            </div>
+            
+            <h2 class="mb-4">CREATE LOGIN</h2>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}">Email</label>
+                {{ form.email|add_class:"form-control" }}
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <label for="{{ form.password1.id_for_label }}">Set Password</label>
+                {{ form.password1|add_class:"form-control" }}
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group">
+                <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+                {{ form.password2|add_class:"form-control" }}
+            </div>
+
+            <!-- Profile Photo -->
+            <div class="form-group">
+                <label for="{{ form.profile_photo.id_for_label }}">Upload Profile Photo</label>
+                {{ form.profile_photo|add_class:"form-control-file" }}
+            </div>
+
+            <!-- Save button -->
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <a href="{% url 'patients:patient_list' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+
+    {% endblock %}
+
+
+    
+    <!-- Additional JS -->
+    {% block additional_js %}
+    {% endblock %}

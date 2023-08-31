@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Unpaid Invoices
+{% endblock %}
+
+{% block additional_css %}
+<!-- Include any additional CSS specific to this page here -->
+{% endblock %}
+
+{% block content %}
+<!-- Navigation Bar -->
+<nav>
+    <div><a href="/invoice_list">All Invoices</a></div>
+    <div><a href="/paid_invoices">Paid Invoices</a></div>
+    <div><a href="/create_invoice">Create Invoice</a></div>
+    <div><a href="/account_settings">Account Settings</a></div>
+</nav>
+
+<!-- Search Form -->
+<div class="row">
+    <div class="col-md-9">
+        <form method="get" action="#">
+            {{ search_form.as_p }}
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <div class="col-md-3">
+        <button id="exportButton">Export</button>
+    </div>
+</div>
+
+<!-- Invoices Table -->
+<div class="row">
+    <div class="col-md-12">
+        <h1>Unpaid Invoices</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" id="selectAll"></th>
+                    <th>No</th>
+                    <th>Patient ID</th>
+                    <th>Name</th>
+                    <th>Doctor Name</th>
+                    <th>Appointment Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for invoice in page_obj %}
+                <tr>
+                    <td><input type="checkbox" class="invoice-checkbox" value="{{ invoice.id }}"></td>
+                    <td>{{ forloop.counter }}</td>
+                    <td>ID {{ invoice.patient.patient_id }}</td>
+                    <td>{{ invoice.patient.name }}</td>
+                    <td>{{ invoice.doctor.name }}</td>
+                    <td>{{ invoice.appointment_date }}</td>
+                    <td>{{ invoice.time }}</td>
+                    <td>{{ invoice.status }}</td>
+                    <td>
+                        <button class="view-invoice" data-invoice-id="{{ invoice.id }}">👁</button>
+                        <button class="update-status" data-invoice-id="{{ invoice.id }}">🔧</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+                
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block additional_js %}
+<script type="text/javascript">
+$(document).ready(function() {
+
+    // Update Invoice Status
+    $('.update-status').on('click', function() {
+        var invoice_id = $(this).attr('data-invoice-id');
+        var new_status = prompt("Enter new status:");
+
+        $.ajax({
+            url: '/update_invoice_status/' + invoice_id + '/',
+            type: 'POST',
+            data: {'status': new_status},
+            success: function(response) {
+                if (response.message) {
+                    alert(response.message);
+                } else if (response.error) {
+                    alert(response.error);
+                }
+            },
+            error: function(error) {
+                alert("An error occurred: " + error);
+            }
+        });
+    });
+
+    // View Invoice
+    $('.view-invoice').on('click', function() {
+        var invoice_id = $(this).attr('data-invoice-id');
+        window.location.href = '/view_invoice/' + invoice_id + '/';
+    });
+
+    // Export Selected Invoices
+    $('#exportButton').click(function() {
+        var selected = [];
+        $('.invoice-checkbox:checked').each(function() {
+            selected.push($(this).val());
+        });
+
+        if (selected.length === 0) {
+            alert("Please select at least one invoice to export.");
+            return;
+        }
+
+        $.ajax({
+            url: '/export_invoices/',
+            type: 'POST',
+            data: {'selected_invoices': JSON.stringify(selected)},
+            success: function(response) {
+                if (response.message) {
+                    alert(response.message);
+                } else if (response.error) {
+                    alert(response.error);
+                }
+            },
+            error: function(error) {
+                alert("An error occurred: " + error);
+            }
+        });
+    });
+
+    // Select or Deselect All
+    $('#selectAll').click(function() {
+        $('.invoice-checkbox').prop('checked', $(this).prop('checked'));
+    });
+});
+</script>
+{% endblock %}
+

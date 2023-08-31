@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Patient{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="mb-4">Delete Patient</h2>
+        <div class="alert alert-danger">
+            <strong>Warning!</strong> Deleting will permanently remove the patient's data. This action cannot be undone.
+        </div>
+        <p>Are you sure you want to delete the patient: <strong>{{ patient.username }}</strong>?</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Confirm Delete</button>
+            <a href="{% url 'patients:patient_list' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+{% endblock %}
+

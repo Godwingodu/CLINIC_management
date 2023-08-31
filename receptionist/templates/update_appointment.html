@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <form id="rescheduleAppointmentForm" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="patient">Patient:</label>
+      <select name="patient" id="patient" class="form-control" disabled>
+        <option value="{{ form.patient.value.id }}" selected>{{ form.patient.value }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="therapist">Therapist:</label>
+      <select name="therapist" id="therapist" class="form-control">
+        {% for therapist in therapists %}
+          <option value="{{ therapist.id }}" {% if therapist.id == form.therapist.value.id %}selected{% endif %}>{{ therapist.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="appointment_date">Appointment Date:</label>
+      <input type="date" name="appointment_date" id="appointment_date" class="form-control" value="{{ form.appointment_date.value|date:'Y-m-d' }}">
+      <div id="dateError" class="text-danger"></div>
+    </div>
+    <div class="form-group">
+      <label for="time_slot">Time Slot:</label>
+      <select name="time_slot" id="time_slot" class="form-control">
+        <!-- Time slots will be populated here -->
+      </select>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Save</button>
+      <a href="{% url 'appointment_list' %}" class="btn btn-danger">Cancel</a>
+    </div>
+  </form>
+{% endblock %}
+{% block additional_js %}
+<script>
+  // Parsing server-rendered therapists data into JavaScript object
+  const therapists = JSON.parse("{{ therapists|safe }}");
+  let selectedTherapistId = null;
+
+  // DOM Content Loaded Event Listener
+  document.addEventListener('DOMContentLoaded', () => {
+    initTherapistDropdown();
+    initDateValidation();
+  });
+
+  // Initialize the therapist dropdown and attach change event
+  function initTherapistDropdown() {
+    const therapistDropdown = document.querySelector('#therapist');
+    therapistDropdown.addEventListener('change', handleTherapistChange);
+  }
+
+  // Handle therapist dropdown change
+  function handleTherapistChange(event) {
+    selectedTherapistId = event.target.value;
+    fetchAvailableSlots();
+  }
+
+  // Initialize date validation and attach change event
+  function initDateValidation() {
+    const appointmentDateField = document.querySelector('#appointment_date');
+    appointmentDateField.addEventListener('change', validateDate);
+  }
+
+  // Fetch available slots via AJAX based on selected therapist and date
+  function fetchAvailableSlots() {
+    const appointmentDate = document.querySelector('#appointment_date').value;
+    if (!selectedTherapistId || !appointmentDate) return;
+    const url = `/get_available_slots/?therapist_id=${selectedTherapistId}&appointment_date=${appointmentDate}`;
+    fetch(url).then(response => response.json()).then(data => handleSuccess(data.available_slots));
+  }
+
+  // Handle success and populate time slot dropdown
+  function handleSuccess(data) {
+    let options = "";
+    for (let slot of data) {
+      const disabledStatus = slot.is_booked ? 'disabled' : '';
+      const bgColor = slot.is_booked ? 'red' : 'transparent';
+      options += `<option style="background-color: ${bgColor};" value="${slot.id}" ${disabledStatus}>${slot.name}</option>`;
+    }
+    document.querySelector('#time_slot').innerHTML = options;
+  }
+
+  // Validate date based on therapist's working days
+  function validateDate() {
+    const selectedDate = new Date(document.querySelector('#appointment_date').value);
+    const weekday = selectedDate.getDay();
+    const workingDays = therapists.find(t => t.id === parseInt(selectedTherapistId)).working_days;
+
+    const dateError = document.querySelector('#dateError');
+    if (!workingDays.includes(weekday)) {
+      dateError.textContent = "Therapist is not available on this day.";
+    } else {
+      dateError.textContent = "";
+      fetchAvailableSlots();
+    }
+  }
+</script>
+{% endblock %}

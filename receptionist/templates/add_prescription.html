@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}Add Prescription{% endblock %}
+
+<!-- Additional CSS for this page -->
+{% block additional_css %}
+    <style>
+        /* Customize form layout */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        /* Bold labels for readability */
+        label {
+            font-weight: bold;
+        }
+        /* Style for submit button */
+        button[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        /* Hover effect for submit button */
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        /* Styles for validation errors */
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        /* Styling for disabled form fields */
+        select[disabled], textarea[disabled], input[disabled] {
+            background-color: #e9ecef;
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        /* Styling for flash messages */
+        .alert-messages .alert {
+            margin-top: 20px;
+        }
+    </style>
+{% endblock %}
+
+<!-- Main Content -->
+{% block content %}
+    <div class="container">
+        <h1>Add Prescription</h1>
+
+        <!-- Flash messages display area -->
+        {% if messages %}
+            <div class="alert-messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Prescription form -->
+        <form method="post" id="prescriptionForm">
+            {% csrf_token %}
+
+            <!-- Display form errors, if any -->
+            {% if form.errors %}
+                <div class="form-errors alert alert-danger">
+                    <strong>Please correct the error(s) below:</strong>
+                    {{ form.errors }}
+                </div>
+            {% endif %}
+
+            <!-- Loop through all form fields -->
+            {% for field in form %}
+            <div class="form-group">
+                <!-- Field Label -->
+                {{ field.label_tag }}
+
+                <!-- Field Input -->
+                {{ field }}
+
+                <!-- Field Errors -->
+                {% if field.errors %}
+                    <div class="error">
+                        {{ field.errors.0 }}
+                    </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+{% endblock %}
+
+<!-- Additional JS for this page -->
+{% block additional_js %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            // Function to update therapist and patient based on selected appointment
+            function updateFormBasedOnAppointment(appointmentId) {
+                $.ajax({
+                    url: `/get_appointment_detail/${appointmentId}/`,
+                    type: 'GET',
+                    success: function(data) {
+                        // Update therapist and patient fields and set them to disabled
+                        $('#id_therapist').val(data.therapist).prop("disabled", true);
+                        $('#id_patient').val(data.patient).prop("disabled", true);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            }
+
+            // Initialize form with therapist and patient based on initial appointment selection
+            const initialAppointmentId = $('#id_appointment').val();
+            if (initialAppointmentId) {
+                updateFormBasedOnAppointment(initialAppointmentId);
+            }
+
+            // Update therapist and patient when a different appointment is selected
+            $('#id_appointment').change(function() {
+                const appointmentId = $(this).val();
+                updateFormBasedOnAppointment(appointmentId);
+            });
+        });
+    </script>
+{% endblock %}
+
+
+
+

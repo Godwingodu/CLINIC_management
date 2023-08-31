@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+
+{% block title %}List of Appointments{% endblock %}
+
+{% block additional_css %}
+  <!-- Add any additional CSS files here -->
+{% endblock %}
+
+{% block content %}
+  <!-- Search Bar -->
+  <div class="form-group">
+    <input type="text" class="form-control" id="search" placeholder="Search Appointments..." value="{{ search_query }}">
+  </div>
+
+  <!-- Filters for the header section -->
+  <ul class="nav nav-pills mb-3">
+    <!-- Add active classes dynamically -->
+    <li class="nav-item">
+      <a class="nav-link {% if status_filter == 'today' %}active{% endif %}" href="?status=today">Today</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {% if status_filter == 'upcoming' %}active{% endif %}" href="?status=upcoming">Upcoming</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {% if status_filter == 'cancelled' %}active{% endif %}" href="?status=cancelled">Cancelled</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {% if status_filter == 'completed' %}active{% endif %}" href="?status=completed">Completed</a>
+    </li>
+  </ul>
+
+  <form method="POST" action="">
+    <!-- Add CSRF token for form security -->
+    {% csrf_token %}
+    <!-- Action button for multiple appointment selections -->
+    <button type="submit" name="cancel_selected" class="btn btn-danger">Cancel Selected</button>
+
+    <!-- Appointments Table -->
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col"><input type="checkbox" id="select_all"></th>  <!-- Checkbox for select all -->
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Doctor</th>
+          <th scope="col">Patient Phone</th>
+          <th scope="col">Date</th>
+          <th scope="col">Time</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for appointment in appointments %}
+          <tr>
+            <td><input type="checkbox" class="select_item" name="selected_appointments" value="{{ appointment.id }}"></td>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ appointment.patient.user.first_name }}</td>
+            <td>{{ appointment.therapist.name }}</td>
+            <td>{{ appointment.patient.phone }}</td>
+            <td>{{ appointment.appointment_date }}</td>
+            <td>{{ appointment.time_slot }}</td>
+            <td>
+              <!-- Action buttons or icons -->
+              <button type="button" class="btn btn-info" data-toggle="modal" data-target="#profileCard{{ appointment.id }}">Details</button>
+
+
+       <!-- Modal for profile card -->
+<div class="modal fade" id="profileCard{{ appointment.id }}" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h5 class="modal-title">Appointment Details</h5>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <!-- Profile Card -->
+        <div class="card">
+          <img src="{{ appointment.patient.image.url }}" class="card-img-top" alt="Patient Image">
+          <div class="card-body">
+            <h5 class="card-title">{{ appointment.patient.user.first_name }}</h5>
+            <p class="card-text">
+              ID: {{ appointment.patient.id }} <br>
+              Phone: {{ appointment.patient.phone }} <br>
+              Speciality: {{ appointment.speciality }} <br>
+              Doctor: {{ appointment.therapist.name }} <br>
+              Date: {{ appointment.appointment_date }} <br>
+              Time: {{ appointment.time_slot }}
+            </p>
+
+            <!-- Cancel Appointment Button/Form -->
+            <form method="POST" action="{% url 'delete_appointment' appointment.id %}" style="display: inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger">Cancel Appointment</button>
+            </form>
+
+            <!-- Reschedule Appointment Button -->
+            <a href="{% url 'reschedule_appointment' appointment.id %}" class="btn btn-warning">Reschedule Appointment</a>
+            <a href="{% url 'accounts:add_invoice' appointment.id %}" class="btn btn-info">Create Invoice</a>
+            <a href="{% url 'therapist:add_prescription' appointment.id %}" class="btn btn-success">Add Prescription</a>
+          </div>
+        </div>
+      </div>
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <span class="step-links">
+        {% if appointments.has_previous %}
+            <a href="?page=1">First</a>
+            <a href="?page={{ appointments.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ appointments.number }} of {{ appointments.paginator.num_pages }}.
+        </span>
+
+        {% if appointments.has_next %}
+            <a href="?page={{ appointments.next_page_number }}">Next</a>
+            <a href="?page={{ appointments.paginator.num_pages }}">Last</a>
+        {% endif %}
+    </span>
+  </div>
+{% endblock %}
+
+{% block additional_js %}
+<script>
+  $(document).ready(function() {
+    var debounceFunction = _.debounce(function() {
+      const query = $("#search").val();
+      
+      $.ajax({
+        url: '',
+        type: 'GET',
+        data: {
+          'search': query
+        },
+        dataType: 'json',
+        success: function(data) {
+          $("tbody").empty();
+          
+          $.each(data, function(key, value) {
+            let newRow = $("<tr>");
+            newRow.append("<th scope='row'><input type='checkbox' class='select_item' name='selected_appointments' value='" + value.id + "'></th>");
+            newRow.append("<th scope='row'>" + value.id + "</th>");
+            newRow.append("<td>" + value.patient__user__first_name + "</td>");
+            newRow.append("<td>" + value.therapist__name + "</td>");
+            newRow.append("<td>" + value.patient__phone + "</td>");
+            newRow.append("<td>" + value.appointment_date + "</td>");
+            newRow.append("<td>" + value.time_slot__name + "</td>");
+            
+            let actionCol = $("<td>");
+            let actionIcon = $("<i class='fas fa-info-circle'></i>");
+            actionIcon.attr('data-toggle', 'modal');
+            actionIcon.attr('data-target', '#profileCard' + value.id);
+            actionCol.append(actionIcon);
+            newRow.append(actionCol);
+            
+            $("tbody").append(newRow);
+            
+            // Updating the modal as well
+            // Assuming the modal data is included in the AJAX response
+            let modal = $("#profileCard" + value.id);
+            modal.find(".card-title").text(value.patient__user__first_name);
+            modal.find(".card-text").html(
+              "ID: " + value.patient__id + "<br>" +
+              "Phone: " + value.patient__phone + "<br>" +
+              "Speciality: " + value.speciality + "<br>" +
+              "Doctor: " + value.therapist__name + "<br>" +
+              "Date: " + value.appointment_date + "<br>" +
+              "Time: " + value.time_slot__name
+            );
+          });
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          console.error(textStatus, errorThrown);
+        }
+      });
+    }, 300);
+    
+    $("#search").on("keyup", debounceFunction);
+  });
+</script>
+{% endblock %}
+
+
+

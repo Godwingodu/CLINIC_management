@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block additional_css %}
+<style>
+  .today {
+    background-color: #f2f2f2;
+  }
+  .has-appointment {
+    background-color: green;
+    color: white;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+  <!-- Calendar Header -->
+  <h2>Appointments for {{ selected_month }} {{ selected_year }}</h2>
+
+  <!-- Calendar Table -->
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Sun</th>
+        <th>Mon</th>
+        <th>Tue</th>
+        <th>Wed</th>
+        <th>Thu</th>
+        <th>Fri</th>
+        <th>Sat</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for week in calendar_data %}
+      <tr>
+        {% for day in week %}
+        <td class="{% if today.day == day and today.month == selected_month and today.year == selected_year %}today{% endif %} {% if day in appointment_count_by_day.keys %}has-appointment{% endif %}">
+          {{ day }}
+          {% if day in appointment_count_by_day.keys %}
+          <br>{{ appointment_count_by_day[day] }} Appointments
+          {% endif %}
+        </td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Today's Appointments -->
+  <h4>Appointments for {{ today|date:"d M Y" }}</h4>
+  <ul>
+    {% for appointment in appointments_today %}
+    <li>{{ appointment }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
+
+{% block additional_js %}
+<script>
+  let currentYear = {{ selected_year }};
+  let currentMonth = {{ selected_month }};
+  let appointmentData = {{ appointment_count_by_day|safe }};
+  let today = new Date({{ today.year }}, {{ today.month }} - 1, {{ today.day }});
+
+  function fetchCalendarData(year, month) {
+    // Logic to fetch updated calendar data from server (Optional)
+  }
+
+  function drawCalendar() {
+    let tbody = document.querySelector(".calendar-tbody");
+    tbody.innerHTML = '';  // Clear the existing calendar
+
+    // You could use 'calendar_data' from your Django view here to build your calendar
+    // Or you can build it dynamically using JavaScript Date objects
+
+    for (let week of {{ calendar_data|safe }}) {
+      let row = document.createElement("tr");
+      for (let day of week) {
+        let cell = document.createElement("td");
+        if (day === today.getDate() && currentMonth === today.getMonth() + 1 && currentYear === today.getFullYear()) {
+          cell.className = "today";
+        }
+
+        if (appointmentData[day]) {
+          cell.className += " has-appointment";
+          cell.innerHTML = `${day}<br>${appointmentData[day]} Appointments`;
+        } else {
+          cell.innerHTML = day;
+        }
+
+        row.appendChild(cell);
+      }
+      tbody.appendChild(row);
+    }
+  }
+
+  function updateTodayAppointments() {
+    // Logic to update today's appointments if needed
+  }
+
+  document.getElementById("prev-month").addEventListener("click", function() {
+    if (currentMonth === 1) {
+      currentMonth = 12;
+      currentYear--;
+    } else {
+      currentMonth--;
+    }
+    fetchCalendarData(currentYear, currentMonth);
+  });
+
+  document.getElementById("next-month").addEventListener("click", function() {
+    if (currentMonth === 12) {
+      currentMonth = 1;
+      currentYear++;
+    } else {
+      currentMonth++;
+    }
+    fetchCalendarData(currentYear, currentMonth);
+  });
+
+  drawCalendar();
+  updateTodayAppointments();
+</script>
+{% endblock %}
