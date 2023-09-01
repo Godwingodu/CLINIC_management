@@ -1,0 +1,23 @@
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+Receptionist Dashboard
+{% endblock %}
+
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'css/receptionist_dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Welcome to the Receptionist Dashboard</h1>
+    <!-- Your dashboard content here -->
+</div>
+{% endblock %}
+
+{% block additional_js %}
+<script src="{% static 'js/receptionist_dashboard.js' %}"></script>
+{% endblock %}

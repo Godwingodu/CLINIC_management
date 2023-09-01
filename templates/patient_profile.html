@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 
 {% block content %}
@@ -9,7 +10,7 @@
         {% if patient.profile_photo %}
             <img id="profileImg" src="{{ patient.profile_photo.url }}" alt="{{ patient.user.first_name }}'s Profile Picture">
         {% else %}
-            <img id="profileImg" src="{% static 'path_to_blank_image.jpg' %}" alt="Blank Profile Picture">
+            <img id="profileImg" src="{% static 'bear.jpg' %}" alt="Blank Profile Picture">
         {% endif %}
     </div>
 
@@ -23,9 +24,15 @@
 
     <!-- Action Buttons -->
     <div class="profile-actions">
-        <a href="{% url 'treatment_package_view' patient.id %}" class="btn">Add Treatment Package</a>
-        <a href="{% url 'schedule_appointment_view' patient.id %}" class="btn">Schedule Appointment</a>
-        <a href="{% url 'create_invoice_view' patient.id %}" class="btn">Create Invoice</a>
+        <a href="#" class="btn">Add Treatment Package</a>
+        {% comment %}    //{% url 'treatment_package_view' patient.id %} {% endcomment %}
+        {% if patient.id %}
+        <a href="{% url 'schedule_appointment_with_patient' patient.id %}" class="btn">Schedule Appointment</a>
+        {% else %}
+        <!-- Handle this situation differently -->
+        {% endif %}
+        <a href="{% url 'create_invoice' %}" class="btn">Create Invoice</a>
+
     </div>
 
     <!-- Close Button for Popup -->

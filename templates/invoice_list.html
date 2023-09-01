@@ -11,9 +11,9 @@ Recent Invoices
 {% block content %}
 <!-- Navigation Bar -->
 <nav>
-    <div><a href="/paid_invoices">Paid Invoices</a></div>
-    <div><a href="/unpaid_invoices">Unpaid Invoices</a></div>
-    <div><a href="/create_invoice">Create Invoice</a></div>
+    <div><a href="{% url 'paid_invoices' %}">Paid Invoices</a></div>
+    <div><a href="{% url 'unpaid_invoices' %}">Unpaid Invoices</a></div>
+    <div><a href="{% url 'create_invoice' %}">Create Invoice</a></div>
     <div><a href="/account_settings">Account Settings</a></div>
 </nav>
 

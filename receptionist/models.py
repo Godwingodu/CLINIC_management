@@ -12,6 +12,7 @@ from clinic_app.settings import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN
 from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client
 from django.conf import settings
+from .constants import STATUS_CHOICES,PAYMENT_MODE_CHOICES
 
 TWILIO_ACCOUNT_SID = settings.TWILIO_ACCOUNT_SID
 TWILIO_AUTH_TOKEN = settings.TWILIO_AUTH_TOKEN
@@ -29,6 +30,12 @@ ACCEPTED = 'Accepted'
 REJECTED = 'Rejected'
 COMPLETED = 'Completed'
 CANCELLED = 'Cancelled'
+
+
+
+
+
+
 
 # Initialize logger
 logger = logging.getLogger(__name__)
@@ -94,8 +101,11 @@ class Patient(models.Model):
     profile_photo = models.ImageField(upload_to='receptionist/patients/', default='path/to/default/image.jpg')
     
     # Login Information
-    email = models.EmailField(max_length=255, unique=True)
-    password = models.CharField(max_length=128)
+    # Login Information
+    email = models.EmailField(max_length=255, unique=True, default='unknown@email.com') 
+
+    password = models.CharField(max_length=128, null=True, blank=True)
+
     
     # Timestamp of when the patient is added
     date_added = models.DateTimeField(auto_now_add=True)
@@ -221,7 +231,7 @@ class Appointment(models.Model):
         ordering = ['appointment_date', 'time_slot']
 
     def __str__(self):
-        return f"{self.patient.user.first_name} appointment with {self.therapist.name} on {self.appointment_date}"
+      return f"{self.patient.name} appointment with {self.therapist.name} on {self.appointment_date}"
 
 
 
@@ -310,16 +320,8 @@ class Prescription(models.Model):
 
 #accounts model
 class Invoice(models.Model):
-    STATUS_CHOICES = [
-        ('paid', 'Paid'),
-        ('unpaid', 'Unpaid'),
-    ]
-    
-    PAYMENT_MODE_CHOICES = [
-        ('cash', 'Cash Payment'),
-        ('card', 'Card Payment'),
-        ('net', 'Net Banking'),
-    ]
+
+
     
     invoice_number = models.AutoField(primary_key=True)
     patient = models.ForeignKey(Patient, related_name='invoices', on_delete=models.CASCADE)

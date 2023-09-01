@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+{% load custom_filters %}
+{% load static %}
+
 
 {% block title %}
     Add New Therapist
@@ -7,7 +10,7 @@
 {% block content %}
     <div class="container mt-5">
         <h1>ADD NEW THERAPIST</h1>
-        <form method="post" enctype="multipart/form-data">
+        <form  id="therapistForm" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <fieldset class="mb-4">
                 <!-- General Information -->
@@ -47,11 +50,12 @@
                     <div class="mb-2" id="{{ day.day_name|lower }}">
                         <label>{{ day.day_name }}:</label>
                         <div class="time-slots">
-                            {{ form|get_item:day.day_name }}
+                            {{ time_slot_fields.day.day_name }}
                             <button type="button" onclick="addTimeSlot('{{ day.day_name|lower }}')">+</button>
                         </div>
                     </div>
                 {% endfor %}
+
             </fieldset>
 
             <fieldset class="mb-4">
@@ -63,22 +67,40 @@
             </fieldset>
 
             <button type="submit" class="btn btn-primary">Save</button>
-            <a href="{% url 'cancel_url_here' %}" class="btn btn-danger">Cancel</a>
+            <a href="{% url 'list_therapists' %}" class="btn btn-danger">Cancel</a>
         </form>
     </div>
-
+    {% endblock %}
     {% block additional_js %}
     <script>
+        // Function to collect time slots for each working day
+        function gatherTimeSlots() {
+            const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+            days.forEach((dayName) => {
+                const container = document.getElementById(dayName).querySelector('.time-slots');
+
+                // Remove existing hidden inputs to avoid duplication
+                Array.from(container.querySelectorAll('input[type=hidden]')).forEach((input) => input.remove());
+
+                const timeSlots = Array.from(container.querySelectorAll('input[type=text]')).map((input) => input.value).join(", ");
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = `time_slot_${dayName}`;
+                hiddenInput.value = timeSlots;
+                container.appendChild(hiddenInput);
+            });
+        }
+
         // Function to add a new time slot input field
         function addTimeSlot(dayName) {
             const container = document.getElementById(dayName).querySelector('.time-slots');
             const newTimeSlot = document.createElement('input');
             newTimeSlot.type = 'text';
             newTimeSlot.placeholder = 'e.g. 14:00-18:00';
-            container.insertBefore(newTimeSlot, container.lastElementChild);
+            container.appendChild(newTimeSlot); // Directly appending at the end
         }
 
-        // Basic Client-Side Validation
+        // Attach to form submit event
         document.getElementById("therapistForm").addEventListener("submit", function(event) {
             // Validate email
             const email = document.getElementsByName("email")[0].value;
@@ -86,7 +108,7 @@
             if (!emailPattern.test(email)) {
                 alert("Invalid email address");
                 event.preventDefault();
-                return;
+                return;  // Exit the function to prevent gatherTimeSlots from running
             }
 
             // Validate password match
@@ -95,9 +117,11 @@
             if (password1 !== password2) {
                 alert("Passwords do not match");
                 event.preventDefault();
+                return;  // Exit the function to prevent gatherTimeSlots from running
             }
+
+            // If validations pass, gather time slots
+            gatherTimeSlots();
         });
     </script>
-   {% endblock %}
 {% endblock %}
-

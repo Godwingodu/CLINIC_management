@@ -36,7 +36,8 @@
         <td class="{% if today.day == day and today.month == selected_month and today.year == selected_year %}today{% endif %} {% if day in appointment_count_by_day.keys %}has-appointment{% endif %}">
           {{ day }}
           {% if day in appointment_count_by_day.keys %}
-          <br>{{ appointment_count_by_day[day] }} Appointments
+          <br>{{ appointment_count_by_day.day }}
+          Appointments
           {% endif %}
         </td>
         {% endfor %}

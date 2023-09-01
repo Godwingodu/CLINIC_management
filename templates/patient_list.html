@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
+ 
 {% block content %}
 
 <div class="filter-bar py-3">
@@ -41,18 +41,18 @@
                 <input type="date" class="form-control" name="date_added_to">
             </div>
             
-            <!-- Export and Add Patient -->
-            <div class="col-md-1">
-                <button class="btn btn-primary" type="submit" name="export_excel">Export</button>
-            </div>
-            
-            <div class="col-md-2">
-                <a class="btn btn-success" href="{% url 'add_patient' %}">Add Patient</a>
-            </div>
+         <!-- Export to Excel and PDF and Add Patient -->
+         <div class="col-md-1">
+            <button class="btn btn-primary" type="submit" name="export_excel">Export Excel</button>
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-secondary" type="submit" name="export_pdf">Export PDF</button>
+        </div>
+        <div class="col-md-2">
+            <a class="btn btn-success" href="{% url 'add_new_patient' %}">Add Patient</a>
         </div>
     </form>
 </div>
-
 
 <div class="table-responsive">
     <table class="table table-hover table-bordered">
@@ -72,7 +72,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for patient in patients %}
+            {% for patient in page_obj %}
             <tr>
                 <th scope="row">{{ forloop.counter }}</th>
                 <td>
@@ -102,7 +102,8 @@
 <!-- Pagination using Bootstrap styles -->
 <nav aria-label="Page navigation example">
     <ul class="pagination">
-        {% if patients.has_previous %}
+        {% if page_obj.has_previous %}
+
             <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
             <li class="page-item"><a class="page-link" href="?page={{ patients.previous_page_number }}">Previous</a></li>
         {% else %}
@@ -132,6 +133,25 @@
 
 {% block additional_js %}
 <script>
+    $(".view-profile").click(function() {
+        const patientId = $(this).data("patient-id");
+        showPatientProfile(patientId);
+    });
+    
+    function showPatientProfile(patientId) {
+        $.ajax({
+            url: `/path_to_get_patient_details/${patientId}/`,
+
+            method: "GET",
+            success: function(data) {
+                fillProfilePopup(data);
+            },
+            error: function(err) {
+                console.error("Error fetching patient data", err);
+            }
+        });
+    }
+
     $(".view-profile").click(function() {
         const patientId = $(this).data("patient-id");
         showPatientProfile(patientId);
