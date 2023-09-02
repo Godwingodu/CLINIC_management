@@ -1,38 +1,264 @@
 {% extends 'base.html' %}
 
-{% block title %}Add New Patient{% endblock %}
-
 {% block content %}
-    <h1>Add New Patient</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
 
-        <h2>Basic Information</h2>
-        <div class="form-group">
-            <label for="{{ form.name.id_for_label }}">Name</label>
-            <input type="text" class="form-control" name="{{ form.name.name }}" id="{{ form.name.id_for_label }}" value="{{ form.name.value|default_if_none:'' }}">
-        </div>
-        
-        <div class="form-group">
-            <label for="{{ form.address.id_for_label }}">Address</label>
-            <textarea class="form-control" name="{{ form.address.name }}" id="{{ form.address.id_for_label }}">{{ form.address.value|default_if_none:'' }}</textarea>
-        </div>
-        <!-- more fields, like specialities, branch, phone... -->
+{% load static %}
 
-        <h2>Medical Information</h2>
-        <div class="form-group">
-            <label for="{{ form.height.id_for_label }}">Height (in cm)</label>
-            <input type="number" class="form-control" name="{{ form.height.name }}" id="{{ form.height.id_for_label }}" value="{{ form.height.value|default_if_none:'' }}">
-        </div>
-        <!-- more fields, like weight, blood group, notes... -->
+<!DOCTYPE html>
+<html lang="en">
 
-        <h2>Create Login</h2>
-        <div class="form-group">
-            <label for="{{ form.email.id_for_label }}">Email</label>
-            <input type="email" class="form-control" name="{{ form.email.name }}" id="{{ form.email.id_for_label }}" value="{{ form.email.value|default_if_none:'' }}">
-        </div>
-        <!-- more fields, like password, confirm password... -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Example</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/form_style.css' %}">
+    <!-- Link to Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Link to google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet">
 
-        <button type="submit" class="btn btn-primary">Save</button>
-    </form>
-{% endblock %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+
+    <style>
+        .data-input-container {
+            background-color: #f2fefb;
+            border: none !important;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 5px 0;
+        }
+
+        .data-input-container input {
+            border: none;
+            border-radius: 10px;
+            min-height: 40px !important;
+            max-width: 75px;
+            background-color: #ffffff !important;
+        }
+
+        .data-input-container select {
+            border: none;
+            min-height: 40px;
+            border-radius: 10px;
+            background-color: #ffffff;
+        }
+
+        .form-textarea {
+            background-color: rgba(217, 217, 217, 0.21) !important;
+            height: 100px;
+            width: 100%;
+            border: none !important;
+            border-radius: 12px;
+            padding: 10px;
+        }
+
+        #id_password,
+        #id_confirm_password {
+            background-color: #efffe1 !important;
+        }
+
+        /* Style the custom file input container */
+        .custom-file-input {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        /* Style the actual file input to be hidden */
+        .input-file {
+            position: absolute;
+            font-size: 100px;
+            opacity: 0;
+            right: 0;
+            top: 0;
+        }
+
+        /* Style the custom file input label, including your custom image */
+        .file-label {
+            display: inline-block;
+            background-color: transparent;
+            /* Example background color */
+            color: #fff;
+            /* Example text color */
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Center the text and image inside the label */
+        .file-label img {
+            vertical-align: middle;
+            margin-right: 5px;
+            /* Adjust as needed to space the image and text */
+            height: 75px;
+            aspect-ratio: 3/4;
+        }
+
+        .radio-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: #f2fefb;
+        }
+
+        .green-button {
+            background-color: #78D596 !important;
+            color: #ffffff !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="custom-inner-wrapper">
+        <div class="container custom-container p-5">
+            <h4>Add New Patient</h4>
+            <form method="post" action="">
+                {% csrf_token %}
+                <div class="row mb-4">
+                    <div class="col-md-6 input-container">
+                        {{ form.name }}
+                    </div>
+                    <div class="col-md-6 input-container">
+                        {{ form.address }}
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-4 input-container">
+                        {{form.specialities}}
+                    </div>
+                    <div class="col-md-4 input-container d-flex position-relative">
+                        {{form.branch}}
+                    </div>
+
+                    <div class="col-md-4 input-container">
+                        {{form.phone}}
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-3 input-container">
+                        {{ form.date_of_birth }}
+                    </div>
+
+                    <div class="col-md-4 radio-container">
+                        <div>Gender</div>
+                        {{form.gender}}
+                    </div>
+                </div>
+
+
+                <h4>Medical Information</h4>
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <div class="data-input-container">
+                            <div>Height</div>
+                            {{form.height}}
+                            <div>Cm</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 px-2">
+                        <div class="data-input-container">
+                            <div>Weight</div>
+                            {{form.weight}}
+                            <div>Kg</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 px-2">
+                        <div class="data-input-container">
+                            <div>Blood Group</div>
+                            {{form.blood_group}}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        {{form.notes}}
+                    </div>
+                </div>
+
+                <div>
+                    <h4>Create Login</h4>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-4 input-container">
+                        {{form.email}}
+                        {% for err in form.email.errors %}
+                        <small class="text-danger">{{err}}</small>
+                        {% endfor %}
+                    </div>
+                    <div class="col-md-4 input-container">
+                        {{form.password}}
+                    </div>
+                    <div class="col-md-4 input-container">
+                        {{form.confirm_password}}
+                        {% for err in form.password2.errors %}
+                        <small class="text-danger">{{ err }}</small>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-4">
+                        <div class="custom-file-input">
+                            <input type="file" name="{{ form.profile_photo.name }}"
+                                id="{{ form.profile_photo.id_for_label }}" class="input-file">
+                            <label for="{{ form.profile_photo.id_for_label }}" class="file-label">
+                                <img src="{% static 'images/form_icons/add_img_icon.svg' %}" alt="Custom Image">
+                            </label>
+                            Upload Image
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- <div class="col-md-4 date-input-container">
+                    <span id="dob-label">Date of birth</span>
+                    <img src="{% static 'icons/calendar.svg' %}" alt="Calendar" id="calendar-icon">
+                </div> -->
+
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn green-button">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Link to Bootstrap JavaScript and dependencies (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const dobLabel = document.getElementById('dob-label');
+            const calendarIcon = document.getElementById('calendar-icon');
+
+            calendarIcon.addEventListener('click', function () {
+                const datePicker = new Pikaday({
+                    field: dobLabel, // Use the label as the field
+                    format: 'MM/DD/YYYY', // Change the format as needed
+                    onSelect: function (date) {
+                        dobLabel.textContent = date.toLocaleDateString();
+                        datePicker.destroy(); // Destroy the picker after selecting a date
+                    }
+                });
+
+                datePicker.show(); // Show the picker when the calendar icon is clicked
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>
+
+{% endblock content %}

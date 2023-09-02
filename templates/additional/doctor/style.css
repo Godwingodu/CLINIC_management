@@ -1,0 +1,690 @@
+html {
+  min-height: 100%;
+}
+
+body {
+  padding: 7% 15%;
+  background-color: #ffffff !important;
+}
+
+@media (min-width: 990px) {
+  .status-image {
+    width: 38px;
+  }
+}
+
+img:hover {
+  color: #000;
+}
+.add-button {
+  background-color: #78d596 !important;
+}
+
+#off-switch {
+  height: 36px;
+  width: 36px;
+}
+
+.table th,
+.table td {
+  padding: 10px;
+  text-align: left;
+  border: none;
+}
+.table th:first-child {
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+.table th:last-child {
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+.table-active {
+  background-color: #f2fefb !important;
+  border-radius: 20px !important;
+}
+.branch-admin {
+  font-size: 26px;
+}
+
+* {
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+}
+
+.custom-button {
+  color: #ffffff !important;
+  border-radius: 12px !important;
+}
+
+.table-head-bg {
+  background-color: #d2ffe1 important;
+}
+
+@media (min-width: 990px) {
+  .custom-button {
+    font-size: 16px !important;
+    font-weight: 400 !important;
+  }
+  .add-button {
+    width: 182px !important;
+  }
+}
+
+.input {
+  background-color: #f2fefb !important;
+}
+
+/* physiotherapist - add therapist styles*/
+
+.table-head-bg {
+  background-color: #f2fefb;
+  border-radius: 20px 20px 0 0; /* Rounded top corners, square bottom corners */
+}
+
+.title-phsyio {
+  font-size: 22px;
+  font-weight: 500;
+  color: #000000;
+  margin-bottom: 2rem;
+}
+
+.therapist-add-header {
+  font-weight: 500;
+  font-size: 26px;
+  color: #000000;
+  margin: 10rem 3rem 2rem;
+}
+
+/* patient add styles */
+
+.title-patient {
+  font-weight: 600;
+  font-size: 20px;
+  color: #000000;
+}
+
+.patient-pagination {
+  width: 35px;
+  border-radius: 50px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  -ms-border-radius: 50px;
+  -o-border-radius: 50px;
+}
+
+.patient-table {
+  margin-top: 8rem;
+}
+
+@media (min-width: 990px) {
+  .space-fix {
+    margin-left: 1rem;
+  }
+  .patient-button {
+    height: 43px !important;
+  }
+}
+
+/* therapist css */
+
+.title-therapist {
+  font-size: 26px;
+  font-weight: 500;
+  color: #000;
+}
+
+/* appointment css */
+
+.appoint-btn {
+  text-align: left !important;
+  border-radius: 20px !important;
+  -webkit-border-radius: 20px !important;
+  -moz-border-radius: 20px !important;
+  -ms-border-radius: 20px !important;
+  -o-border-radius: 20px !important;
+}
+.appoint-1 :hover {
+  background-color: #d5b6b6 !important;
+}
+
+.appoint-1 {
+  background-color: #d57878 !important;
+  color: #000000;
+  border: none;
+  padding: 3rem !important;
+  font-size: 26px !important;
+  font-weight: 500 !important;
+}
+
+.appoint-2:hover {
+  background-color: #9fffbf !important;
+  color: #fff;
+}
+
+.appoint-2 {
+  background-color: #78d596 !important;
+  color: #000000;
+  border: none;
+  padding: 3rem !important;
+  font-size: 26px !important;
+  font-weight: 500 !important;
+}
+
+.model-title-custom {
+  font-size: 22px;
+}
+.app-modal-btn {
+  width: 10rem;
+  height: 4rem;
+}
+.appoint-check {
+  background-color: #d57878 !important;
+  color: #000000;
+  border: none;
+  padding: 3rem !important;
+  font-size: 26px !important;
+  font-weight: 500 !important;
+}
+
+.appoint-check:hover {
+  background-color: #d5a3a3 !important;
+}
+.model-title-custom {
+  text-align: left;
+  margin-left: -18rem;
+}
+.modal-body {
+  border: none !important;
+}
+.modal-header {
+  border: none !important;
+}
+.modal-footer {
+  border: none !important;
+}
+.custome-text-box {
+  border: none !important;
+}
+
+.custome-text-box {
+  height: 5rem;
+  width: 100%;
+  margin-right: 1rem;
+  margin-top: 1rem;
+}
+.app-modal-1 {
+  background-color: #78d596 !important;
+  color: #fff !important;
+  border: none !important;
+}
+.app-modal-2 {
+  background-color: #868686 !important;
+  border: none !important;
+}
+input:active {
+  border: none !important;
+}
+
+.app-modal-1:hover {
+  background-color: #00ea4a !important;
+}
+
+.app-modal-2:hover {
+  background-color: rgb(156, 156, 156) !important;
+}
+
+@media (min-width: 990px) {
+  .appoint-btn {
+    width: 491px;
+    height: 136px;
+    text-align: left !important;
+    margin-bottom: 1rem;
+  }
+  .button-title {
+    text-align: left;
+  }
+  .appoint-img {
+    width: 56%;
+  }
+  .model-title-custom {
+    text-align: left;
+  }
+  .modal-header {
+    margin: 0 -36rem;
+  }
+  .desc-modal {
+    height: 12rem;
+  }
+  .model-title-custom {
+    margin-left: 3rem !important;
+  }
+  app-modal-btn {
+    width: 12rem !important;
+    border-radius: 22px !important;
+    height: 4rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .appoint-btn {
+    height: 16rem;
+    margin-bottom: 1rem !important;
+  }
+}
+
+@media (min-width: 991px) and (max-width: 1400px) {
+  .appoint-btn {
+    width: 37rem;
+  }
+}
+
+/* appointment table */
+
+.btn-outline-primary {
+  color: #000 !important;
+  border: #000 !important;
+  background-color: #fff !important;
+}
+.btn-check + .btn:hover {
+  border: #000 !important;
+}
+
+.btn-outline-primary:active {
+  background-color: #d2ffe1 !important;
+  color: #fff;
+}
+.btn-outline-primary:visited {
+  background-color: #d2ffe1 !important;
+  color: #fff;
+}
+
+.radio-btns {
+  margin-left: 49rem;
+}
+
+/* add therapist css */
+
+.dropdown-toggle {
+  background-color: #f2fefb !important;
+  border: 1px solid rgba(229, 231, 235, var(--tw-border-opacity)) !important;
+}
+.radio-radius {
+  border-radius: 20px !important;
+}
+.slot-btn {
+  border: 1px solid rgba(229, 231, 235, var(--tw-border-opacity)) !important;
+  background-color: #e5fff9 !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+.date-appoint {
+  height: 2rem;
+
+  min-width: 0rem !important;
+  width: 44% !important;
+}
+
+.second-date-appoint {
+  background-color: #ffdada !important;
+}
+
+.day-fix {
+  width: 105px;
+}
+.btn--main:hover {
+  border: 1px solid #000 !important;
+}
+
+@media (min-width: 990px) {
+  .date-field-therapist {
+    padding: 4% 15% !important;
+    margin-left: 8rem;
+    border: 1px solid rgba(229, 231, 235, var(--tw-border-opacity));
+    background-color: #f2fefb;
+  }
+
+  .fix-layout {
+    margin-top: 3rem;
+  }
+  .slot-btn {
+    margin-top: 2rem !important;
+  }
+  .to-fix-margin {
+    margin-left: -10rem !important;
+  }
+  .anchor-img-fix {
+    margin-left: -11rem;
+  }
+  .therapist-button {
+    width: 20rem !important;
+    margin-left: 12rem;
+    margin-top: 4rem;
+  }
+}
+
+.schedule {
+  border-radius: 20px;
+  padding: 2px 5px;
+  background-color: #f4f67b;
+  border: none;
+  width: 73px;
+
+  font-size: 12px;
+  padding: 8px;
+  margin-left: -6px;
+}
+.cancelled {
+  border-radius: 20px;
+  padding: 2px 5px;
+  background-color: #ff8c8c;
+  width: 73px;
+  border: none;
+
+  font-size: 12px;
+  padding: 8px;
+  margin-left: -6px;
+}
+.completed {
+  border-radius: 20px;
+  padding: 2px 5px;
+  background-color: #78d596;
+  width: 73px;
+  border: none;
+
+  font-size: 12px;
+  padding: 8px;
+  margin-left: -6px;
+}
+
+.pad-fix {
+  margin-top: -7rem !important;
+}
+/* user appointments */
+
+/* user accounts */
+@media (min-width: 990px) {
+}
+
+/* invoice */
+
+@media (min-width: 990px) {
+  .invoice-title {
+    margin-left: 72px;
+    margin-bottom: 2rem;
+  }
+
+  .custom-inner-wrapper {
+    margin: 30px;
+    /* Adjust the margin as needed */
+    background-color: #f9f9f9;
+    border-radius: 20px;
+    background-color: #f9f9f9;
+    width: 133rem;
+    padding-top: 3rem;
+    height: 83rem;
+  }
+  .invoice-btn {
+    margin-left: 15.3rem;
+  }
+}
+.invoice-title {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.custom-inner-wrapper {
+  margin: 0 auto;
+  /* Adjust the margin as needed */
+
+  background-color: #ffffff;
+
+  padding-top: 3rem;
+}
+
+.date-field-invoice {
+  margin-left: 54px;
+  border-radius: 10px;
+  border: none;
+  width: 194px;
+  height: 5rem;
+  padding-left: 3rem;
+  padding-right: 2rem;
+  margin-top: 2rem;
+}
+
+.tag-invoice {
+  font-size: 14px;
+}
+
+.invoice-p {
+  font-size: 10px;
+  font-weight: 400;
+}
+.invoice-sub {
+  font-size: 15px;
+  font-weight: 500;
+}
+.table-header-bg-color th {
+  background-color: #f2fefb !important;
+  color: #000;
+  padding: 20px 10px; /* Text color for better contrast */
+}
+
+.invoice-box {
+  border-top: 1px solid #959595;
+  border-bottom: 1px solid #959595;
+}
+
+/* settings page css */
+@media (min-width: 990px) {
+  .fix-setting-btn {
+    width: 36rem !important;
+  }
+  .gender-setting {
+    background-color: #f2fefb;
+    width: 29rem;
+    padding: 2% 11%;
+    margin-top: -17px;
+  }
+  .setting-btn {
+    width: 29rem !important;
+    padding-top: 2rem !important;
+    padding-bottom: 5rem !important;
+  }
+  .setting-input {
+    width: 13rem;
+  }
+  .blood-setting {
+    height: 7rem !important;
+  }
+}
+
+.setting-btn {
+  background-color: #f2fefb !important;
+  color: #000 !important;
+}
+.setting-input {
+  color: #000 !important;
+}
+
+.notes-setting {
+  background-color: #d9d9d9 !important;
+}
+.setting-btn-add {
+  background-color: #428bc1 !important;
+}
+.setting-btn-add:hover {
+  color: #fff !important;
+}
+
+/* dashboard-styles */
+
+@media (min-width: 990px) {
+  .dashboard-title {
+    margin-left: -15rem !important;
+    padding: 30px 20px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+  }
+  .dashboard-user {
+    max-width: 61rem !important;
+    margin-left: 2rem !important;
+  }
+  .dashboard-battery {
+    width: 40%;
+    margin-top: 25px;
+    margin-left: 4rem;
+  }
+}
+
+.dashboard-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  padding-left: 0;
+  padding-right: 0;
+}
+.dashboard-user {
+  background-color: #78d596;
+  width: 100%;
+  margin-left: 3rem;
+  border-radius: 15px;
+}
+.green-number {
+  font-size: 40px;
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-left: -2rem;
+}
+.complete-dashboard {
+  margin-left: -2rem;
+  margin-top: -2rem;
+}
+
+.modal-dashboard-text {
+  font-size: 17px;
+  font-weight: 600;
+}
+.modal-div-dash {
+  margin-top: 1rem;
+  margin-left: 0rem;
+}
+.time-modal {
+  margin-top: 1rem;
+}
+.date-modal {
+  margin-left: 5rem;
+  margin-top: 1rem;
+}
+.modal-new-button {
+  margin: 0 auto;
+  height: 4rem;
+  width: 14rem;
+  background-color: #ff6347 !important;
+}
+.modal-new-button:hover {
+  background-color: #a592ed !important;
+}
+.modal-treatment-btn {
+  height: 4rem;
+  width: 14rem;
+  background-color: #a592ed !important;
+}
+.modal-prescription-button {
+  height: 4rem;
+  width: 12rem;
+  background-color: #78d596 !important;
+}
+
+.modal-cancel-button {
+  margin-left: 2rem;
+  margin-right: 39px !important;
+  height: 4rem;
+  width: 12rem;
+  background-color: #ff6347 !important;
+}
+
+.modal-Reshedule-button {
+  height: 4rem;
+  width: 14rem !important;
+  background-color: #ff8c8c !important;
+}
+.modal-consultation-button {
+  height: 4rem;
+  width: 14rem !important;
+  background-color: #428bc1 !important;
+}
+
+.modal-submit-button {
+  height: 4rem;
+  width: 12rem;
+  background-color: #98a2b3 !important;
+  color: #fff !important;
+}
+
+/* login page */
+.login-left-back {
+  background-color: #f2fefb;
+}
+
+@media (min-width: 990px) {
+  .user-login-btn {
+    width: 30rem !important;
+    margin-left: 2px !important;
+  }
+
+  .fix-back-login {
+    height: 46rem;
+    background-color: #f2fefb;
+  }
+  .logo-fix-login {
+    margin-left: 5rem;
+  }
+}
+
+.login-text-p {
+  font-size: 14px;
+}
+.div-contact-form {
+  background-color: #f2fefb;
+
+  height: 6rem;
+  width: 31rem;
+  padding-left: 4rem;
+  padding-top: 2rem;
+  font-size: 10px;
+}
+
+.login-fix-btn {
+  color: black;
+  margin-left: -2rem;
+}
+
+.login-text-fix {
+  margin-left: 10rem;
+}
+.social-login-img {
+  width: 41%;
+  margin: 24px 88px;
+  margin-left: 9rem;
+}
+
+/* doctor overview  */
+
+.doctor-overview-btn {
+  background-color: #78d596 !important;
+}
+
+.overview-filter-btn {
+  padding-top: 11px !important;
+}
+
+@media (min-width: 990px) {
+  .company-logo {
+    margin-top: 7rem;
+  }
+  .doctor-logo {
+    margin-top: -9rem;
+  }
+}

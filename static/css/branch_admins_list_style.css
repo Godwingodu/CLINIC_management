@@ -1,0 +1,183 @@
+img:hover {
+    color: #000;
+}
+
+.add-button {
+    background-color: #78d596 !important;
+}
+
+/* table styles */
+
+.table {
+    background-color: #ffffff;
+    font-weight: 500;
+}
+
+.table th, td {
+    border: none !important;
+}
+
+.table th:first-child {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+.table th:last-child {
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.table-head-bg {
+    background-color: #f2fefb !important;
+}
+
+
+.branch-admin {
+    font-size: 26px;
+}
+
+* {
+    font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+/* .custom-button {
+    color: #ffffff !important;
+    border-radius: 12px !important;
+} */
+
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 24px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #af1313;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 10px;
+    width: 10px;
+    left: 8px;
+    bottom: 7px;
+    background-color: rgb(255, 255, 255);
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.slider {
+    background-color: #13af36;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #a5a1a1;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(10px);
+    -ms-transform: translateX(10px);
+    transform: translateX(10px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 30px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* end of the switch style */
+
+
+@media (min-width: 990px) {
+    .custom-button {
+        font-size: 16px !important;
+        font-weight: 400 !important;
+    }
+
+    .add-button {
+        width: 182px !important;
+    }
+}
+
+.input {
+    background-color: #f2fefb !important;
+}
+
+/* physiotherapist - add therapist styles*/
+
+.title-phsyio {
+    font-size: 22px;
+    font-weight: 500;
+    color: #000000;
+    margin-bottom: 2rem;
+}
+
+.therapist-add-header {
+    font-weight: 500;
+    font-size: 26px;
+    color: #000000;
+    margin: 10rem 3rem 2rem;
+}
+
+/* patient add styles */
+
+.title-patient {
+    font-weight: 600;
+    font-size: 20px;
+    color: #000000;
+}
+
+.patient-pagination {
+    width: 35px;
+    border-radius: 50px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    -ms-border-radius: 50px;
+    -o-border-radius: 50px;
+}
+
+.patient-table {
+    margin-top: 8rem;
+}
+
+@media (min-width: 990px) {
+    .space-fix {
+        margin-left: 1rem;
+    }
+
+    .patient-button {
+        height: 43px !important;
+    }
+}
+
+/* therapist css */
+
+.title-therapist {
+    font-size: 26px;
+    font-weight: 500;
+    color: #000;
+}

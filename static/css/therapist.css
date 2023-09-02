@@ -1,0 +1,41 @@
+/* Therapist list style */
+
+
+
+
+
+/* physiotherapist - add therapist styles*/
+
+* {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.custom-inner-wrapper {
+  margin: 30px; /* Adjust the margin as needed */
+  background-color: #f9f9f9;
+  border-radius: 20px;
+}
+
+.custom-container {
+  background-color: white;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.input-container input {
+  border: none;
+  border-radius: 10px;
+  min-height: 50px !important;
+  /* box-sizing: border-box; */
+  background-color: #f2fefb;
+}
+
+#id_password1,
+#id_password2 {
+  background-color: #efffe1 !important;
+}
+
+.button-green {
+  background-color: #78D596 !important;
+  color: #ffffff;
+}
