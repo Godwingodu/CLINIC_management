@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>appointments</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        font-family: "Montserrat", sans-serif;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+      }
+
+      .wrapper {
+        width: 100%;
+        height: 100%;
+        background: #f9f9f9;
+        margin: 15px auto 0;
+        border-radius: 30px;
+      }
+
+      .wrapper .title {
+        padding: 30px 20px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: 700;
+        margin-left: -27rem;
+      }
+
+      .wrapper .tabs_wrap {
+        padding: 20px;
+      }
+
+      .wrapper .tabs_wrap ul {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+      }
+      .tabs_wrap:first-child {
+        border-radius: 20px;
+      }
+      .tabs_wrap:last-child {
+        border-radius: 20px;
+      }
+      ul li {
+        background-color: #fff;
+      }
+      .wrapper .tabs_wrap ul li {
+        width: 135px;
+        text-align: center;
+
+        padding: 13px 15px;
+        cursor: pointer;
+        -webkit-transition: all 0.2s ease;
+        -o-transition: all 0.2s ease;
+        transition: all 0.2s ease;
+      }
+
+      .wrapper .tabs_wrap ul li:first-child {
+        border-top-left-radius: 25px;
+        border-bottom-left-radius: 25px;
+      }
+
+      .wrapper .tabs_wrap ul li:last-child {
+        border-right: 0px;
+        border-top-right-radius: 25px;
+        border-bottom-right-radius: 25px;
+      }
+
+      .wrapper .tabs_wrap ul li:hover,
+      .wrapper .tabs_wrap ul li.active {
+        background: #d2ffe1;
+        color: #000;
+      }
+
+      .wrapper .container .item_wrap {
+        padding: 10px 20px;
+        border-bottom: 1px solid #ebedec;
+        cursor: pointer;
+      }
+
+      .wrapper .container .item_wrap:hover {
+        background: #e9ecf1;
+      }
+
+      .wrapper .container .item {
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+      }
+
+      .item_wrap .item .item_left {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+      }
+
+      .item_wrap .item_left img {
+        width: 70px;
+        height: 70px;
+        display: block;
+      }
+
+      .item_wrap .item_left .data {
+        margin-left: 20px;
+      }
+
+      .item_wrap .item_left .data .name {
+        font-weight: 600;
+      }
+
+      .item_wrap .item_left .data .distance {
+        color: #7f8b9b;
+        font-size: 14px;
+        margin-top: 3px;
+      }
+
+      .item_wrap .item_right .status {
+        position: relative;
+        color: #77818d;
+      }
+
+      .item_wrap .item_right .status:before {
+        content: "";
+        position: absolute;
+        top: 5px;
+        left: -12px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #b3bbc8;
+      }
+
+      .item_wrap.offline .item_right .status {
+        color: #b3bbc8;
+      }
+
+      .item_wrap.online .item_right .status:before {
+        background: ;
+      }
+      .tab-content {
+        width: 100%;
+        margin-bottom: 2rem;
+        padding-bottom: 2rem;
+      }
+      .patient-table {
+        width: 100%;
+      }
+
+      .table-header-bg-color th {
+        background-color: #f2fefb;
+        color: #000;
+        padding: 20px 10px; /* Text color for better contrast */
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <div class="row">
+        <div class="col-lg-6"><div class="title">Appointments</div></div>
+        <div class="col-lg-6">
+          <div class="tabs_wrap">
+            <ul>
+              <li data-tabs="all" class="active">All</li>
+              <li data-tabs="upcoming">Upcoming</li>
+              <li data-tabs="cancelled">Cancelled</li>
+              <li data-tabs="completed">Completed</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="container pad-fix">
+        <!-- Male Tab Content -->
+        <div id="all-tab-content" class="tab-content">
+          <div class="col-lg-12">
+            <table class="table patient-table">
+              <thead class="table-head-bg table-header-bg-color">
+                <tr>
+                  <th>No</th>
+                  <th>Doctor Name</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>DrShafeek</td>
+                  <td>11:00am - 11:30am</td>
+                  <td>2020-02-07</td>
+                  <td><button class="schedule">Scheduled</button></td>
+                  <td>
+                    <a href="">
+                      <img src="images/gg_menu-round.png" alt="" srcset="" />
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>DrShafeek</td>
+                  <td>11:00am - 11:30am</td>
+                  <td>2020-02-07</td>
+                  <td><button class="cancelled">Canelled</button></td>
+                  <td>
+                    <a href="">
+                      <img src="images/gg_menu-round.png" alt="" srcset="" />
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>DrShafeek</td>
+                  <td>11:00am - 11:30am</td>
+                  <td>2020-02-07</td>
+                  <td><button class="completed">Completed</button></td>
+                  <td>
+                    <a href="">
+                      <img src="images/gg_menu-round.png" alt="" srcset="" />
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>DrShafeek</td>
+                  <td>11:00am - 11:30am</td>
+                  <td>2020-02-07</td>
+                  <td><button class="completed">Completed</button></td>
+                  <td>
+                    <a href="">
+                      <img src="images/gg_menu-round.png" alt="" srcset="" />
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>DrShafeek</td>
+                  <td>11:00am - 11:30am</td>
+                  <td>2020-02-07</td>
+                  <td><button class="completed">Completed</button></td>
+                  <td>
+                    <a href="">
+                      <img src="images/gg_menu-round.png" alt="" srcset="" />
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>DrShafeek</td>
+                  <td>11:00am - 11:30am</td>
+                  <td>2020-02-07</td>
+                  <td><button class="completed">Completed</button></td>
+                  <td>
+                    <a href="">
+                      <img src="images/gg_menu-round.png" alt="" srcset="" />
+                    </a>
+                  </td>
+                </tr>
+                <!-- Add more table rows for male patients as needed -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Female Tab Content -->
+        <div
+          id="upcoming-tab-content"
+          class="tab-content"
+          style="display: none"
+        >
+          <div class="col-lg-12">
+            <table class="table patient-table">
+              <thead class="table-head-bg table-header-bg-color">
+                <tr>
+                  <th>No</th>
+                  <th>Doctor Name</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>DrShafeek</td>
+                  <td>11:00am - 11:30am</td>
+                  <td>2020-02-07</td>
+                  <td><button class="schedule">Scheduled</button></td>
+                  <td>
+                    <a href="">
+                      <img src="images/gg_menu-round.png" alt="" srcset="" />
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>DrShafeek</td>
+                  <td>11:00am - 11:30am</td>
+                  <td>2020-02-07</td>
+                  <td><button class="cancelled">Canelled</button></td>
+                  <td>
+                    <a href="">
+                      <img src="images/gg_menu-round.png" alt="" srcset="" />
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>DrShafeek</td>
+                  <td>11:00am - 11:30am</td>
+                  <td>2020-02-07</td>
+                  <td><button class="schedule">Completed</button></td>
+                  <td>
+                    <a href="">
+                      <img src="images/gg_menu-round.png" alt="" srcset="" />
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>DrShafeek</td>
+                  <td>11:00am - 11:30am</td>
+                  <td>2020-02-07</td>
+                  <td><button class="schedule">Completed</button></td>
+                  <td>
+                    <a href="">
+                      <img src="images/gg_menu-round.png" alt="" srcset="" />
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>DrShafeek</td>
+                  <td>11:00am - 11:30am</td>
+                  <td>2020-02-07</td>
+                  <td><button class="schedule">Completed</button></td>
+                  <td>
+                    <a href="">
+                      <img src="images/gg_menu-round.png" alt="" srcset="" />
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>DrShafeek</td>
+                  <td>11:00am - 11:30am</td>
+                  <td>2020-02-07</td>
+                  <td><button class="completed">Completed</button></td>
+                  <td>
+                    <a href="">
+                      <img src="images/gg_menu-round.png" alt="" srcset="" />
+                    </a>
+                  </td>
+                </tr>
+                <!-- Add more table rows for male patients as needed -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Both Tab Content -->
+        <div
+          id="cancelled-tab-content"
+          class="tab-content"
+          style="display: none"
+        >
+          <div class="col-lg-12">
+            <table class="table patient-table">
+              <thead class="table-head-bg table-header-bg-color">
+                <tr>
+                  <th>No</th>
+                  <th>Doctor Name</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>DrShafeek</td>
+                  <td>11:00am - 11:30am</td>
+                  <td>2020-02-07</td>
+                  <td><button class="cancelled">Scheduled</button></td>
+                  <td>
+                    <a href="">
+                      <img src="images/gg_menu-round.png" alt="" srcset="" />
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>DrShafeek</td>
+                  <td>11:00am - 11:30am</td>
+                  <td>2020-02-07</td>
+                  <td><button class="cancelled">Canelled</button></td>
+                  <td>
+                    <a href="">
+                      <img src="images/gg_menu-round.png" alt="" srcset="" />
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>DrShafeek</td>
+                  <td>11:00am - 11:30am</td>
+                  <td>2020-02-07</td>
+                  <td><button class="completed">Completed</button></td>
+                  <td>
+                    <a href="">
+                      <img src="images/gg_menu-round.png" alt="" srcset="" />
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>DrShafeek</td>
+                  <td>11:00am - 11:30am</td>
+                  <td>2020-02-07</td>
+                  <td><button class="completed">Completed</button></td>
+                  <td>
+                    <a href="">
+                      <img src="images/gg_menu-round.png" alt="" srcset="" />
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>DrShafeek</td>
+                  <td>11:00am - 11:30am</td>
+                  <td>2020-02-07</td>
+                  <td><button class="cancelled">Completed</button></td>
+                  <td>
+                    <a href="">
+                      <img src="images/gg_menu-round.png" alt="" srcset="" />
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>DrShafeek</td>
+                  <td>11:00am - 11:30am</td>
+                  <td>2020-02-07</td>
+                  <td><button class="completed">Completed</button></td>
+                  <td>
+                    <a href="">
+                      <img src="images/gg_menu-round.png" alt="" srcset="" />
+                    </a>
+                  </td>
+                </tr>
+                <!-- Add more table rows for male patients as needed -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div
+          id="completed-tab-content"
+          class="tab-content"
+          style="display: none"
+        >
+          <div class="col-lg-12">
+            <table class="table patient-table">
+              <thead class="table-head-bg table-header-bg-color">
+                <tr>
+                  <th>No</th>
+                  <th>Doctor Name</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>DrShafeek</td>
+                  <td>11:00am - 11:30am</td>
+                  <td>2020-02-07</td>
+                  <td><button class="schedule">Scheduled</button></td>
+                  <td>
+                    <a href="">
+                      <img src="images/gg_menu-round.png" alt="" srcset="" />
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>DrShafeek</td>
+                  <td>11:00am - 11:30am</td>
+                  <td>2020-02-07</td>
+                  <td><button class="cancelled">Canelled</button></td>
+                  <td>
+                    <a href="">
+                      <img src="images/gg_menu-round.png" alt="" srcset="" />
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>DrShafeek</td>
+                  <td>11:00am - 11:30am</td>
+                  <td>2020-02-07</td>
+                  <td><button class="completed">Completed</button></td>
+                  <td>
+                    <a href="">
+                      <img src="images/gg_menu-round.png" alt="" srcset="" />
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>DrShafeek</td>
+                  <td>11:00am - 11:30am</td>
+                  <td>2020-02-07</td>
+                  <td><button class="cancelled">Completed</button></td>
+                  <td>
+                    <a href="">
+                      <img src="images/gg_menu-round.png" alt="" srcset="" />
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>DrShafeek</td>
+                  <td>11:00am - 11:30am</td>
+                  <td>2020-02-07</td>
+                  <td><button class="completed">Completed</button></td>
+                  <td>
+                    <a href="">
+                      <img src="images/gg_menu-round.png" alt="" srcset="" />
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>DrShafeek</td>
+                  <td>11:00am - 11:30am</td>
+                  <td>2020-02-07</td>
+                  <td><button class="cancelled">Completed</button></td>
+                  <td>
+                    <a href="">
+                      <img src="images/gg_menu-round.png" alt="" srcset="" />
+                    </a>
+                  </td>
+                </tr>
+                <!-- Add more table rows for male patients as needed -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    var tabs = document.querySelectorAll(".tabs_wrap ul li");
+    var allTabContent = document.getElementById("all-tab-content");
+    var upcomingTabContent = document.getElementById("upcoming-tab-content");
+    var cancelledTabContent = document.getElementById("cancelled-tab-content");
+    var completedTabContent = document.getElementById("completed-tab-content");
+
+    // Initially, show the content for the "All" tab (or any other tab you prefer)
+    allTabContent.style.display = "block";
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        tabs.forEach((tab) => {
+          tab.classList.remove("active");
+        });
+        tab.classList.add("active");
+        var tabval = tab.getAttribute("data-tabs");
+
+        allTabContent.style.display = "none";
+        upcomingTabContent.style.display = "none";
+        cancelledTabContent.style.display = "none";
+        completedTabContent.style.display = "none";
+
+        if (tabval === "all") {
+          allTabContent.style.display = "block";
+        } else if (tabval === "upcoming") {
+          upcomingTabContent.style.display = "block";
+        } else if (tabval === "cancelled") {
+          cancelledTabContent.style.display = "block";
+        } else if (tabval === "completed") {
+          completedTabContent.style.display = "block";
+        }
+      });
+    });
+  </script>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"
+  ></script>
+  <script src="main.js"></script>
+</html>

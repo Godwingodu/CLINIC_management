@@ -1,0 +1,76 @@
+p {
+    font-size: 14px;
+}
+
+h1 {
+    font-size: 24px !important;
+}
+
+/* .custom-container {
+    border-radius: 20px;
+    background-color: #ffffff;
+} */
+
+
+/* SUPER ADMIN OVERVIEW */
+
+.donut-section {
+    height: 240px;
+    border-radius: 20px;
+    background-color: rgb(179, 177, 88);
+}
+
+.box-green {
+    border-radius: 20px;
+    background-color: #78D596;
+}
+
+.box-blue {
+    border-radius: 20px;
+    background-color: rgba(97, 150, 198, 0.70);
+}
+
+.box-violet {
+    border-radius: 20px;
+    background-color: #c7ccd3;
+}
+
+.box-cyan {
+    border-radius: 20px;
+    background-color: #78eed0;
+}
+
+.icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 55px;
+    width: 55px;
+    border-radius: 100%;
+    background-color: #fff;
+}
+
+
+/* space for including graph */
+.graph-section {
+    height: 100px;
+    border-radius: 20px;
+    background-color: rgb(124, 115, 115);
+}
+
+
+/* RECEPTION OVERVIEW */
+
+.box-red {
+    border-radius: 20px;
+    background-color: #FF8C8C;
+}
+
+.overview-link {
+    text-decoration: none;
+    color: black;
+}
+
+.overview-link:hover {
+    color: white;
+}

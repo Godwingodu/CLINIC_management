@@ -1,23 +1,197 @@
-
 {% extends 'base.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
 
 {% load static %}
 
-{% block title %}
-Receptionist Dashboard
-{% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/overview_style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/table_styles.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <title>Document</title>
 
-{% block additional_css %}
-<link rel="stylesheet" href="{% static 'css/receptionist_dashboard.css' %}">
-{% endblock %}
+    <style>
+        .status-danger {
+            background-color: #ff8c8c;
+            border-radius: 7px;
+            padding: 2px;
+        }
 
-{% block content %}
-<div class="container">
-    <h1>Welcome to the Receptionist Dashboard</h1>
-    <!-- Your dashboard content here -->
-</div>
-{% endblock %}
+        .status-success {
+            background-color: #78D596;
+            border-radius: 7px;
+            padding: 2px;
+        }
 
-{% block additional_js %}
-<script src="{% static 'js/receptionist_dashboard.js' %}"></script>
-{% endblock %}
+        .status-warning {
+            background-color: #f4f67b;
+            border-radius: 7px;
+            padding: 2px;
+        }
+
+        .box-red {
+            border-radius: 20px;
+            background-color: #FF8C8C;
+        }
+
+        .overview-link {
+            text-decoration: none;
+            color: black;
+        }
+
+        .overview-link:hover {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row d-flex justify-content-between align-items-center">
+            <div class="col-md-4 p-2">
+                <div class="box-green d-flex flex-row justify-content-start align-items-center ps-5 py-3">
+                    <div class="icon-container">
+                        <img class="img-top" src="{% static 'images/overview/appointment_green.svg' %}" alt="">
+                    </div>
+                    <div class="appointment-text">
+                        <h1>75</h1>
+                        <p>Appointment</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 p-2">
+                <div class="box-blue d-flex flex-row justify-content-start align-items-center ps-5 py-3">
+                    <div class="icon-container">
+                        <img class="img-top" src="{% static 'images/overview/fluent_doctor-12-filled.svg' %}" alt="">
+                    </div>
+                    <div class="appointment-text">
+                        <h1>10</h1>
+                        <p>Therapist</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 p-2">
+                <div class="box-red d-flex flex-row justify-content-start align-items-center ps-5 py-3">
+                    <div class="icon-container">
+                        <img class="img-top" src="{% static 'images/overview/appointment_red.svg' %}" alt="">
+                    </div>
+                    <div class="appointment-text">
+                        <h1>10</h1>
+                        <p>Today Appointments</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- table -->
+    <div class="custom-table-wrapper">
+        <div class="container custom-table-container p-4">
+            <h4 class="mb-4 mx-2">Today Appointments</h4>
+            <table class="table text-center">
+                <thead class="table-head-bg">
+                    <tr class="">
+                        <th>No.</th>
+                        <th>Name</th>
+                        <th>Doctor Name</th>
+                        <th>Patient Number</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="">
+                        <td>1</td>
+                        <td>Mr Lathife</td>
+                        <td>Dr Shafeek</td>
+                        <td>+91 599392 33</td>
+                        <td>20-08-2023</td>
+                        <td>11:00 am - 11:30 am</td>
+                        <td>
+                            <div class="status-danger">cancelled</div>
+                        </td>
+                        <td>
+                            <a href=""><img src="{% static 'icons/actions/gg_menu-round.svg' %}" alt="" /></a>
+                        </td>
+                    </tr>
+                    <tr class="">
+                        <td>2</td>
+                        <td>Mr Lathife</td>
+                        <td>Dr Shafeek</td>
+                        <td>+91 599392 33</td>
+                        <td>20-08-2023</td>
+                        <td>11:00 am - 11:30 am</td>
+                        <td>
+                            <div class="status-warning">scheduled</div>
+                        </td>
+                        <td>
+                            <a href=""><img src="{% static 'icons/actions/gg_menu-round.svg' %}" alt="" /></a>
+                        </td>
+                    </tr>
+                    <tr class="">
+                        <td>3</td>
+                        <td>Mr Lathife</td>
+                        <td>Dr Shafeek</td>
+                        <td>+91 599392 33</td>
+                        <td>20-08-2023</td>
+                        <td>11:00 am - 11:30 am</td>
+                        <td>
+                            <div class="status-success">completed</div>
+                        </td>
+                        <td>
+                            <a href=""><img src="{% static 'icons/actions/gg_menu-round.svg' %}" alt="" /></a>
+                        </td>
+                    </tr>
+                    <tr class="">
+                        <td>4</td>
+                        <td>Mr Lathife</td>
+                        <td>Dr Shafeek</td>
+                        <td>+91 599392 33</td>
+                        <td>20-08-2023</td>
+                        <td>11:00 am - 11:30 am</td>
+                        <td>
+                            <div class="status-danger">cancelled</div>
+                        </td>
+                        <td>
+                            <a href=""><img src="{% static 'icons/actions/gg_menu-round.svg' %}" alt="" /></a>
+                        </td>
+                    </tr>
+                    <tr class="">
+                        <td>5</td>
+                        <td>Mr Lathife</td>
+                        <td>Dr Shafeek</td>
+                        <td>+91 599392 33</td>
+                        <td>20-08-2023</td>
+                        <td>11:00 am - 11:30 am</td>
+                        <td>
+                            <div class="status-success">completed</div>
+                        </td>
+                        <td>
+                            <a href=""><img src="{% static 'icons/actions/gg_menu-round.svg' %}" alt="" /></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</body>
+
+</html>
+
+{% endblock content %}
