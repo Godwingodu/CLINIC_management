@@ -211,7 +211,7 @@ APPOINTMENT_STATUS = [
 def send_sms(message, to):
     client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
     try:
-        client.messages.create(body=message, from_=settings.TWILIO_PHONE_NUMBER, to=to)
+        client.messages.create(body=message, from_=settings.TWILIO_PHONE_NUMBER, to='+919207473254')
     except TwilioRestException as e:
         logger.error(f"An error occurred while sending the SMS: {str(e)}")
 
@@ -242,9 +242,15 @@ class Appointment(models.Model):
     # Custom validations
     def clean(self):
         super().clean()
+
+        # Debugging: print the working days and the appointment day
+        print("Working days for therapist:", [d.weekday_number for d in self.therapist.working_days.all()])
+        print("Weekday for appointment:", self.appointment_date.weekday())
+
         working_days = self.therapist.working_days.all()
-        if self.appointment_date.weekday() not in [d.weekday_number for d in working_days]:
-            raise ValidationError(_('The selected date is not a working day for this therapist.'))
+        working_day_numbers = [d.weekday_number for d in working_days]
+        if self.appointment_date.weekday() not in working_day_numbers:
+            raise ValidationError(_('The selected date is not a working day for this therapist. Available days are: {}'.format(working_day_numbers)))
 
         overlapping_appointments = Appointment.objects.filter(
             therapist=self.therapist,
@@ -252,8 +258,15 @@ class Appointment(models.Model):
             time_slot=self.time_slot,
             status__in=[PENDING, ACCEPTED]
         ).exclude(id=self.id)
+
         if overlapping_appointments.exists():
             raise ValidationError(_('The selected time slot is already booked.'))
+        
+                
+        # Debugging: print the working days details
+        print("Working days for therapist:")
+        for d in self.therapist.working_days.all():
+            print(f"ID: {d.id}, Weekday Number: {d.weekday_number}, Day Name: {d.day_name}")
 
     # Save method
     def save(self, *args, **kwargs):
@@ -262,7 +275,7 @@ class Appointment(models.Model):
 
     # String representation of the model
     def __str__(self):
-        return f"{self.patient.user.first_name} appointment with {self.therapist.name} on {self.appointment_date}"
+        return f"{self.patient.name} appointment with {self.therapist.name} on {self.appointment_date}"
 
     # Check if the appointment is upcoming
     @property
@@ -278,7 +291,7 @@ class Appointment(models.Model):
 @receiver(post_save, sender=Appointment)
 def appointment_created_or_updated(sender, instance, created, **kwargs):
     if created:
-        doctor_message = f"A new appointment {instance.id} is scheduled for {instance.appointment_date} at {instance.time_slot.start_time} with the patient {instance.patient.user.first_name}. Thank you. Meditrac Team"
+        doctor_message = f"A new appointment {instance.id} is scheduled for {instance.appointment_date} at {instance.time_slot.start_time} with the patient {instance.patient.name}. Thank you. Meditrac Team"
         patient_message = f"Your appointment {instance.id} with {instance.therapist.name} is scheduled for {instance.appointment_date} at {instance.time_slot.start_time}. Thank you. Meditrac Team"
     else:
         doctor_message = f"Appointment {instance.id} with {instance.therapist.name} has been updated to {instance.appointment_date} at {instance.time_slot.start_time}."
@@ -309,7 +322,10 @@ class Prescription(models.Model):
     date_issued = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Prescription for {self.patient.user.first_name} from {self.therapist.name}"
+        return f"Prescription for {self.patient.name} from {self.therapist.name}"
+    
+
+
         
 
 
