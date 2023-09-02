@@ -1,0 +1,18 @@
+<svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="icon-park-solid:order">
+<g id="Mask group">
+<mask id="mask0_8_134" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="4" y="1" width="26" height="32">
+<g id="Group">
+<g id="Group_2">
+<path id="Vector" d="M23.4104 4.95833H26.9167C27.2924 4.95833 27.6527 5.10759 27.9184 5.37326C28.1841 5.63894 28.3334 5.99928 28.3334 6.375V29.75C28.3334 30.1257 28.1841 30.4861 27.9184 30.7517C27.6527 31.0174 27.2924 31.1667 26.9167 31.1667H7.08335C6.70763 31.1667 6.3473 31.0174 6.08162 30.7517C5.81594 30.4861 5.66669 30.1257 5.66669 29.75V6.375C5.66669 5.99928 5.81594 5.63894 6.08162 5.37326C6.3473 5.10759 6.70763 4.95833 7.08335 4.95833H12.0417V7.08333H21.9584V4.95833H23.4104Z" fill="white" stroke="white" stroke-width="2.83333" stroke-linejoin="round"/>
+<path id="Vector_2" d="M12.0417 2.83333H21.9584V7.08333H12.0417V2.83333Z" stroke="white" stroke-width="2.83333" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_3" d="M19.125 13.4583L13.4584 19.1257H20.5445L14.875 24.7924" stroke="black" stroke-width="2.83333" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+</mask>
+<g mask="url(#mask0_8_134)">
+<path id="Vector_4" d="M0 0H34V34H0V0Z" fill="#545454"/>
+</g>
+</g>
+</g>
+</svg>

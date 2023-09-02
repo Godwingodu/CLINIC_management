@@ -7,6 +7,7 @@ from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 from django.apps import apps  # For deferred model import
 from django.contrib.auth.hashers import make_password, check_password
+import uuid
 
 from clinic_app.settings import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN
 from twilio.base.exceptions import TwilioRestException
@@ -119,6 +120,11 @@ class Patient(models.Model):
     def save(self, *args, **kwargs):
         if not self.pk:  # Only hash the password if it's a new object.
             self.password = make_password(self.password)
+
+        if not self.patient_id:
+            # Generate a unique ID (e.g., using uuid)
+            unique_id = uuid.uuid4().hex[:6]
+            self.patient_id = unique_id
         super(Patient, self).save(*args, **kwargs)
     
     def check_password(self, raw_password):

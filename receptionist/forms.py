@@ -2,6 +2,7 @@ from .models import *
 from django import forms 
 from django.contrib.auth.password_validation import validate_password  
 from django.utils.translation import gettext as _
+from django.contrib.auth.hashers import make_password, check_password
 from .constants import STATUS_CHOICES,PAYMENT_MODE_CHOICES
 
 from receptionist.models import Invoice
@@ -13,25 +14,34 @@ from receptionist.models import Invoice
 
 class AddPatientForm(forms.ModelForm):
     # Basic Information
-    name = forms.CharField(label="Name")
-    address = forms.CharField(label="Address", widget=forms.Textarea)
-    specialities = forms.ModelMultipleChoiceField(label="Select Specialities", queryset=Speciality.objects.all(), widget=forms.SelectMultiple())
-    branch = forms.ModelChoiceField(label="Select Location", queryset=Branch.objects.all())
-    phone = forms.CharField(label="Phone Number")
-    date_of_birth = forms.DateField(label="Date of Birth", widget=forms.DateInput(attrs={'type': 'date'}))
-    gender = forms.ChoiceField(label="Gender", choices=GENDER_CHOICES, widget=forms.RadioSelect)
+    name = forms.CharField(max_length=155, widget=forms.TextInput(
+        attrs={'placeholder': 'Name', 'class': 'form-control'}))
+    address = forms.CharField(label="Address", widget=forms.TextInput(
+        attrs={'placeholder': 'Address', 'class': 'form-control'}))
+    specialities = forms.ModelChoiceField(
+        empty_label="Specialities", queryset=Speciality.objects.all(), widget=forms.Select(attrs={'class': 'form-select'}))
+    branch = forms.ModelChoiceField(
+        queryset=Branch.objects.all(), empty_label="Select Location", widget=forms.Select(attrs={'class': 'form-select'}))
+    phone = forms.CharField(max_length=20, widget=forms.TextInput(
+        attrs={'placeholder': 'Phone', 'class': 'form-control'}))
+    date_of_birth = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}))
+    gender = forms.ChoiceField(choices=GENDER_CHOICES, widget=forms.RadioSelect(attrs={'class': 'form-radio'}))
 
     # Medical Information
-    height = forms.DecimalField(label="Height (cm)", required=False)
+    height = forms.DecimalField(required=False)
     weight = forms.DecimalField(label="Weight (kg)", required=False)
     blood_group = forms.ChoiceField(label="Blood Group", choices=BLOOD_GROUP_CHOICES, required=False)
-    notes = forms.CharField(label="Notes", widget=forms.Textarea, required=False)
+    notes = forms.CharField(
+        label="Notes", widget=forms.Textarea(attrs={'class': 'form-textarea', 'placeholder': 'Notes'}), required=False)
     profile_photo = forms.ImageField(label="Upload Photo", required=False)
 
     # Create Login
-    email = forms.EmailField(label="Email")
-    password = forms.CharField(label="Set Password", widget=forms.PasswordInput)
-    confirm_password = forms.CharField(label="Confirm Password", widget=forms.PasswordInput)
+    email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'placeholder': 'Email', 'class': 'form-control'}))
+    password = forms.CharField(
+        label="Set Password", widget=forms.PasswordInput(attrs={'placeholder': 'Set Password', 'class': 'form-control password-field', 'autocomplete': 'off'}))
+    confirm_password = forms.CharField(
+        label="Confirm Password", widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password', 'class': 'form-control password-field', 'autocomplete': 'off'}))
 
     class Meta:
         model = Patient
@@ -55,13 +65,15 @@ class AddPatientForm(forms.ModelForm):
     def save(self, commit=True):
         patient = super(AddPatientForm, self).save(commit=False)
         patient.email = self.cleaned_data["email"]
+
+        # Securely set the password
+        password = self.cleaned_data["password"]
+        patient.password = make_password(password)
+
         if commit:
-            patient.set_password(self.cleaned_data["password"])  
             patient.save()
-        patient.specialities.set(self.cleaned_data['specialities'])
+        # patient.specialities.set(self.cleaned_data["specialities"])
         return patient
-
-
 
 
 
