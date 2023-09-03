@@ -2,6 +2,43 @@
 {% load custom_filters %}
 {% load static %}
 
+<link rel="stylesheet" href="{% static 'css/therapist.css' %}">
+
+<style>
+    input.input[type='text'],
+    input.input[type='email'],
+    input.input[type='password'],
+    input.input[type='number'],
+    textarea.input {
+    min-width: 24rem;
+    width: 100%;
+    padding: 1.2rem 1.5rem;
+    border-radius: 0.5rem;
+    border: 2px solid var(--color-light);
+    transition: all 0.3s ease-in-out;
+    background-color: var(--color-bg);
+}
+
+input[type="text"], input[type="email"], input[type="password"], input[type="date"], input[type="number"], select, textarea {
+    background-color: #F2FEFB !important; /* Change to your desired background color */
+    color: #333; /* Change to your desired text color */
+
+    /* Add more styles as needed */
+}
+input.form-control, select.form-control, textarea.form-control {
+    background-color: #F2FEFB; /* Change to your desired background color */
+    /* Add more styles as needed */
+}
+
+.radio-button-margin {
+        margin-right: 20px; /* Adjust the margin as needed */
+    }
+
+
+</style>
+
+<link rel="stylesheet" href="{% static 'css/uikit/styles/uikit.css' %}" />
+
 
 {% block title %}
     Add New Therapist
@@ -9,66 +46,168 @@
 
 {% block content %}
     <div class="container mt-5">
-        <h1>ADD NEW THERAPIST</h1>
+     
+
         <form  id="therapistForm" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <fieldset class="mb-4">
-                <!-- General Information -->
-                <legend>General Information</legend>
-                {{ form.name.label_tag }} {{ form.name }}
-                {{ form.address.label_tag }} {{ form.address }}
-                {{ form.qualification.label_tag }} {{ form.qualification }}
-                {{ form.phone.label_tag }} {{ form.phone }}
-                {{ form.date_of_birth.label_tag }} {{ form.date_of_birth }}
-                {{ form.gender.label_tag }}
-                {{ form.gender }}
-                {{ form.appointment_interval.label_tag }}
-                {{ form.appointment_interval }}
-                {{ form.profile_photo.label_tag }} {{ form.profile_photo }}
-            </fieldset>
 
-            <fieldset class="mb-4">
-                <!-- Specialities -->
-                <legend>Select Specialities</legend>
-                {{ form.specialities.label_tag }}
-                {{ form.specialities }}
-            </fieldset>
+            <div class="row">
+                <h1 class="title-phsyio">Add New Therapist</h1>
+                <div class="col-lg-6">
+                    {{ form.name }}
+                </div>
+                <div class="col-lg-6">
+                    {{ form.address }}
+                </div>
+            </div>
 
-            <fieldset class="mb-4">
-                <!-- Branch -->
-                <legend>Select Branch</legend>
-                {{ form.branch.label_tag }}
-                {{ form.branch }}
-            </fieldset>
-
-            <fieldset class="mb-4">
-                <!-- Working Days and Time Slots -->
-                <legend>Working Days & Time Slots</legend>
-                {{ form.working_days.label_tag }}
-                {{ form.working_days }}
-                {% for day in form.fields.working_days.queryset %}
-                    <div class="mb-2" id="{{ day.day_name|lower }}">
-                        <label>{{ day.day_name }}:</label>
-                        <div class="time-slots">
-                            {{ time_slot_fields.day.day_name }}
-                            <button type="button" onclick="addTimeSlot('{{ day.day_name|lower }}')">+</button>
-                        </div>
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-md-4">
+                        <fieldset class="mb-4">
+                            <!-- Specialities -->
+                            <legend>Select Specialities</legend>
+                            {% for speciality in form.specialities %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="{{ speciality.name }}" id="{{ speciality.id }}" {% if speciality.value %}checked{% endif %}>
+                                <label class="form-check-label" for="{{ speciality.id }}">
+                                    {{ speciality.choice_label }}
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </fieldset>
                     </div>
-                {% endfor %}
+                    <div class="col-md-4" style="margin-top: 2rem;">
+                        {{ form.phone }}
+                    </div>
+                    <div class="col-md-4" style="margin-top: 2rem;">
+                        {{ form.date_of_birth }}
+                    </div>
+                </div>
+            </div>
 
-            </fieldset>
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-md-3">
+                        <fieldset class="mb-4">
+                            <!-- Gender -->
+                            <legend>Select Gender</legend>
+                            <div class="form-check">
+                                {% for gender_choice in form.gender %}
+                                    {% if gender_choice.value != '' %} {# Skip the default "---------" choice #}
+                                        <div class="form-check-inline radio-button-margin" style="margin-right: 2rem;">
+                                            <input class="form-check-input" type="radio" name="{{ form.gender.name }}" id="{{ gender_choice.id }}" value="{{ gender_choice.value }}" {% if gender_choice.value == form.gender.value %}checked{% endif %}>
+                                            <label class="form-check-label" for="{{ gender_choice.id }}">
+                                                {{ gender_choice.choice_label }}
+                                            </label>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-md-3" >
+                        <p>Select Minute</p>
+                        {{ form.appointment_interval }}
+                    </div>
+                    <div class="col-md-3" style="margin-top: 47px;">
+                        <div class="form-group">
+                            {{ form.branch.label_tag }}
+                            {{ form.branch }}
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-3" style="margin-top: 2rem;">
+                        <div class="form-group">
+                            
+                            {{ form.qualification }}
+                        </div>
+                        
+                    </div>
+                   
+                </div>
+            </div>
+
 
             <fieldset class="mb-4">
-                <!-- Create Login -->
-                <legend>Create Login</legend>
-                {{ form.email.label_tag }} {{ form.email }}
-                {{ form.password1.label_tag }} {{ form.password1 }}
-                {{ form.password2.label_tag }} {{ form.password2 }}
+                <!-- Working Days & Time Slots -->
+                <legend>Working Days & Time Slots</legend>
+                
+                <div class="row">
+                    <!-- First Column (Form Field Label and Field) -->
+                    <div class="col-md-6">
+                        {{ form.working_days.label_tag }}
+                        {{ form.working_days }}
+                    </div>
+                    
+                    <!-- Second Column (Day Names and Buttons) -->
+                    <div class="col-md-6">
+                        {% for day in form.fields.working_days.queryset %}
+                            <div class="mb-2" id="{{ day.day_name|lower }}">
+                                <div class="d-flex align-items-center">
+                                    <div class="d-inline-flex align-items-center" style="width: 7rem;">
+                                        <label class="me-2">{{ day.day_name }}:</label>
+                                        {{ time_slot_fields.day.day_name }}
+                                    </div>
+                                    <div class="time-slots">
+                                        <img src="{% static 'images/actions/button-switch.png' %}" alt="" type="button" onclick="addTimeSlot('{{ day.day_name|lower }}')">
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
             </fieldset>
 
-            <button type="submit" class="btn btn-primary">Save</button>
-            <a href="{% url 'list_therapists' %}" class="btn btn-danger">Cancel</a>
+            
+
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-md-4">
+                        {{ form.email }}
+                    </div>
+                    <div class="col-md-4" >
+                        {{ form.password1 }}
+                    </div>
+                    <div class="col-md-4" >
+                        {{ form.password2 }}
+                    </div>
+                </div>
+            </div>
+
+
+            <fieldset class="mb-4">
+               
+                
+                <div class="row">
+                    <!-- First Column (Form Field Label and Field) -->
+                    <div class="col-md-6" style="margin-top: 2rem;">
+                        {{ form.profile_photo.label_tag }} 
+                        {{ form.profile_photo }}
+                    </div>
+                    
+                    <!-- Second Column (Day Names and Buttons) -->
+                    <div class="col-md-6" style="margin-top: 2rem;">
+                        <input type="submit" class="btn btn-primary" value="Save" style="background-color: #78D596; width: 5rem;">
+                       
+                        
+                        <a href="{% url 'list_therapists' %}" class="btn btn-danger">Cancel</a>
+                    </div>
+                </div>
+            </fieldset>
+
+        
+
+          
+
         </form>
+        
+      
+
+        
+            
+          
+       
     </div>
     {% endblock %}
     {% block additional_js %}

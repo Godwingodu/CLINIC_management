@@ -1,84 +1,165 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 
-{% block content %}
-  <!-- Search Bar -->
-  <!-- Row for search bar, filters, and button -->
-  <div class="row mb-3">
-    <!-- Text input for search query -->
-    <div class="col-md-6">
-      <input type="text" id="searchQuery" class="form-control" placeholder="Search by name, branch, or speciality">
-    </div>
-    <!-- Dropdown for filtering by active/inactive status -->
-    <div class="col-md-2">
-      <select id="isActiveFilter" class="form-control">
-        <option value="">All</option>
-        <option value="1">Active</option>
-        <option value="0">Inactive</option>
-      </select>
-    </div>
-    <!-- Search button -->
-    <div class="col-md-4">
-      <button id="searchButton" class="btn btn-primary">Search</button>
-    </div>
+<!-- Search Bar -->
+<!-- Row for search bar, filters, and button -->
+
+<link rel="stylesheet" href="{% static 'css/therapist/style.css' %}" />
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+  crossorigin="anonymous"
+/>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap"
+  rel="stylesheet"
+/>
+<link
+  href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="{% static 'css/uikit/styles/uikit.css' %}" />
+
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans&display=swap");
+</style>
+<div class="row mb-3">
+  <!-- Text input for search query -->
+  <div class="col-md-6">
+    <input
+      type="text"
+      id="searchQuery"
+      class="form-control therapist-search"
+      placeholder="Search by name, branch, or speciality"
+    />
   </div>
+  <!-- Dropdown for filtering by active/inactive status -->
+  <div class="col-md-2">
+    <select id="isActiveFilter" class="form-control therapist-select">
+      <option value="">All</option>
+      <option value="1">Active</option>
+      <option value="0">Inactive</option>
+    </select>
+  </div>
+  <!-- Search button -->
+  <div class="col-md-4">
+    <button id="searchButton" class="btn btn--main therapist-search-btn">
+      Search
+    </button>
+  </div>
+</div>
 
-  <!-- Therapist Table -->
-  <!-- Table for displaying therapists -->
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Branch</th>
-        <th>Qualification</th>
-        <th>Specialities</th>
-        <th>Status</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <!-- Body of the table will be filled by AJAX -->
-    <tbody id="therapistTableBody">
-    </tbody>
-  </table>
+<!-- Therapist Table -->
+<!-- Table for displaying therapists -->
+<table class="table table patient-table">
+  <thead class="table-head-bg">
+    <tr>
+      <th>Name</th>
+      <th>Branch</th>
+      <th>Qualification</th>
+      <th>Specialities</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <!-- Body of the table will be filled by AJAX -->
+  <tbody id="therapistTableBody">
+    <tr>
+      {% for therapist in therapists %}
+      <td>{{therapist.name}}</td>
+      <td>{{therapist.branch}}</td>
+      <td>{{therapist.qualification}}</td>
+      <td>
+        {% for speciality in therapist.specialities.all %} {{ speciality.name }}
+        {% if not forloop.last %}, {% endif %} {% endfor %}
+      </td>
+      {% if therapist.is_active %}
 
-  <!-- Pagination -->
-  <!-- Navigation for pagination -->
-  <nav aria-label="Page navigation" id="paginationNav">
-  </nav>
+      <td>
+        <img
+          src="{% static 'images/actions/switch_on.svg' %}"
+          id="off-switch-1"
+          alt=""
+          onclick="toggleImage('off-switch-1')"
+          class="status-image"
+        />
+      </td>
+      {% else %}
+      <td>
+        <img
+          src="{% static 'images/actions/switch_off.svg' %}"
+          id="off-switch-1"
+          alt=""
+          onclick="toggleImage('off-switch-1')"
+          class="status-image"
+        />
+      </td>
+      {% endif %}
+      <td>
+        <a href=""
+          ><img src="{% static 'images/actions/edit_icon.svg' %}" alt=""
+        /></a>
+        <a href=""
+          ><img src="{% static 'images/actions/eye_icon.svg' %}" alt=""
+        /></a>
+      </td>
 
-  <!-- Therapist Profile Popup Modal -->
-  <!-- Modal for displaying individual therapist profiles -->
-  <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="profileModalLabel">Therapist Profile</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <!-- Modal body will be filled by AJAX -->
-        <div class="modal-body" id="profileModalBody">
-        </div>
+      {% endfor %}
+    </tr>
+  </tbody>
+</table>
+
+<!-- Pagination -->
+<!-- Navigation for pagination -->
+<nav aria-label="Page navigation" id="paginationNav"></nav>
+
+<!-- Therapist Profile Popup Modal -->
+<!-- Modal for displaying individual therapist profiles -->
+<div
+  class="modal fade"
+  id="profileModal"
+  tabindex="-1"
+  aria-labelledby="profileModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="profileModalLabel">Therapist Profile</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
+      <!-- Modal body will be filled by AJAX -->
+      <div class="modal-body" id="profileModalBody"></div>
     </div>
   </div>
-{% endblock %}
-
-{% block extra_js %}
+</div>
+{% endblock %} {% block extra_js %}
 <!-- JavaScript to handle AJAX and DOM updates -->
 <script>
-  $(document).ready(function() {
+  $(document).ready(function () {
     // Function to load therapists based on filters and pagination
-    function loadTherapists(page=1) {
+    function loadTherapists(page = 1) {
       // Get search query and filters
       const searchQuery = $("#searchQuery").val();
       const isActiveFilter = $("#isActiveFilter").val();
-      
+
       // AJAX request to backend
-      $.get("/list_therapists/", {search: searchQuery, is_active: isActiveFilter, page: page}, function(data) {
-        // Update therapist table
-        $("#therapistTableBody").empty();
-        $.each(data.therapists, function(index, therapist) {
-          const status = therapist.is_active ? 'Active' : 'Inactive';
-          $("#therapistTableBody").append(`
+      $.get(
+        "/list_therapists/",
+        { search: searchQuery, is_active: isActiveFilter, page: page },
+        function (data) {
+          // Update therapist table
+          $("#therapistTableBody").empty();
+          $.each(data.therapists, function (index, therapist) {
+            const status = therapist.is_active ? "Active" : "Inactive";
+            $("#therapistTableBody").append(`
             <tr>
               <td>${therapist.name}</td>
               <td>${therapist.branch}</td>
@@ -88,44 +169,47 @@
               <td><button class="viewProfileButton btn btn-info" data-id="${therapist.id}">View</button></td>
             </tr>
           `);
-        });
+          });
 
-        // Update pagination
-        $("#paginationNav").empty();
-        for(let i = 1; i <= data.total_pages; i++) {
-          $("#paginationNav").append(`<a href="#" class="page-link" data-page="${i}">${i}</a>`);
+          // Update pagination
+          $("#paginationNav").empty();
+          for (let i = 1; i <= data.total_pages; i++) {
+            $("#paginationNav").append(
+              `<a href="#" class="page-link" data-page="${i}">${i}</a>`
+            );
+          }
         }
-      });
+      );
     }
 
     // Trigger loadTherapists function when search button is clicked
-    $("#searchButton").click(function() {
+    $("#searchButton").click(function () {
       loadTherapists();
     });
 
     // Handle pagination click
-    $(document).on('click', '.page-link', function(e) {
+    $(document).on("click", ".page-link", function (e) {
       e.preventDefault();
-      const page = $(this).data('page');
+      const page = $(this).data("page");
       loadTherapists(page);
     });
 
     // Display therapist profile in a modal
-    $(document).on('click', '.viewProfileButton', function() {
+    $(document).on("click", ".viewProfileButton", function () {
       // Get the therapist ID
-      const therapistId = $(this).data('id');
-      
+      const therapistId = $(this).data("id");
+
       // Fetch and display the profile
-      $.get(`/get_therapist_profile/${therapistId}/`, function(data) {
+      $.get(`/get_therapist_profile/${therapistId}/`, function (data) {
         $("#profileModalBody").html(`
           <p>Name: ${data.name}</p>
           <p>Branch: ${data.branch}</p>
           <p>Qualification: ${data.qualification}</p>
           <p>Specialities: ${data.specialities}</p>
-          <p>Status: ${data.is_active ? 'Active' : 'Inactive'}</p>
+          <p>Status: ${data.is_active ? "Active" : "Inactive"}</p>
         `);
-        
-        $("#profileModal").modal('show');
+
+        $("#profileModal").modal("show");
       });
     });
 

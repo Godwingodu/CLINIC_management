@@ -4,6 +4,13 @@ from django.contrib.auth.password_validation import validate_password
 from django.utils.translation import gettext as _
 from django.contrib.auth.hashers import make_password, check_password
 from .constants import STATUS_CHOICES,PAYMENT_MODE_CHOICES
+from django.forms.widgets import CheckboxSelectMultiple
+
+
+
+
+from .models import Therapist, WorkingDay
+from .widgets import CustomCheckboxSelectMultiple 
 
 from receptionist.models import Invoice
 
@@ -129,12 +136,56 @@ class PatientFilterForm(forms.Form):
 
 
 class AddTherapistForm(forms.ModelForm):
-    email = forms.EmailField(label=_('Email'))
-    password1 = forms.CharField(widget=forms.PasswordInput, label=_('Set Password'))
-    password2 = forms.CharField(widget=forms.PasswordInput, label=_('Confirm Password'))
+
+   
+    email = forms.EmailField(
+    label=_('Email'),
+    widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'background-color: #F2FEFB;'}),
+    )
+
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': _('Set Password'), 'style': 'background-color: #F2FEFB;'}),
+        label=_('Set Password')
+    )
+
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': _('Confirm Password'), 'style': 'background-color: #F2FEFB;'}),
+        label=_('Confirm Password')
+    )
+
+    name = forms.CharField(
+        label=_('Name'),
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Name'), 'style': 'background-color: #F2FEFB;'}),
+    )
+
+    qualification = forms.CharField(
+        
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('qualification'), 'style': 'background-color: #F2FEFB;'}),
+    )
+
+    phone = forms.CharField(
+        label=_('phone'),
+        widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'background-color: #F2FEFB;'}),
+    )
+
+    address = forms.CharField(
+        label=_('Address'),
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Address'), 'style': 'background-color: #F2FEFB;'}),
+    )
+
+    date_of_birth = forms.DateField(
+        label=_('Date of Birth'),
+        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'style': 'background-color: #F2FEFB;'}),
+    )
+
+    appointment_interval = forms.EmailField(
+        label=_('appointment_interval'),
+        widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 4rem; background-color: #F2FEFB;'}),
+    )
+
     working_days = forms.ModelMultipleChoiceField(
         queryset=WorkingDay.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
+        widget=forms.CheckboxSelectMultiple(attrs={'style': 'background-color: #F2FEFB;'}),
         required=False,
         label=_('Working Days')
     )
@@ -154,6 +205,22 @@ class AddTherapistForm(forms.ModelForm):
             'is_active',
             'profile_photo',
         ]
+    widgets = {
+        'branch': forms.Select(attrs={'class': 'form-control'}),
+    }
+    
+    specialities = forms.ModelMultipleChoiceField(
+        queryset=Speciality.objects.all(),
+        widget=CheckboxSelectMultiple,  # Use the default CheckboxSelectMultiple widget
+        required=False,
+        label=_('Specialities')
+    )
+
+    gender = forms.ChoiceField(
+        choices=Therapist.GENDER_CHOICES[0:],  # Exclude the empty option
+        widget=forms.RadioSelect,
+        label=_('Gender'),
+    )
 
     def __init__(self, *args, **kwargs):
                 super().__init__(*args, **kwargs)

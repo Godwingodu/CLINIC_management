@@ -1,0 +1,383 @@
+html {
+  min-height: 100%;
+}
+
+body {
+  padding: 0% 9% !important;
+}
+
+@media (min-width: 990px) {
+  .status-image {
+    width: 38px;
+  }
+}
+
+img:hover {
+  color: #000;
+}
+.add-button {
+  background-color: #78d596 !important;
+}
+
+#off-switch {
+  height: 36px;
+  width: 36px;
+}
+
+.table th,
+.table td {
+  padding: 10px;
+  text-align: left;
+  border: none;
+}
+.table th:first-child {
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+.table th:last-child {
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+.table-active {
+  background-color: #f2fefb !important;
+  border-radius: 20px !important;
+}
+.branch-admin {
+  font-size: 26px;
+}
+
+* {
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+}
+
+.custom-button {
+  color: #ffffff !important;
+  border-radius: 12px !important;
+}
+
+.table-head-bg {
+  background-color: #f2fefb !important;
+}
+
+@media (min-width: 990px) {
+  .custom-button {
+    font-size: 16px !important;
+    font-weight: 400 !important;
+  }
+  .add-button {
+    width: 182px !important;
+  }
+}
+
+.input {
+  background-color: #f2fefb !important;
+}
+
+/* physiotherapist - add therapist styles*/
+
+.table-head-bg {
+  background-color: #f2fefb;
+  border-radius: 20px 20px 0 0; /* Rounded top corners, square bottom corners */
+}
+
+.title-phsyio {
+  font-size: 22px;
+  font-weight: 500;
+  color: #000000;
+  margin-bottom: 2rem;
+}
+
+.therapist-add-header {
+  font-weight: 500;
+  font-size: 26px;
+  color: #000000;
+  margin: 10rem 3rem 2rem;
+}
+
+/* patient add styles */
+
+.title-patient {
+  font-weight: 600;
+  font-size: 20px;
+  color: #000000;
+}
+
+.patient-pagination {
+  width: 35px;
+  border-radius: 50px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  -ms-border-radius: 50px;
+  -o-border-radius: 50px;
+}
+
+.patient-table {
+  margin-top: 8rem;
+}
+
+@media (min-width: 990px) {
+  .space-fix {
+    margin-left: 1rem;
+  }
+  .patient-button {
+    height: 43px !important;
+  }
+}
+
+/* therapist css */
+
+.title-therapist {
+  font-size: 26px;
+  font-weight: 500;
+  color: #000;
+}
+
+/* appointment css */
+
+.appoint-btn {
+  text-align: left !important;
+  border-radius: 20px !important;
+  -webkit-border-radius: 20px !important;
+  -moz-border-radius: 20px !important;
+  -ms-border-radius: 20px !important;
+  -o-border-radius: 20px !important;
+}
+.appoint-1 :hover {
+  background-color: #d5b6b6 !important;
+}
+
+.appoint-1 {
+  background-color: #d57878 !important;
+  color: #000000;
+  border: none;
+  padding: 3rem !important;
+  font-size: 26px !important;
+  font-weight: 500 !important;
+}
+
+.appoint-2:hover {
+  background-color: #9fffbf !important;
+  color: #fff;
+}
+
+.appoint-2 {
+  background-color: #78d596 !important;
+  color: #000000;
+  border: none;
+  padding: 3rem !important;
+  font-size: 26px !important;
+  font-weight: 500 !important;
+}
+
+.model-title-custom {
+  font-size: 22px;
+}
+.app-modal-btn {
+  width: 10rem;
+  height: 4rem;
+}
+.appoint-check {
+  background-color: #d57878 !important;
+  color: #000000;
+  border: none;
+  padding: 3rem !important;
+  font-size: 26px !important;
+  font-weight: 500 !important;
+}
+
+.appoint-check:hover {
+  background-color: #d5a3a3 !important;
+}
+.model-title-custom {
+  text-align: left;
+  margin-left: -18rem;
+}
+.modal-body {
+  border: none !important;
+}
+.modal-header {
+  border: none !important;
+}
+.modal-footer {
+  border: none !important;
+}
+.custome-text-box {
+  border: none !important;
+}
+
+.custome-text-box {
+  height: 5rem;
+  width: 100%;
+  margin-right: 1rem;
+  margin-top: 1rem;
+}
+.app-modal-1 {
+  background-color: #78d596 !important;
+  color: #fff !important;
+  border: none !important;
+}
+.app-modal-2 {
+  background-color: #868686 !important;
+  border: none !important;
+}
+input:active {
+  border: none !important;
+}
+
+.app-modal-1:hover {
+  background-color: #00ea4a !important;
+}
+
+.app-modal-2:hover {
+  background-color: rgb(156, 156, 156) !important;
+}
+
+@media (min-width: 990px) {
+  .appoint-btn {
+    width: 491px;
+    height: 136px;
+    text-align: left !important;
+    margin-bottom: 1rem;
+  }
+  .button-title {
+    text-align: left;
+  }
+  .appoint-img {
+    width: 56%;
+  }
+  .model-title-custom {
+    text-align: left;
+  }
+  .modal-header {
+    margin: 0 -36rem;
+  }
+  .desc-modal {
+    height: 12rem;
+  }
+  .model-title-custom {
+    margin-left: 3rem !important;
+  }
+  app-modal-btn {
+    width: 12rem !important;
+    border-radius: 22px !important;
+    height: 4rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .appoint-btn {
+    height: 16rem;
+    margin-bottom: 1rem !important;
+  }
+}
+
+@media (min-width: 991px) and (max-width: 1400px) {
+  .appoint-btn {
+    width: 37rem;
+  }
+}
+
+/* appointment table */
+
+.btn-outline-primary {
+  color: #000 !important;
+  border: #000 !important;
+  background-color: #fff !important;
+}
+.btn-check + .btn:hover {
+  border: #000 !important;
+}
+
+.btn-outline-primary:active {
+  background-color: #d2ffe1 !important;
+  color: #fff;
+}
+.btn-outline-primary:visited {
+  background-color: #d2ffe1 !important;
+  color: #fff;
+}
+
+.radio-btns {
+  margin-left: 49rem;
+}
+
+/* add therapist css */
+
+.dropdown-toggle {
+  background-color: #f2fefb !important;
+  border: 1px solid rgba(229, 231, 235, var(--tw-border-opacity)) !important;
+}
+.radio-radius {
+  border-radius: 20px !important;
+}
+.slot-btn {
+  border: 1px solid rgba(229, 231, 235, var(--tw-border-opacity)) !important;
+  background-color: #e5fff9 !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+.date-appoint {
+  height: 2rem;
+
+  min-width: 0rem !important;
+  width: 44% !important;
+}
+
+.second-date-appoint {
+  background-color: #ffdada !important;
+}
+
+.day-fix {
+  width: 105px;
+}
+.btn--main:hover {
+  border: 1px solid #000 !important;
+}
+
+@media (min-width: 990px) {
+  .date-field-therapist {
+    padding: 4% 15% !important;
+    margin-left: 8rem;
+    border: 1px solid rgba(229, 231, 235, var(--tw-border-opacity));
+    background-color: #f2fefb;
+  }
+
+  .fix-layout {
+    margin-top: 3rem;
+  }
+  .slot-btn {
+    margin-top: 2rem !important;
+  }
+  .to-fix-margin {
+    margin-left: -10rem !important;
+  }
+  .anchor-img-fix {
+    margin-left: -11rem;
+  }
+  .therapist-button {
+    width: 20rem !important;
+    margin-left: 12rem;
+    margin-top: 4rem;
+  }
+}
+
+/* therapist-table-style */
+
+.therapist-search,
+.therapist-select {
+  border-radius: 14px;
+
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 992px) {
+  /* Your CSS rules for screens wider than or equal to 992 pixels go here */
+  /* For example, you can define styles for tablets and desktops */
+
+  .therapist-search,
+  .therapist-select,
+  .therapist-search-btn {
+    height: 4rem !important;
+  }
+  /* Add more styles as needed */
+}

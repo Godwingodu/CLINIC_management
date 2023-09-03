@@ -47,4 +47,7 @@ urlpatterns = [
 
     # Search URL
     path('search_patients/', views.search_patients, name='search_patients'),
+
+
+ 
 ]

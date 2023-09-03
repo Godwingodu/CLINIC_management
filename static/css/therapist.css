@@ -39,3 +39,10 @@
   background-color: #78D596 !important;
   color: #ffffff;
 }
+
+.title-therapist-add{
+  font-size: 22px;
+  font-weight: 500;
+  color: #000000;
+  margin-bottom: 2rem;
+}
