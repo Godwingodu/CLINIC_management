@@ -15,10 +15,8 @@
             <div class="col-md-2">
                 <select class="custom-select" name="gender">
                     <option value="">All Genders</option>
-                    <!-- Populate dynamically -->
-                    {% for value, display in form.fields.gender.choices %}
-                    <option value="{{ value }}" {% if form.cleaned_data.gender == value %}selected{% endif %}>{{ display
-                        }}</option>
+                    {% for value, display in filter_form.fields.gender.choices %}
+                        <option value="{{ value }}" {% if filter_form.cleaned_data.gender == value %}selected{% endif %}>{{ display }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -27,10 +25,8 @@
             <div class="col-md-2">
                 <select class="custom-select" name="location">
                     <option value="">All Locations</option>
-                    <!-- Populate dynamically -->
-                    {% for location in form.fields.location.queryset %}
-                    <option value="{{ location.id }}" {% if form.cleaned_data.location == location %}selected{% endif %}>
-                        {{ location.name }}</option>
+                    {% for location in filter_form.fields.location.queryset %}
+                        <option value="{{ location.id }}" {% if filter_form.cleaned_data.location == location %}selected{% endif %}>{{ location.name }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -53,6 +49,7 @@
             <div class="col-md-2">
                 <a class="btn btn-success" href="{% url 'add_new_patient' %}">Add Patient</a>
             </div>
+        </div>
     </form>
 </div>
 
@@ -135,9 +132,10 @@
 
 
 {% endblock %}
-
+// For list view template
 {% block additional_js %}
 <script>
+    // Only one click handler is sufficient
     $(".view-profile").click(function () {
         const patientId = $(this).data("patient-id");
         showPatientProfile(patientId);
@@ -146,7 +144,6 @@
     function showPatientProfile(patientId) {
         $.ajax({
             url: `/path_to_get_patient_details/${patientId}/`,
-
             method: "GET",
             success: function (data) {
                 fillProfilePopup(data);
@@ -156,12 +153,5 @@
             }
         });
     }
-
-    $(".view-profile").click(function () {
-        const patientId = $(this).data("patient-id");
-        showPatientProfile(patientId);
-    });
-
 </script>
-
 {% endblock %}

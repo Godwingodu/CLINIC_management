@@ -88,7 +88,6 @@ class PatientFilterForm(forms.Form):
     date_added_from = forms.DateField(label='Date Added From', widget=forms.DateInput(attrs={'type': 'date'}), required=False)
     date_added_to = forms.DateField(label='Date Added To', widget=forms.DateInput(attrs={'type': 'date'}), required=False)
     order_by = forms.ChoiceField(label='Order By', choices=[('date_added', 'Date Added'), ('user__first_name', 'Name')], required=False, widget=forms.Select(attrs={'class': 'custom-select'}))
-
     def filter_queryset(self, queryset):
         name = self.cleaned_data.get('name')
         phone = self.cleaned_data.get('phone')
@@ -101,13 +100,13 @@ class PatientFilterForm(forms.Form):
         order_by = self.cleaned_data.get('order_by')
 
         if name:
-            queryset = queryset.filter(user__first_name__icontains=name) | queryset.filter(user__last_name__icontains=name)
+            queryset = queryset.filter(name__icontains=name)
         if phone:
             queryset = queryset.filter(phone__icontains=phone)
         if gender:
             queryset = queryset.filter(gender=gender)
         if location:
-            queryset = queryset.filter(location=location)
+            queryset = queryset.filter(branch=location)  # Assuming "branch" is equivalent to "location"
         if speciality:
             queryset = queryset.filter(specialities__in=speciality)
         if tags:

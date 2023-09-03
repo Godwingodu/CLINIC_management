@@ -61,6 +61,7 @@ def patient_list(request):
     if form.is_valid():
         patients = form.filter_queryset(patients)
 
+
     if 'export_excel' in request.GET:
         response = HttpResponse(content_type='application/ms-excel')
         response['Content-Disposition'] = 'attachment; filename="patients.xlsx"'
@@ -89,6 +90,8 @@ def patient_list(request):
         wb.save(output)
         output.seek(0)
         response.write(output.read())
+
+        return response 
 
 
     elif 'export_pdf' in request.GET:
@@ -135,12 +138,11 @@ def patient_list(request):
         return response
         
         
-    
-    paginator = Paginator(patients, 10)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-
-    return render(request, 'patient_list.html', {'form': form, 'page_obj': page_obj})
+    else:
+        paginator = Paginator(patients, 10)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'patient_list.html', {'form': form, 'page_obj': page_obj})
 
 # Viewing a Single Patient Profile
 class PatientProfileView(View):
