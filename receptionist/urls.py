@@ -23,17 +23,15 @@ urlpatterns = [
 
     # Prescription URLs
     path('prescription/add/<int:appointment_id>/', views.add_prescription, name='add_prescription'),
-
-    # Appointment URLs
+ # Appointment URLs
     path('appointment/<int:appointment_id>/', views.get_appointment_detail, name='get_appointment_detail'),
     path('appointment/schedule/', views.schedule_appointment, name='schedule_appointment'),
     path('appointment/schedule/<int:patient_id>/', views.schedule_appointment, name='schedule_appointment_with_patient'),
     path('appointment/list/', views.list_appointments, name='list_appointments'),
     path('appointment/delete/<int:appointment_id>/', views.delete_appointment, name='delete_appointment'),
-
+    path('appointment/update/<int:appointment_id>/', views.update_appointment, name='reschedule_appointment'),  # New line for update
     # Calendar URL
     path('calendar/', views.calendar_view, name='calendar_view'),
-
     # Invoice URLs
     path('invoice/create/', views.create_invoice, name='create_invoice'),
     path('invoice/create/<int:appointment_id>/', views.create_invoice, name='create_invoice_with_appointment'),

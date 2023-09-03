@@ -527,7 +527,8 @@ def list_appointments(request):
         elif status_filter == 'completed':
             appointments = appointments.filter(status='Completed')
 
-        appointments = appointments.values('id', 'patient__user__first_name', 'therapist__name', 'appointment_date', 'status', 'time_slot__name', 'patient__phone')
+        appointments = appointments.values('id', 'patient__name', 'therapist__name', 'appointment_date', 'status', 'time_slot__name', 'patient__phone')
+
         return JsonResponse(list(appointments), safe=False)
 
     else:
@@ -563,6 +564,39 @@ def list_appointments(request):
         }
 
         return render(request, 'list_appointments.html', context)
+    
+
+# View function to update an appointment
+def update_appointment(request, appointment_id):
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+    form = AppointmentForm(instance=appointment)
+
+    if request.method == "POST":
+        form = AppointmentForm(request.POST, instance=appointment)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Appointment updated successfully.')
+            return redirect('list_appointments')
+        else:
+            messages.error(request, 'An error occurred. Please try again.')
+
+    therapists = Therapist.objects.all()
+    therapists_list = []
+    for therapist in therapists:
+        therapist_dict = {
+            'id': therapist.id,
+            'name': therapist.name,
+            'working_days': list(therapist.working_days.values_list('weekday_number', flat=True)),
+        }
+        therapists_list.append(therapist_dict)
+
+    context = {
+        'form': form,
+        'therapists': json.dumps(therapists_list),
+        'appointment_id': appointment_id,
+    }
+
+    return render(request, 'update_appointment.html', context)
 
 
 

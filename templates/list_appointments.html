@@ -54,7 +54,7 @@
           <tr>
             <td><input type="checkbox" class="select_item" name="selected_appointments" value="{{ appointment.id }}"></td>
             <th scope="row">{{ forloop.counter }}</th>
-            <td>{{ appointment.patient.user.first_name }}</td>
+            <td>{{ appointment.patient.name }}</td>
             <td>{{ appointment.therapist.name }}</td>
             <td>{{ appointment.patient.phone }}</td>
             <td>{{ appointment.appointment_date }}</td>
@@ -79,7 +79,7 @@
         <div class="card">
           <img src="{{ appointment.patient.image.url }}" class="card-img-top" alt="Patient Image">
           <div class="card-body">
-            <h5 class="card-title">{{ appointment.patient.user.first_name }}</h5>
+            <h5 class="card-title">{{ appointment.patien.name }}</h5>
             <p class="card-text">
               ID: {{ appointment.patient.id }} <br>
               Phone: {{ appointment.patient.phone }} <br>
@@ -96,10 +96,16 @@
             </form>
 
             <!-- Reschedule Appointment Button -->
-            <a href="{% url 'reschedule_appointment' appointment.id %}" class="btn btn-warning">Reschedule Appointment</a>
-            <a href="{% url 'accounts:add_invoice' appointment.id %}" class="btn btn-info">Create Invoice</a>
-            <a href="{% url 'therapist:add_prescription' appointment.id %}" class="btn btn-success">Add Prescription</a>
-          </div>
+                          <!-- Reschedule Appointment Button -->
+              <a href="{% url 'reschedule_appointment' appointment.id %}" class="btn btn-warning">Reschedule Appointment</a>
+
+              <!-- Create Invoice Button -->
+              <a href="{% url 'create_invoice_with_appointment' appointment.id %}" class="btn btn-info">Create Invoice</a>
+
+              <!-- Add Prescription Button -->
+              <a href="{% url 'add_prescription' appointment.id %}" class="btn btn-success">Add Prescription</a>
+
+                        </div>
         </div>
       </div>
       <!-- Modal Footer -->
@@ -157,7 +163,7 @@
             let newRow = $("<tr>");
             newRow.append("<th scope='row'><input type='checkbox' class='select_item' name='selected_appointments' value='" + value.id + "'></th>");
             newRow.append("<th scope='row'>" + value.id + "</th>");
-            newRow.append("<td>" + value.patient__user__first_name + "</td>");
+            newRow.append("<td>" + value.patient__name+ "</td>");
             newRow.append("<td>" + value.therapist__name + "</td>");
             newRow.append("<td>" + value.patient__phone + "</td>");
             newRow.append("<td>" + value.appointment_date + "</td>");
