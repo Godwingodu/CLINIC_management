@@ -1,177 +1,194 @@
 
+
+
+{% extends 'reception/base.html' %}
 {% load static %}
 
+{% block title %}
+Create Invoice
+{% endblock %}
+
+{% block additional_css %}
+
+{% endblock %}
+
+{% block content %}
 
 
-    <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            <title>Invoice</title>
-            <link rel="stylesheet" href="{% static 'css/invoice/style.css' %}" />
-            <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
-            crossorigin="anonymous"
-            />
-            <link rel="stylesheet" href="{% static 'css/invoice/uikit/styles/uikit.css' %}" />
 
-            <style>
-            @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap");
 
-            * {
-                margin: 0;
-                padding: 0;
-                list-style: none;
-                font-family: "Montserrat", sans-serif;
-                -webkit-box-sizing: border-box;
-                box-sizing: border-box;
-            }
 
-            .wrapper {
-                width: 100%;
-                height: 100%;
-                background: #f9f9f9;
-                margin: 15px auto 0;
-                border-radius: 30px;
-            }
-            * {
-                font-family: "Plus Jakarta Sans", sans-serif;
-            }
+    
+    
+    <link rel="stylesheet" href="{% static 'css/invoice/style.css' %}" />
+    
+    <link rel="stylesheet" href="{% static 'css/invoice/uikit/styles/uikit.css' %}" />
 
-            .custom-container {
-                background-color: white;
-                padding: 10px;
-                border-radius: 12px;
-            }
+    <style>
+    @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap");
 
-            .input-container input {
-                border: none;
-                border-radius: 10px;
-                min-height: 50px !important;
-                /* box-sizing: border-box; */
-                background-color: #f2fefb;
-            }
+    * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        font-family: "Montserrat", sans-serif;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+    }
 
-            #id_password1,
-            #id_password2 {
-                background-color: #efffe1 !important;
-            }
+    .wrapper {
+        width: 100%;
+        height: 100%;
+        background: #f9f9f9;
+        margin: 15px auto 0;
+        border-radius: 30px;
+    }
+    * {
+        font-family: "Plus Jakarta Sans", sans-serif;
+    }
+    .main_content{
+        padding: 0 !important;
+    }
 
-            .form-select {
-                background-color: #f2fefb !important;
-                border: none !important;
-                min-height: 50px;
-            }
+    .custom-container {
+        background-color: white;
+        padding: 10px;
+        border-radius: 12px;
+    }
 
-            .button-green {
-                background-color: #78d596 !important;
-            }
-            .patient-container-invoice {
-                margin-left: 54px;
-                border-radius: 10px;
-                border: none;
-                height: 5rem;
-                padding-left: 3rem;
-                padding-right: 2rem;
-                font-size: 20px !important;
-                width: 25rem;
-                margin-left: -7rem;
-            }
-            .create-invoice {
-                border: none;
-                width: 100% !important;
-                height: 11rem;
-                margin-bottom: 4rem;
-                border-radius: 22px;
-                background-color: #78d596;
-                font-size: 24px;
-                color: #000;
-            }
-            .custom-inner-wrapper {
-                background-color: #f9f9f9;
-                padding: 38px 21px;
-                height: 95rem;
-            }
+    .input-container input {
+        border: none;
+        border-radius: 10px;
+        min-height: 50px !important;
+        /* box-sizing: border-box; */
+        background-color: #f2fefb;
+    }
 
-            .create-invoice {
-                display: flex;
-                align-items: center; /* Vertically align content */
-                width: 1252px;
-            }
+    #id_password1,
+    #id_password2 {
+        background-color: #efffe1 !important;
+    }
 
-            .create-invoice img {
-                max-width: 100%; /* Ensure the image does not exceed the button's width */
-                margin-right: 10px; /* Add some spacing between the image and text */
-            }
-            </style>
-        </head>
+    .form-select {
+        background-color: #f2fefb !important;
+        border: none !important;
+        min-height: 50px;
+    }
 
-        <body style="padding: 7% 15%;">
-            <div class="custom-inner-wrapper" style="background-color: #f9f9f9">
-            <button class="create-invoice" style="width: 1252px">
-                <img src="images/button-dollar.png" alt="" style="margin-left: 5rem" />
-                <p style="font-size: 24px; color: #000">Create Invoice</p>
-            </button>
+    .button-green {
+        background-color: #78d596 !important;
+    }
+    .patient-container-invoice {
+        margin-left: 54px;
+        border-radius: 10px;
+        border: none;
+        height: 5rem;
+        padding-left: 3rem;
+        padding-right: 2rem;
+        font-size: 20px !important;
+        width: 25rem;
+        margin-left: -7rem;
+    }
+    .create-invoice {
+        border: none;
+        width: 94% !important;
+        height: 11rem;
+        margin-bottom: 4rem;
+        border-radius: 22px;
+        background-color: #78d596;
+        font-size: 24px;
+        color: #000;
+    }
+    .custom-inner-wrapper {
+        background-color: #f9f9f9;
+        padding: 38px 21px;
+        width: 125rem;
+    height: 125rem;
+    }
 
-            <div class="container custom-container p-5">
-                <div class="row">
-                <div class="col-md-4">
-                    <h2 class="tag-invoice" style="margin-top: 2rem">
-                    Invoice #md 34567
-                    </h2>
-                </div>
-                <div class="col-md-4">
-                    <div class="col-md-4 input-container patient-container-invoice">
-                    <select
-                        id="patientSelect"
-                        name="patient"
-                        class="form-select"
-                        style="font-size: 14px"
-                    >
-                        <option value="" disabled selected>Select a patient</option>
-                        <option value="1">Patient 1</option>
-                        <option value="2">Patient 2</option>
-                        <option value="3">Patient 3</option>
-                        <!-- Add more options for your patients -->
-                    </select>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <input
-                    class="input input--text date-field-invoice"
-                    id="formInput#text"
-                    type="date"
-                    />
-                </div>
-                </div>
+    .create-invoice {
+        display: flex;
+        align-items: center; /* Vertically align content */
+        width: 1252px;
+    }
 
-                <div class="invoice-box mt-4">
-                <div class="row mt-4">
-                    <div class="col-md-3">
-                    <select
-                        id="paymentStatusSelect"
-                        name="paymentStatus"
-                        class="form-select"
-                        style="
+    .create-invoice img {
+        max-width: 100%; /* Ensure the image does not exceed the button's width */
+        margin-right: 10px; /* Add some spacing between the image and text */
+    }
+    </style>
+
+
+<body >
+    <div class="custom-inner-wrapper" style="background-color: #f9f9f9">
+    <button class="create-invoice" style="width: 1252px">
+        <img src="{% static 'images/button-dollar.png' %}" alt="" style="margin-left: 5rem" />
+        <p style="font-size: 24px; color: #000">Create Invoice</p>
+    </button>
+
+    <div class="container custom-container p-5">
+        <div class="row">
+        <div class="col-md-3">
+            <h2 class="tag-invoice" style="margin-top: 2rem">
+            Invoice # {{ form.invoice_number }}
+            </h2>
+        </div>
+        <div class="col-md-3">
+            <div class="col-md-4 input-container patient-container-invoice">
+            <select
+            id="patientSelect"
+            name="patient"
+            class="form-select"
+            style="font-size: 14px"
+            >
+                <option value="" disabled selected>Select a Appointment</option>
+                {% for choice in form.appointment.field.choices %}
+                    <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                {% endfor %}
+            </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            {{ form.invoice_date }}
+        </div>
+        <div class="col-3">
+            <select
+            id="patientSelect"
+            name="patient"
+            class="form-select"
+            style="font-size: 14px"
+            >
+                <option value="" disabled selected>Select a patient</option>
+                {% for choice in form.patient.field.choices %}
+                <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        </div>
+
+        <div class="invoice-box mt-4">
+        <div class="row mt-4">
+            <div class="col-md-3">
+                <select
+                    id="paymentStatusSelect"
+                    name="paymentStatus"
+                    class="form-select"
+                    style="
                         font-size: 14px;
                         width: 22rem;
                         background-color: #f9ebeb !important;
                         margin-left: -1rem;
-                        "
-                    >
-                        <option value="" disabled selected>Payment Status</option>
-                        <option value="pending">Pending</option>
-                        <option value="completed">Completed</option>
-                        <option value="failed">Failed</option>
-                        <!-- Add more payment status options if needed -->
-                    </select>
-                    </div>
-                    <div class="col-md-3">
-                    <div class="col-md-4 input-container">
-                        <select
+                    "
+                >
+                    <option value="" disabled selected>Payment Status</option>
+                    {% for choice in form.status.field.choices %}
+                        <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <div class="col-md-4 input-container">
+                    <select
                         id="paymentMethodSelect"
                         name="paymentMethod"
                         class="form-select"
@@ -179,139 +196,209 @@
                             font-size: 14px;
                             width: 22rem;
                             background-color: #f9ebeb !important;
+                            margin-left: 2rem;
                         "
-                        >
+                    >
                         <option value="" disabled selected>Payment Mode</option>
-                        <option value="credit_card">Credit Card</option>
-                        <option value="paypal">PayPal</option>
-                        <option value="bank_transfer">Bank Transfer</option>
-                        <!-- Add more payment method options if needed -->
-                        </select>
-                    </div>
-                    </div>
-                    <div class="col-md-3"></div>
-                    <div class="col-md-3">
-                    <div class="col-md-4 input-container">
-                        <select
+                        {% for choice in form.payment_mode.field.choices %}
+                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <div class="col-md-4 input-container">
+                    <select
                         id="doctorSelect"
                         name="doctor"
                         class="form-select"
                         style="font-size: 14px; width: 22rem; margin-left: -5rem"
-                        >
+                    >
                         <option value="" disabled selected>Doctor</option>
-                        <option value="DrSmith">Dr. Smith</option>
-                        <option value="DrJohnson">Dr. Johnson</option>
-                        <option value="DrWilliams">Dr. Williams</option>
-                        <!-- Add more doctor options if needed -->
-                        </select>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-lg-12">
-                    <table class="table patient-table">
-                        <thead class="table-head-bg table-header-bg-color">
-                        <tr>
-                            <th>No</th>
-                            <th>Items</th>
-                            <th>Description</th>
-                            <th>Amount</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Appointment Booking</td>
-                            <td>With Dr Fazeekkhasn</td>
-                            <td>500</td>
-                            <td>
-                            <a href=""><img src="images/cross.png" alt="" /></a>
-                            </td>
-                        </tr>
-
-                        <!-- Add more table rows here -->
-                        </tbody>
-                    </table>
-                    </div>
-                </div>
-                </div>
-                <div
-                class="flex-container"
-                style="
-                    display: flex;
-                    align-items: center;
-                    flex-direction: row-reverse;
-                "
-                >
-                <a class="left-button" style="margin-top: 1rem"
-                    ><img src="images/add-cross.png" alt="" sizes="" srcset=""
-                /></a>
-                </div>
-                <div class="row mt-4">
-                <div class="col-md-4"></div>
-                <div class="col-md-4"></div>
-                <div class="col-md-4">
-                    <table class="table patient-table">
-                    <tbody>
-                        <tr>
-                        <td class="invoice-sub">SUBTOTAL</td>
-                        <td>500</td>
-                        </tr>
-                        <tr style="border-top: 1px solid #959595">
-                        <td class="invoice-sub">TAX</td>
-                        <td>5</td>
-                        </tr>
-                        <tr style="border-top: 1px solid #959595">
-                        <td class="invoice-sub">TOTAL AMOUNT</td>
-                        <td>505</td>
-                        </tr>
-
-                        <!-- Add more table rows here -->
-                    </tbody>
-                    </table>
-                </div>
-                </div>
-                <div class="row mt-4">
-                <div class="col-md-4"></div>
-                <div class="col-md-4"></div>
-                <div class="col-md-4">
-                    <button
-                    class="btn btn--main export-button space-fix patient-button"
-                    style="width: 12rem"
-                    >
-                    Save
-                    </button>
-                    <button
-                    class="btn btn--main export-button space-fix patient-button"
-                    style="background-color: #868686; width: 12rem"
-                    >
-                    Cancel
-                    </button>
-                </div>
+                        {% for choice in form.therapist.field.choices %}
+                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
             </div>
-            </div>
-        </body>
-
-    
-        </html>
-
+        </div>
         
-        <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
-        crossorigin="anonymous"
-    ></script>
-    <script src="main.js"></script>
+
+        <div class="row">
+            <div class="col-lg-12">
+            <table class="table patient-table">
+                <thead class="table-head-bg table-header-bg-color">
+                <tr>
+                    <th>No</th>
+                    <th>Items</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {{ formset.management_form }}
+                    {% for item_form in formset %}
+                        <tr class="item-form">
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ item_form.item_name }}</td>
+                            <td>{{ item_form.description }}</td>
+                            <td>{{ item_form.amount }}</td>
+                            <td><button type="button" class="remove-item" style="background-color: #fff; border: none;">X</button></td>
+                        </tr>
+                    {% endfor %}
+
+                <!-- Add more table rows here -->
+                </tbody>
+            </table>
+            </div>
+        </div>
+        </div>
+        <div
+        class="flex-container"
+        style="
+            display: flex;
+            align-items: center;
+            flex-direction: row-reverse;
+        "
+        >
+        <a class="left-button" style="margin-top: 1rem"
+            ><img src="images/add-cross.png" alt="" sizes="" srcset=""
+        /></a>
+        </div>
+        <div class="row mt-4">
+        <div class="col-md-4"></div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <table class="table patient-table">
+            <tbody>
+                <tr>
+                <td class="invoice-sub">SUBTOTAL</td>
+                <td>500</td>
+                </tr>
+                <tr style="border-top: 1px solid #959595">
+                <td class="invoice-sub">TAX</td>
+                <td>5</td>
+                </tr>
+                <tr style="border-top: 1px solid #959595">
+                <td class="invoice-sub">TOTAL AMOUNT</td>
+                <td>505</td>
+                </tr>
+
+                <!-- Add more table rows here -->
+            </tbody>
+            </table>
+        </div>
+        </div>
+        <div class="row mt-4">
+        <div class="col-md-4"></div>
+        <div class="col-md-4"><button
+            class="btn btn--main export-button space-fix patient-button"
+            style="width: 12rem; margin-left: 41rem;"
+            >
+            Save
+            </button></div>
+        <div class="col-md-4">
+            
+            <button
+            class="btn btn--main export-button space-fix patient-button"
+            style="background-color: #868686; width: 12rem"
+            >
+            Cancel
+            </button>
+        </div>
+        </div>
+    </div>
+    </div>
+</body>
+
+{% endblock %}
+{% block additional_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+const patientInput = document.getElementById('id_patient');
+const autocompleteList = document.getElementById('autocomplete-list');
+patientInput.addEventListener('keyup', function() {
+    fetch(`/search_patients/?q=${patientInput.value}`)
+        .then(response => response.json())
+        .then(data => updatePatientOptions(data))
+        .catch(error => console.error('An error occurred:', error)); 
+});
+
+
+const addItemButton = document.getElementById('add-item');
+addItemButton.addEventListener('click', function() {
+    const newRow = document.querySelector('.item-form').cloneNode(true);
+    newRow.querySelectorAll('input').forEach(input => input.value = '');
+    document.querySelector('#item-formset tbody').appendChild(newRow);
+    recalculateTotals();
+});
+
+
+const itemFormset = document.getElementById('item-formset');
+itemFormset.addEventListener('click', function(event) {
+    if (event.target.classList.contains('remove-item')) {
+        event.target.closest('tr').remove();
+        recalculateTotals();
+    }
+});
+
+
+itemFormset.addEventListener('change', function() {
+    recalculateTotals();
+});
+});
+
+function recalculateTotals() {
+let subtotal = 0;
+document.querySelectorAll('[name$="-amount"]').forEach(amountInput => {
+    subtotal += parseFloat(amountInput.value || 0);
+});
+
+const tax = subtotal * 0.10; 
+const total = subtotal + tax;
+
+document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+document.getElementById('tax').textContent = tax.toFixed(2);
+document.getElementById('total').textContent = total.toFixed(2);
+}
+
+function updatePatientOptions(data) {
+
+autocompleteList.innerHTML = "";
+
+
+if (data.patients) {
+    data.patients.forEach(patient => {
+        const option = document.createElement('option');
+        option.value = patient.name; 
+        autocompleteList.appendChild(option);
+    });
+}
+}
+</script>
+
+
+
+
+
+
+<script
+src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+crossorigin="anonymous"
+></script>
+
+{% endblock %}
   
+
 
 
 {% comment %}
 
-
-<!-- {% extends 'base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}
 Create Invoice
@@ -473,6 +560,10 @@ Create Invoice
         }
     }
 </script>
-{% endblock %} -->
+{% endblock %}
 
 {% endcomment %}
+
+
+
+
