@@ -1,24 +1,29 @@
-{% extends "base.html" %}
-{% load widget_tweaks %}
-{% load static %}
-
-{% block title %}Update Patient{% endblock %}
+{% extends 'reception/base.html' %}
 
 {% block content %}
 
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Example</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/form_style.css' %}">
-    <style>
-        .input-container input,
-        .form-check {
-            border: none;
-            border-radius: 10px;
-            min-height: 50px !important;
-            /* box-sizing: border-box; */
-            background-color: #f2fefb;
-        }
+    <!-- Link to Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Link to google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet">
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+
+    <style>
         .data-input-container {
             background-color: #f2fefb;
             border: none !important;
@@ -114,133 +119,92 @@
 <body>
     <div class="custom-inner-wrapper">
         <div class="container custom-container p-5">
-            <form method="post" enctype="multipart/form-data">
+            <h4>Add New Patient</h4>
+            <form method="post" action="">
                 {% csrf_token %}
-
-                <h2 class="mb-4">Update Patient Information</h2>
-
-
                 <div class="row mb-4">
-                    <!-- Name -->
                     <div class="col-md-6 input-container">
-                        {{ form.name|add_class:"form-control" }}
-                        {% for err in form.name.errors %}
-                        <small class="text-danger">{{err}}</small>
-                        {% endfor %}
+                        {{ form.name }}
                     </div>
-
-                    <!-- Address -->
                     <div class="col-md-6 input-container">
-                        {{ form.address|add_class:"form-control" }}
-                        {% for err in form.address.errors %}
-                        <small class="text-danger">{{err}}</small>
-                        {% endfor %}
+                        {{ form.address }}
                     </div>
                 </div>
-
-
-                <!-- Specialities -->
                 <div class="row mb-4">
                     <div class="col-md-4 input-container">
-                        {{ form.specialities|add_class:"form-control" }}
-                        {% for err in form.specialities.errors %}
-                        <small class="text-danger">{{err}}</small>
-                        {% endfor %}
+                        {{form.specialities}}
+                    </div>
+                    <div class="col-md-4 input-container d-flex position-relative">
+                        {{form.branch}}
                     </div>
 
-                    <!-- Location -->
                     <div class="col-md-4 input-container">
-                        {{ form.branch|add_class:"form-control" }}
-                    </div>
-
-                    <!-- Phone -->
-                    <div class="col-md-4 input-container">
-                        {{ form.phone|add_class:"form-control" }}
-                        {% for err in form.phone.errors %}
-                        <small class="text-danger">{{err}}</small>
-                        {% endfor %}
+                        {{form.phone}}
                     </div>
                 </div>
-
-
                 <div class="row mb-4">
-                    <!-- Date of Birth -->
                     <div class="col-md-3 input-container">
-                        {{ form.date_of_birth|add_class:"form-control" }}
+                        {{ form.date_of_birth }}
                     </div>
 
-                    <!-- Gender -->
                     <div class="col-md-4 radio-container">
-                        <label>Gender</label>
-                        {{ form.gender }}
+                        <div>Gender</div>
+                        {{form.gender}}
                     </div>
                 </div>
 
-                <h2 class="mb-4">Medical Information</h2>
 
-                <class class="row mb-4">
-                    <!-- Height -->
+                <h4>Medical Information</h4>
+                <div class="row mb-4">
                     <div class="col-md-4">
                         <div class="data-input-container">
-                            <label for="{{ form.height.id_for_label }}">Height (in cm)</label>
-                            {{ form.height|add_class:"form-control" }}
+                            <div>Height</div>
+                            {{form.height}}
+                            <div>Cm</div>
                         </div>
                     </div>
-
-                    <!-- Weight -->
-                    <div class="col-md-4">
-                        <div class="data-input-container px-2">
-                            <label for="{{ form.weight.id_for_label }}">Weight (in kg)</label>
-                            {{ form.weight|add_class:"form-control" }}
+                    <div class="col-md-4 px-2">
+                        <div class="data-input-container">
+                            <div>Weight</div>
+                            {{form.weight}}
+                            <div>Kg</div>
                         </div>
                     </div>
-
-                    <!-- Blood Group -->
                     <div class="col-md-4 px-2">
                         <div class="data-input-container">
                             <div>Blood Group</div>
-                            {{ form.blood_group }}
+                            {{form.blood_group}}
                         </div>
                     </div>
 
-                </class>
-
-                <!-- Notes -->
-                <div class="form-group">
-                    <label for="{{ form.notes.id_for_label }}">Notes</label>
-                    {{ form.notes|add_class:"form-control" }}
                 </div>
-
-                <h4 class="mb-4">Create Login</h4>
-
                 <div class="row mb-4">
-                    <!-- Email -->
-                    <div class="col-md-4 input-container">
-                        <label for="{{ form.email.id_for_label }}">Email</label>
-                        {{ form.email|add_class:"form-control" }}
+                    <div class="col-md-12">
+                        {{form.notes}}
                     </div>
+                </div>
 
-                    <!-- Password -->
+                <div>
+                    <h4>Create Login</h4>
+                </div>
+                <div class="row mb-4">
                     <div class="col-md-4 input-container">
-                        <label for="{{ form.password.id_for_label }}">Set Password</label>
-                        {{ form.password|add_class:"form-control" }}
-                        {% for err in form.password.errors %}
+                        {{form.email}}
+                        {% for err in form.email.errors %}
                         <small class="text-danger">{{err}}</small>
                         {% endfor %}
                     </div>
-
-                    <!-- Confirm Password -->
                     <div class="col-md-4 input-container">
-                        <label for="{{ form.confirm_password.id_for_label }}">Confirm Password</label>
-                        {{ form.confirm_password|add_class:"form-control" }}
-                        {% for err in form.confirm_password.errors %}
-                        <small class="text-danger">{{err}}</small>
+                        {{form.password}}
+                    </div>
+                    <div class="col-md-4 input-container">
+                        {{form.confirm_password}}
+                        {% for err in form.password2.errors %}
+                        <small class="text-danger">{{ err }}</small>
                         {% endfor %}
                     </div>
                 </div>
 
-
-                <!-- Profile Photo -->
                 <div class="row mb-4">
                     <div class="col-4">
                         <div class="custom-file-input">
@@ -252,21 +216,49 @@
                             Upload Image
                         </div>
                     </div>
+
                 </div>
 
-                <!-- Save button -->
-                <button type="submit" class="btn green-button">Save Changes</button>
-                <a href="{% url 'patient_list' %}" class="btn btn-secondary">Cancel</a>
+                <!-- <div class="col-md-4 date-input-container">
+                    <span id="dob-label">Date of birth</span>
+                    <img src="{% static 'icons/calendar.svg' %}" alt="Calendar" id="calendar-icon">
+                </div> -->
+
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn green-button">Add</button>
+                </div>
             </form>
         </div>
     </div>
+
+    <!-- Link to Bootstrap JavaScript and dependencies (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const dobLabel = document.getElementById('dob-label');
+            const calendarIcon = document.getElementById('calendar-icon');
+
+            calendarIcon.addEventListener('click', function () {
+                const datePicker = new Pikaday({
+                    field: dobLabel, // Use the label as the field
+                    format: 'MM/DD/YYYY', // Change the format as needed
+                    onSelect: function (date) {
+                        dobLabel.textContent = date.toLocaleDateString();
+                        datePicker.destroy(); // Destroy the picker after selecting a date
+                    }
+                });
+
+                datePicker.show(); // Show the picker when the calendar icon is clicked
+            });
+        });
+
+    </script>
+
 </body>
 
+</html>
 
-{% endblock %}
-
-
-
-<!-- Additional JS -->
-{% block additional_js %}
-{% endblock %}
+{% endblock content %}

@@ -1,38 +1,50 @@
-{% extends 'base.html' %}
+
+
+
+{% extends 'reception/base.html' %}
 
 {% block content %}
-  <form id="rescheduleAppointmentForm" method="post">
-    {% csrf_token %}
-    <div class="form-group">
-      <label for="patient">Patient:</label>
-      <select name="patient" id="patient" class="form-control" disabled>
-        <option value="{{ form.patient.value.id }}" selected>{{ form.patient.value }}</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="therapist">Therapist:</label>
-      <select name="therapist" id="therapist" class="form-control">
-        {% for therapist in therapists %}
-          <option value="{{ therapist.id }}" {% if therapist.id == form.therapist.value.id %}selected{% endif %}>{{ therapist.name }}</option>
-        {% endfor %}
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="appointment_date">Appointment Date:</label>
-      <input type="date" name="appointment_date" id="appointment_date" class="form-control" value="{{ form.appointment_date.value|date:'Y-m-d' }}">
-      <div id="dateError" class="text-danger"></div>
-    </div>
-    <div class="form-group">
-      <label for="time_slot">Time Slot:</label>
-      <select name="time_slot" id="time_slot" class="form-control">
-        <!-- Time slots will be populated here -->
-      </select>
-    </div>
-    <div class="form-group">
-      <button type="submit" class="btn btn-primary">Save</button>
-      <a href="{% url 'list_appointments' %}" class="btn btn-danger">Cancel</a>
-    </div>
-  </form>
+<form id="appointmentForm" method="post">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="patient">Patient:</label>
+    <select name="patient" id="patient" class="form-control">
+      <!-- Auto-filled if coming from a specific patient profile -->
+      {% for patient in form.patient %}
+      <option value="{{ patient.id }}">{{ patient }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+
+
+  <div class="form-group">
+    <label for="therapist">Therapist:</label>
+    <select name="therapist" id="therapist" class="form-control">
+      {% for therapist in therapists %}
+      <option value="{{ therapist.id }}">{{ therapist.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="appointment_date">Appointment Date:</label>
+    <input type="date" name="appointment_date" id="appointment_date" class="form-control">
+    <div id="dateError" class="text-danger"></div>
+  </div>
+  <div class="form-group">
+    <label for="time_slot">Time Slot:</label>
+    <select name="time_slot" id="time_slot" class="form-control">
+      <!-- Time slots will be populated here -->
+      {% for timeslot in form.time_slot %}
+      <option value="{{ timeslot.id }}" selected>{{ timeslot}}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a href="{% url 'list_appointments' %}" class="btn btn-danger">Cancel</a>
+  </div>
+</form>
 {% endblock %}
 {% block additional_js %}
 <script>
@@ -68,19 +80,8 @@
   function fetchAvailableSlots() {
     const appointmentDate = document.querySelector('#appointment_date').value;
     if (!selectedTherapistId || !appointmentDate) return;
-    
     const url = `/get_available_slots/?therapist_id=${selectedTherapistId}&appointment_date=${appointmentDate}`;
-    fetch(url)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("Network response was not OK");
-        }
-        return response.json();
-      })
-      .then(data => handleSuccess(data.available_slots))
-      .catch(error => {
-        console.error("Fetch failed:", error);
-      });
+    fetch(url).then(response => response.json()).then(data => handleSuccess(data.available_slots));
   }
 
   // Handle success and populate time slot dropdown
@@ -99,7 +100,7 @@
     const selectedDate = new Date(document.querySelector('#appointment_date').value);
     const weekday = selectedDate.getDay();
     const workingDays = therapists.find(t => t.id === parseInt(selectedTherapistId)).working_days;
-    
+
     const dateError = document.querySelector('#dateError');
     if (!workingDays.includes(weekday)) {
       dateError.textContent = "Therapist is not available on this day.";

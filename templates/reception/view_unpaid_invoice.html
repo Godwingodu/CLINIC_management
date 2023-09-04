@@ -1,11 +1,10 @@
-{% extends 'base.html' %}
+{% extends 'reception/base.html' %}
 
 {% block title %}
-View Paid Invoice
+View Unpaid Invoice
 {% endblock %}
 
 {% block additional_css %}
-<!-- Include any additional CSS specific to this page here -->
 <style>
   .non-editable {
     border: none;
@@ -20,7 +19,7 @@ View Paid Invoice
     <div class="col-md-12">
       <h1>Invoice Details</h1>
       <div class="float-right">
-        <a href="/paid_invoices" class="btn btn-primary">Invoice List</a>
+        <a href="/unpaid_invoices" class="btn btn-primary">Invoice List</a>
         <button id="printButton" class="btn btn-secondary">🖨️ Print</button>
       </div>
     </div>
@@ -41,8 +40,7 @@ View Paid Invoice
 
     <div class="row">
       <div class="col-md-12">
-        <h3>Payment Method: {{ invoice.payment_mode }}</h3>
-        <h3>Payment Status: Paid</h3>
+        <h3>Payment Status: Unpaid</h3>
       </div>
     </div>
 

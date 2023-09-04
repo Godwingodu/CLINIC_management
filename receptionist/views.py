@@ -38,7 +38,7 @@ import io
 
 
 def receptionist_dashboard(request):
-    return render(request, 'receptionist_dashboard.html')
+    return render(request, 'reception/receptionist_dashboard.html')
 
 # Adding a New Patient
 def add_new_patient(request):
@@ -51,7 +51,7 @@ def add_new_patient(request):
     else:
         form = AddPatientForm()
 
-    return render(request, 'add_new_patient.html', {'form': form})
+    return render(request, 'reception/add_new_patient.html', {'form': form})
 
 # Listing Patients with Filtering and Pagination
 def patient_list(request):
@@ -146,7 +146,7 @@ def patient_list(request):
 class PatientProfileView(View):
     def get(self, request, pk):
         patient = get_object_or_404(Patient, id=pk)
-        return render(request, 'patient_profile.html', {'patient': patient})
+        return render(request, 'reception/patient_profile.html', {'patient': patient})
     
 def get_patient_details(request, patient_id):
     patient = get_object_or_404(Patient, id=patient_id)
@@ -186,7 +186,7 @@ def update_patient(request, patient_id):
     else:
         form = AddPatientForm(instance=patient)
 
-    return render(request, 'update_patient.html', {'form': form, 'patient': patient})
+    return render(request, 'reception/update_patient.html', {'form': form, 'patient': patient})
 
 # Deleting a Patient
 def delete_patient(request, patient_id):
@@ -197,7 +197,7 @@ def delete_patient(request, patient_id):
         messages.success(request, f'Patient {patient.name} has been successfully deleted!')
         return redirect('patient_list')
 
-    return render(request, 'delete_patient.html', {'patient': patient})
+    return render(request, 'reception/delete_patient.html', {'patient': patient})
 
 
 
@@ -275,7 +275,7 @@ def add_new_therapist(request):
 
     context['form'] = form
     context['time_slot_fields'] = form.time_slot_fields  # Add the new attribute to the context
-    return render(request, 'add_new_therapist.html', context)
+    return render(request, 'reception/add_new_therapist.html', context)
 
 
 
@@ -315,7 +315,7 @@ def add_new_speciality(request):
             return redirect('add_new_speciality')  # Redirect to show updated list
 
     # Render the template with the form and existing specialities
-    return render(request, 'add_new_speciality.html', {'form': form, 'specialities': specialities})
+    return render(request, 'reception/add_new_speciality.html', {'form': form, 'specialities': specialities})
 
 
 
@@ -351,7 +351,7 @@ def list_therapists(request):
         'is_active_filter': is_active_filter
     }
     
-    return render(request, 'therapist_list.html', context)
+    return render(request, 'reception/therapist_list.html', context)
 
 
 def get_therapist_profile(request, therapist_id):
@@ -397,7 +397,7 @@ def add_prescription(request, appointment_id):
             'patient': appointment.patient,
         })
     
-    return render(request, 'add_prescription.html', {'form': form})
+    return render(request, 'reception/add_prescription.html', {'form': form})
 
 
 
@@ -475,7 +475,7 @@ def schedule_appointment(request, patient_id=None):
         'therapists': therapists_list,
     }
       
-    return render(request, 'schedule_appointment.html', context)
+    return render(request, 'reception/schedule_appointment.html', context)
 
 # Function to get available slots
 def get_available_slots(request, therapist_id, appointment_date):
@@ -563,7 +563,7 @@ def list_appointments(request):
             'status_filter': status_filter
         }
 
-        return render(request, 'list_appointments.html', context)
+        return render(request, 'reception/list_appointments.html', context)
     
 
 # View function to update an appointment
@@ -596,7 +596,7 @@ def update_appointment(request, appointment_id):
         'appointment_id': appointment_id,
     }
 
-    return render(request, 'update_appointment.html', context)
+    return render(request, 'reception/update_appointment.html', context)
 
 
 
@@ -661,7 +661,7 @@ def calendar_view(request):
         'selected_year': selected_year,
     }
 
-    return render(request, 'calendar_view.html', context)
+    return render(request, 'reception/calendar_view.html', context)
 
 
 #ACCOUNTS VIEWS
@@ -724,7 +724,7 @@ def create_invoice(request, appointment_id=None):
         'form': form,
         'formset': formset,
     }
-    return render(request, 'create_invoice.html', context)
+    return render(request, 'reception/create_invoice.html', context)
 
 
 def search_patients(request):
@@ -761,7 +761,7 @@ def invoice_list(request):
         'export_form': export_form,
     }
 
-    return render(request, 'invoice_list.html', context)
+    return render(request, 'reception/invoice_list.html', context)
 
 
 
@@ -879,7 +879,7 @@ def unpaid_invoices(request):
         'page_obj': page_obj,
     }
     
-    return render(request, 'unpaid_invoices.html', context)
+    return render(request, 'reception/unpaid_invoices.html', context)
 
 
  # Make sure to import InvoiceItem
@@ -901,7 +901,7 @@ def view_paid_invoice(request, invoice_id):
         'total': invoice.total_amount,
     }
     
-    return render(request, 'view_paid_invoice.html', context)
+    return render(request, 'reception/view_paid_invoice.html', context)
 
 
 
@@ -923,7 +923,7 @@ def view_unpaid_invoice(request, invoice_id):
         'total': invoice.total_amount,
     }
     
-    return render(request, 'view_unpaid_invoice.html', context)
+    return render(request, 'reception/view_unpaid_invoice.html', context)
 
 
 
@@ -963,4 +963,4 @@ def list_physiotherapists(request):
         'is_active_filter': is_active_filter
     }
     
-    return render(request, 'therapist_list.html', context)
+    return render(request, 'reception/therapist_list.html', context)
