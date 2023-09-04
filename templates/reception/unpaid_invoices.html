@@ -1,5 +1,5 @@
-{% comment %}
-{% extends 'base.html' %}
+
+{% extends 'reception/base.html' %}
 
 {% block title %}
 Unpaid Invoices
@@ -11,15 +11,15 @@ Unpaid Invoices
 
 {% block content %}
 <!-- Navigation Bar -->
-<nav>
+<!-- <nav>
     <div><a href="/invoice_list">All Invoices</a></div>
     <div><a href="/paid_invoices">Paid Invoices</a></div>
     <div><a href="/create_invoice">Create Invoice</a></div>
     <div><a href="/account_settings">Account Settings</a></div>
-</nav>
+</nav> -->
 
 <!-- Search Form -->
-<div class="row">
+<!-- <div class="row">
     <div class="col-md-9">
         <form method="get" action="#">
             {{ search_form.as_p }}
@@ -29,14 +29,20 @@ Unpaid Invoices
     <div class="col-md-3">
         <button id="exportButton">Export</button>
     </div>
-</div>
+</div> -->
+
+<style>
+  table th{
+    background-color: #F2FEFB;
+  }
+</style>
 
 <!-- Invoices Table -->
 <div class="row">
     <div class="col-md-12">
-        <h1>Unpaid Invoices</h1>
+        <h1 style="font-size: 20px; font-size: 30px; margin-bottom: 2rem;">Unpaid Invoices</h1>
         <table class="table table-striped">
-            <thead>
+            <thead style="background-color: #F2FEFB !important;">
                 <tr>
                     <th><input type="checkbox" id="selectAll"></th>
                     <th>No</th>
@@ -161,9 +167,11 @@ $(document).ready(function() {
 </script>
 {% endblock %}
 
-{% endcomment %}
 
-{% load static %}
+
+
+{% comment %}
+
 
 
 <!DOCTYPE html>
@@ -386,3 +394,5 @@ $(document).ready(function() {
   ></script>
   <script src="main.js"></script>
 </html>
+
+{% endcomment %}
