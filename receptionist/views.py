@@ -863,7 +863,7 @@ def paid_invoices(request):
         'page_obj': page_obj,
     }
     
-    return render(request, 'paid_invoices.html', context)
+    return render(request, 'reception/paid_invoices.html', context)
 
 
 def unpaid_invoices(request):

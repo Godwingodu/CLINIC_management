@@ -1,5 +1,6 @@
-{% comment %}
-{% extends 'base.html' %}
+{% extends 'reception/base.html' %}
+
+
 
 {% block title %}
 Paid Invoices
@@ -11,15 +12,15 @@ Paid Invoices
 
 {% block content %}
 <!-- Navigation Bar -->
-<nav>
+<!-- <nav>
     <div><a href="/invoice_list">All Invoices</a></div>
     <div><a href="/unpaid_invoices">Unpaid Invoices</a></div>
     <div><a href="/create_invoice">Create Invoice</a></div>
     <div><a href="/account_settings">Account Settings</a></div>
-</nav>
+</nav> -->
 
 <!-- Search Form -->
-<div class="row">
+<!-- <div class="row">
     <div class="col-md-9">
         <form method="get" action="#">
             {{ search_form.as_p }}
@@ -29,12 +30,12 @@ Paid Invoices
     <div class="col-md-3">
         <button id="exportButton">Export</button>
     </div>
-</div>
+</div> -->
 
 <!-- Invoices Table -->
 <div class="row">
     <div class="col-md-12">
-        <h1>Paid Invoices</h1>
+      <h1 style="font-size: 20px; font-size: 30px; margin-bottom: 2rem;">Paid Invoices</h1>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -160,9 +161,11 @@ $(document).ready(function() {
 </script>
 {% endblock %}
 
-{% endcomment %}
 
-{% load static %}
+
+
+
+{% comment %}
 
 
 <!DOCTYPE html>
@@ -376,3 +379,4 @@ $(document).ready(function() {
   ></script>
   <script src="main.js"></script>
 </html>
+{% endcomment %}

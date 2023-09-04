@@ -10,15 +10,15 @@ Recent Invoices
 
 {% block content %}
 <!-- Navigation Bar -->
-<nav>
+<!-- <nav>
     <div><a href="{% url 'paid_invoices' %}">Paid Invoices</a></div>
     <div><a href="{% url 'unpaid_invoices' %}">Unpaid Invoices</a></div>
     <div><a href="{% url 'create_invoice' %}">Create Invoice</a></div>
     <div><a href="/account_settings">Account Settings</a></div>
-</nav>
+</nav> -->
 
 <!-- Search Form -->
-<div class="row">
+<!-- <div class="row">
     <div class="col-md-9">
         <form method="get" action="#">
             {{ search_form.as_p }}
@@ -28,12 +28,12 @@ Recent Invoices
     <div class="col-md-3">
         <button id="exportButton">Export</button>
     </div>
-</div>
+</div> -->
 
 <!-- Invoices Table -->
 <div class="row">
     <div class="col-md-12">
-        <h1>Recent Invoices</h1>
+        <h1 style="font-size: 20px; font-size: 30px; margin-bottom: 2rem;">Recent Invoices</h1>
         <table class="table table-striped">
             <thead>
                 <tr>
