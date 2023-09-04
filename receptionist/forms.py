@@ -32,7 +32,7 @@ class AddPatientForm(forms.ModelForm):
     phone = forms.CharField(max_length=20, widget=forms.TextInput(
         attrs={'placeholder': 'Phone', 'class': 'form-control'}))
     date_of_birth = forms.DateField(
-        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}))
+        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control', 'placeholder': 'Date of Birth', 'id': 'dateOfBirthInput'}))
     gender = forms.ChoiceField(choices=GENDER_CHOICES, widget=forms.RadioSelect(attrs={'class': 'form-radio'}))
 
     # Medical Information

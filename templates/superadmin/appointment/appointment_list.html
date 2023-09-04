@@ -1,0 +1,178 @@
+{% extends 'superadmin/panel.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/overview_style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/table_styles.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <title>Document</title>
+
+    <style>
+        .status-danger {
+            background-color: #ff8c8c;
+            border-radius: 7px;
+            padding: 2px;
+        }
+
+        .status-success {
+            background-color: #78D596;
+            border-radius: 7px;
+            padding: 2px;
+        }
+
+        .status-warning {
+            background-color: #f4f67b;
+            border-radius: 7px;
+            padding: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- table -->
+    <div class="custom-table-wrapper">
+        <div class="container custom-table-container p-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h4 class="mb-4 mx-2">Appointments</h4>
+                <div class="filter-buttons btn-group" id="filter-buttons">
+                    <a class="filter-button btn px-4 {% if filter == 'today' %}highlight{% endif %}"
+                        href="?filter=today">Today</a>
+                    <a class="filter-button btn px-4 {% if filter == 'upcoming' %}highlight{% endif %}"
+                        href="?filter=upcoming">Upcoming</a>
+                    <a class="filter-button btn px-4 {% if filter == 'completed' %}highlight{% endif %}"
+                        href="?filter=completed">Completed</a>
+                    <a class="filter-button btn px-4 {% if filter == 'cancelled' %}highlight{% endif %}"
+                        href="?filter=cancelled">Cancelled</a>
+                </div>
+            </div>
+
+            <table class="table text-center">
+                {% if filter == 'today' %}
+                <thead class="table-head-bg">
+                    <tr class="">
+                        <th>No.</th>
+                        <th>Name</th>
+                        <th>Doctor Name</th>
+                        <th>Patient Number</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appointment in page.object_list %}
+                    <tr>
+                        <td>{{ appointment.continuous_number }}</td>
+                        <td>{{ appointment.name }}</td>
+                        <td>{{ appointment.doctor_name }}</td>
+                        <td>{{ appointment.patient_number }}</td>
+                        <td>{{ appointment.date }}</td>
+                        <td>{{ appointment.time }}</td>
+                        {% if appointment.status == 'completed' %}
+                        <td>
+                            <div class="status-success">Completed</div>
+                        </td>
+                        {% elif appointment.status == 'upcoming' %}
+                        <td>
+                            <div class="status-warning">Scheduled</div>
+                        </td>
+                        {% elif appointment.status == 'cancelled' %}
+                        <td>
+                            <div class="status-warning">Cancelled</div>
+                        </td>
+                        {% endif %}
+                        <td>
+                            <a href=""><img src="{% static 'icons/actions/gg_menu-round.svg' %}" alt="" /></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                {% else %}
+                <thead class="table-head-bg">
+                    <tr class="">
+                        <th>No.</th>
+                        <th>Name</th>
+                        <th>Doctor Name</th>
+                        <th>Patient Number</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appointment in page.object_list %}
+                    <tr>
+                        <td>{{ appointment.continuous_number }}</td>
+                        <td>{{ appointment.name }}</td>
+                        <td>{{ appointment.doctor_name }}</td>
+                        <td>{{ appointment.patient_number }}</td>
+                        <td>{{ appointment.date }}</td>
+                        <td>{{ appointment.time }}</td>
+                        <td>
+                            <a href=""><img src="{% static 'icons/actions/gg_menu-round.svg' %}" alt="" /></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                {% endif %}
+            </table>
+        </div>
+        <!-- pagination -->
+        <div class="d-flex justify-content-end me-4">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item">
+                        {% if page.has_previous %}
+                        <a class="page-link"
+                            href="{% url 'superadmin_appointments_list' %}?filter={{ filter }}&page={{ page.previous_page_number }}"
+                            aria-label="Previous">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
+                        {% endif %}
+                    </li>
+
+                    {% for num_page in page.paginator.page_range %}
+                    {% if page.number == num_page %}
+                    <li class="page-item active"><a class="page-link"
+                            href="{% url 'superadmin_appointments_list' %}?filter={{ filter }}&page={{ num_page }}">{{num_page}}</a></li>
+
+                    {% else %}
+                    <li class="page-item"><a class="page-link"
+                            href="{% url 'superadmin_appointments_list' %}?filter={{ filter }}&page={{ num_page }}">{{ num_page}}</a></li>
+                    {% endif %}
+                    {% endfor %}
+
+                    <li class="page-item">
+                        {% if page.has_next %}
+                        <a class="page-link"
+                            href="{% url 'superadmin_appointments_list' %}?filter={{ filter }}&page={{ page.next_page_number }}"
+                            aria-label="Next">
+                            <span aria-hidden="true">&gt;</span>
+                        </a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+
+</html>
+
+{% endblock content %}
