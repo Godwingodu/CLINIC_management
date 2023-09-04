@@ -148,10 +148,12 @@ class PatientProfileView(View):
         patient = get_object_or_404(Patient, id=pk)
         return render(request, 'reception/patient_profile.html', {'patient': patient})
     
-def get_patient_details(request, patient_id):
-    patient = get_object_or_404(Patient, id=patient_id)
+def get_patient_details(request, pk):
+    patient = get_object_or_404(Patient, id=pk)
     data = {
         'id': patient.id,
+        'patient_id': patient.patient_id,
+        'image_url': patient.profile_photo.url,
         'name': patient.name,
         'address': patient.address,
         'phone': patient.phone,
@@ -174,8 +176,9 @@ def get_patient_details(request, patient_id):
 
 
 # Updating Patient Information
-def update_patient(request, patient_id):
-    patient = get_object_or_404(Patient, id=patient_id)
+
+def update_patient(request, pk):
+    patient = get_object_or_404(Patient, id=pk)
 
 
     if request.method == 'POST':
@@ -190,9 +193,9 @@ def update_patient(request, patient_id):
     return render(request, 'reception/update_patient.html', {'form': form, 'patient': patient})
 
 # Deleting a Patient
-def delete_patient(request, patient_id):
-    patient = get_object_or_404(Patient, id=patient_id)
 
+def delete_patient(request, pk):
+    patient = get_object_or_404(Patient, id=pk)
     
     if request.method == 'POST':
         patient.delete()

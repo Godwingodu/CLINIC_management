@@ -54,7 +54,6 @@
         .green-button {
             background-color: #78d596 !important;
             color: #ffffff !important;
-            border-radius: 12px !important;
         }
 
         .button-input-container input {
@@ -63,6 +62,35 @@
             width: 35px;
             margin-left: 2px;
         }
+
+        /* style for user profile view */
+        /* Styles for the modal card */
+        .user-profile-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid #ccc;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-content {
+            position: relative;
+        }
+
+        .violet-button {
+            background-color: #A592ED;
+            color: #ffffff;
+        }
+
+        .red-button {
+            background-color: #FF8282;
+            color: #ffffff;
+        }
+
     </style>
 </head>
 
@@ -83,7 +111,7 @@
                             <option value="">All Genders</option>
                             <!-- Populate dynamically -->
                             {% for value, display in form.fields.gender.choices %}
-                            <option value="{{ value }}" {% if form.cleaned_data.gender == value %}selected{% endif %}>{{ display }}</option>
+                            <option value="{{ value }}" {% if form.cleaned_data.gender == value %}selected{% endif %}>{{display }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -94,7 +122,7 @@
                             <option value="">All Locations</option>
                             <!-- Populate dynamically -->
                             {% for location in form.fields.location.queryset %}
-                            <option value="{{ location.id }}" {% if form.cleaned_data.location == location %}selected{% endif %}>
+                            <option value="{{ location.id }}" {% if form.cleaned_data.location == location %}selected{%endif %}>
                                 {{ location.name }}</option>
                             {% endfor %}
                         </select>
@@ -155,11 +183,14 @@
                     <td>{{ patient.date_added|date:"Y-m-d" }}</td>
                     <td>{{ patient.date_added|time:"H:i:s" }}</td>
                     <td>
-                        <a href="{% url 'update_patient' patient.id %}"><img src="{% static 'images/actions/edit_icon.svg' %}" alt=""></a>
-                        <a href="{% url 'delete_patient' patient.id %}"><img src="{% static 'images/actions/delete_icon.svg' %}" alt=""></a>
-                        <a href="{% url 'patient_profile' patient.id %}" data-patient-id="{{ patient.id }}"
+                        <a href="{% url 'update_patient' patient.id %}"><img
+                                src="{% static 'images/actions/edit_icon.svg' %}" alt=""></a>
+                        <a href="{% url 'delete_patient' patient.id %}"><img
+                                src="{% static 'images/actions/delete_icon.svg' %}" alt=""></a>
+                        <!-- <a href="{% url 'patient_profile' patient.id %}" data-patient-id="{{ patient.id }}"
                             data-toggle="modal" data-target="#patientProfileModal"><img src="{% static 'images/actions/eye_icon_dark.svg' %}" alt="">
-                        </a>
+                        </a> -->
+                        <button class="view-button" data-user-id={{patient.id}}>View</button>
                     </td>
                 </tr>
                 {% endfor %}
@@ -170,33 +201,41 @@
 
 <!-- Pagination using Bootstrap styles -->
 <div class="d-flex justify-content-end">
-<nav aria-label="Page navigation example">
-    <ul class="pagination">
-        {% if page_obj.has_previous %}
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
 
-        <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
-        <li class="page-item"><a class="page-link" href="?page={{ patients.previous_page_number }}">Previous</a></li>
-        {% else %}
-        <li class="page-item disabled"><a class="page-link" href="#">First</a></li>
-        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-        {% endif %}
+            <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ patients.previous_page_number }}">Previous</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><a class="page-link" href="#">First</a></li>
+            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+            {% endif %}
 
-        <!-- Add a few page numbers around the current page (optional) -->
+            <!-- Add a few page numbers around the current page (optional) -->
 
-        <li class="page-item active">
-            <a class="page-link" href="?page={{ patients.number }}">{{ patients.number }} <span
-                    class="sr-only">{{  page_obj.number }}</span></a>
-        </li>
+            <li class="page-item active">
+                <a class="page-link" href="?page={{ patients.number }}">{{ patients.number }} <span class="sr-only">
+                    {{ page_obj.number }}</span></a>
+            </li>
 
-        {% if patients.has_next %}
-        <li class="page-item"><a class="page-link" href="?page={{ patients.next_page_number }}">Next</a></li>
-        <li class="page-item"><a class="page-link" href="?page={{ patients.paginator.num_pages }}">Last</a></li>
-        {% else %}
-        <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
-        <li class="page-item disabled"><a class="page-link" href="#">Last</a></li>
-        {% endif %}
-    </ul>
-</nav>
+            {% if patients.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ patients.next_page_number }}">Next</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ patients.paginator.num_pages }}">Last</a></li>
+            {% else %}
+            <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+            <li class="page-item disabled"><a class="page-link" href="#">Last</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+
+<div class="user-profile-modal rounded-4">
+    <div class="modal-content">
+
+    </div>
 </div>
 
 
@@ -204,31 +243,74 @@
 {% endblock %}
 
 {% block additional_js %}
+
 <script>
-    $(".view-profile").click(function () {
-        const patientId = $(this).data("patient-id");
-        showPatientProfile(patientId);
-    });
+    const viewButtons = document.querySelectorAll(".view-button");
+const modal = document.querySelector(".user-profile-modal");
+const modalContent = modal.querySelector(".modal-content");
 
-    function showPatientProfile(patientId) {
-        $.ajax({
-            url: `/path_to_get_patient_details/${patientId}/`,
+// Function to open the modal and display user profile
+function openUserProfile(userId) {
+    // Fetch user profile data from the server
+    fetch(`/reception/get_patient_details/${userId}/`)
+        .then((response) => response.json())
+        .then((userProfileData) => {
+            // Create HTML content for the user profile
+            const userProfileHtml = `
+            <div class="row mb-2">
+                <div class="col-md-6"> <!-- Left column for image -->
+                    <div class="image-container">
+                        <img src="${userProfileData.image_url}" alt="Profile Image" class="img-fluid rounded-circle mb-3" style="max-width: 150px;">
+                    </div>
+                </div>
+                <div class="col-md-6"> <!-- Right column for details -->
+                    <div class="text-container d-flex flex-column justify-content-center px-3">
+                        <div class="mb-3">Mr. ${userProfileData.name}</div>
+                        <div class="lead">${userProfileData.patient_id}</div>
+                        <div class="lead">${userProfileData.phone}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="button-container d-flex flex-column justify-content-around">
+                    <a href="#" class="btn violet-button mb-2">Add Treatment Package</a>
+                    <a href="#" class="btn red-button mb-2">Schedule  Appointment</a>
+                    <a href="#" class="btn green-button mb-2">Create Invoice</a>
+                </div>
+            </div>
+            `;
 
-            method: "GET",
-            success: function (data) {
-                fillProfilePopup(data);
-            },
-            error: function (err) {
-                console.error("Error fetching patient data", err);
-            }
+            // Set the modal content
+            modalContent.innerHTML = userProfileHtml;
+
+            // Display the modal
+            modal.style.display = "block";
+        })
+        .catch((error) => {
+            console.error("Error fetching user profile:", error);
         });
-    }
+}
 
-    $(".view-profile").click(function () {
-        const patientId = $(this).data("patient-id");
-        showPatientProfile(patientId);
+// Function to close the modal
+function closeModal() {
+    modal.style.display = "none";
+}
+
+// Event listeners
+viewButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+        const userId = button.getAttribute("data-user-id");
+        openUserProfile(userId);
     });
+});
 
+
+// Event listener to close the modal when clicking outside of it
+document.addEventListener("click", (event) => {
+    if (!modal.contains(event.target)) {
+        closeModal();
+    }
+});
 </script>
 
 {% endblock %}

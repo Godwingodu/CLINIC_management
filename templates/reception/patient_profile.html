@@ -1,234 +1,79 @@
-{% extends 'reception/base.html' %}
+{% extends "base.html" %}
+
 {% load static %}
 
+
 {% block content %}
-
-<head>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <style>
-        .custom-table-wrapper {
-            padding: 4px;
-            background-color: #f9f9f9;
-            border-radius: 20px;
-        }
-
-        .custom-table-container {
-            background-color: #f9f9f9;
-            border-radius: 12px;
-        }
-
-        .container {
-            overflow-x: auto;
-        }
-
-        table {
-            font-weight: 500;
-            background-color: #ffffff;
-            border-radius: 20px;
-        }
-
-        .rounded-table {
-            border-collapse: collapse;
-            border-radius: 20px;
-            overflow: hidden;
-            /* This is important to ensure the border-radius works as expected */
-        }
-
-        .table th,
-        td {
-            border: none !important;
-            vertical-align: middle;
-            background-color: transparent !important;
-        }
-
-        table thead {
-            background-color: #f5f7fb;
-            border-radius: 20px 20px 0 0 !important;
-        }
-
-        .table tbody {
-            background-color: #ffffff;
-            border-radius: 0 0 20px 20px !important;
-        }
-
-        .green-button {
-            background-color: #78d596 !important;
-            color: #ffffff !important;
-            border-radius: 12px !important;
-        }
-
-        .button-input-container input {
-            border: none !important;
-            border-radius: 5px !important;
-            width: 35px;
-            margin-left: 2px;
-        }
-    </style>
-</head>
-
-
-<div class="custom-table-wrapper">
-    <div class="container custom-table-container p-4">
-        <div class="d-flex flex-row justify-content-between align-items-center">
-            <form method="get" action=".">
-                <div class="row">
-                    <!-- Search by Name -->
-                    <div class="col-md-3">
-                        <input type="text" class="form-control" name="name" placeholder="Search by name...">
-                    </div>
-
-                    <!-- Gender Dropdown -->
-                    <div class="col-md-2">
-                        <select class="custom-select" name="gender">
-                            <option value="">All Genders</option>
-                            <!-- Populate dynamically -->
-                            {% for value, display in form.fields.gender.choices %}
-                            <option value="{{ value }}" {% if form.cleaned_data.gender == value %}selected{% endif %}>{{ display }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-
-                    <!-- Location Dropdown -->
-                    <div class="col-md-2">
-                        <select class="custom-select" name="location">
-                            <option value="">All Locations</option>
-                            <!-- Populate dynamically -->
-                            {% for location in form.fields.location.queryset %}
-                            <option value="{{ location.id }}" {% if form.cleaned_data.location == location %}selected{% endif %}>
-                                {{ location.name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-
-                    <!-- Date Range -->
-                    <div class="col-md-2">
-                        <input type="date" class="form-control" name="date_added_from">
-                    </div>
-                    <div class="col-md-2">
-                        <input type="date" class="form-control" name="date_added_to">
-                    </div>
-
-                    <!-- Export to Excel and PDF and Add Patient -->
-                    <div class="col-md-1">
-                        <button class="btn green-button" type="submit" name="export_excel">Export Excel</button>
-                    </div>
-                    <div class="col-md-1">
-                        <button class="btn green-button" type="submit" name="export_pdf">Export PDF</button>
-                    </div>
-                    <div class="col-md-2">
-                        <a class="btn green-button" href="{% url 'add_new_patient' %}">Add Patient</a>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-
-        <table class="table table-hover rounded-table text-center">
-            <thead class="table-head-bg">
-                <tr>
-                    <th scope="col">No.</th>
-                    <th scope="col">
-                        <div class="custom-control custom-checkbox">
-                            <!-- <input type="checkbox" class="custom-control-input" id="select_all"> -->
-                            <label class="custom-control-label" for="select_all"></label> Patient Name
-                        </div>
-                    </th>
-                    <th scope="col">Gender</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Time</th>
-                    <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for patient in page_obj.object_list %}
-                <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
-                    <td>
-                        <div class="custom-control custom-checkbox">
-                            <!-- <input type="checkbox" class="custom-control-input" name="patient" value="{{ patient.id }}"
-                            id="patient-{{ patient.id }}">
-                        <label class="custom-control-label" for="patient-{{ patient.id }}"></label> -->
-                            {{ patient.name }}
-                        </div>
-                    </td>
-                    <td>{{ patient.gender }}</td>
-                    <td>{{ patient.date_added|date:"Y-m-d" }}</td>
-                    <td>{{ patient.date_added|time:"H:i:s" }}</td>
-                    <td>
-                        <a href="{% url 'update_patient' patient.id %}"><img src="{% static 'images/actions/edit_icon.svg' %}" alt=""></a>
-                        <a href="{% url 'delete_patient' patient.id %}"><img src="{% static 'images/actions/delete_icon.svg' %}" alt=""></a>
-                        <a href="{% url 'patient_profile' patient.id %}" data-patient-id="{{ patient.id }}"
-                            data-toggle="modal" data-target="#patientProfileModal"><img src="{% static 'images/actions/eye_icon_dark.svg' %}" alt="">
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<!-- Profile Popup Card -->
+<div class="profile-card" id="profileCard">
+    <!-- Patient Profile Picture -->
+    <div class="profile-picture">
+        {{ patient.profile_photo.url }}
+        {% if patient.profile_photo %}
+            <img id="profileImg" src="{{ patient.profile_photo.url }}" alt="{{ patient.name }}'s Profile Picture">
+        {% else %}
+            <img id="profileImg" src="{% static 'images/bear.png' %}" alt="Blank Profile Picture">
+        {% endif %}
     </div>
-</div>
 
-<!-- Pagination using Bootstrap styles -->
-<div class="d-flex justify-content-end">
-<nav aria-label="Page navigation example">
-    <ul class="pagination">
-        {% if page_obj.has_previous %}
+    <!-- Patient Details -->
+    <div class="patient-details">
+        <h2 id="patientName">{{ patient.name }}</h2>
 
-        <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
-        <li class="page-item"><a class="page-link" href="?page={{ patients.previous_page_number }}">Previous</a></li>
+        <p><strong>ID:</strong> <span id="patientID">{{ patient.patient_id }}</span></p>
+        <p><strong>Phone:</strong> <span id="patientPhone">{{ patient.phone }}</span></p>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="profile-actions">
+        <a href="#" class="btn">Add Treatment Package</a>
+        {% comment %}    //{% url 'treatment_package_view' patient.patient_id %} {% endcomment %}
+        {% if patient.id %}
+        <a href="{% url 'schedule_appointment_with_patient' patient.id %}" class="btn">Schedule Appointment</a>
         {% else %}
-        <li class="page-item disabled"><a class="page-link" href="#">First</a></li>
-        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+        <!-- Handle this situation differently -->
         {% endif %}
+        <a href="{% url 'create_invoice' %}" class="btn">Create Invoice</a>
 
-        <!-- Add a few page numbers around the current page (optional) -->
+    </div>
 
-        <li class="page-item active">
-            <a class="page-link" href="?page={{ patients.number }}">{{ patients.number }} <span
-                    class="sr-only">{{  page_obj.number }}</span></a>
-        </li>
-
-        {% if patients.has_next %}
-        <li class="page-item"><a class="page-link" href="?page={{ patients.next_page_number }}">Next</a></li>
-        <li class="page-item"><a class="page-link" href="?page={{ patients.paginator.num_pages }}">Last</a></li>
-        {% else %}
-        <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
-        <li class="page-item disabled"><a class="page-link" href="#">Last</a></li>
-        {% endif %}
-    </ul>
-</nav>
+    <!-- Close Button for Popup -->
+    <button class="close-btn" onclick="closeProfilePopup()">X</button>
 </div>
-
-
 
 {% endblock %}
-
 {% block additional_js %}
 <script>
-    $(".view-profile").click(function () {
-        const patientId = $(this).data("patient-id");
-        showPatientProfile(patientId);
-    });
-
     function showPatientProfile(patientId) {
         $.ajax({
-            url: `/path_to_get_patient_details/${patientId}/`,
-
+            url: `/path_to_get_patient_details/${patientId}/`, // Update with your API endpoint
             method: "GET",
-            success: function (data) {
+            success: function(data) {
                 fillProfilePopup(data);
             },
-            error: function (err) {
+            error: function(err) {
                 console.error("Error fetching patient data", err);
             }
         });
     }
-
-    $(".view-profile").click(function () {
-        const patientId = $(this).data("patient-id");
-        showPatientProfile(patientId);
-    });
-
+    
+    function fillProfilePopup(data) {
+        // Fill the profile card using the received data
+        $("#profileImg").attr("src", data.profile_photo || "{% static 'path_to_blank_image.jpg' %}");
+        $("#patientName").text(data.username);
+        $("#patientID").text(data.id);
+        $("#patientPhone").text(data.phone);
+    
+        // Now show the profile card
+        $(".profile-overlay").fadeIn();
+        $("#profileCard").fadeIn();
+    }
+    
+    function closeProfilePopup() {
+        // Hide the profile card and overlay
+        $(".profile-overlay").fadeOut();
+        $("#profileCard").fadeOut();
+    }
+  
 </script>
-
 {% endblock %}
