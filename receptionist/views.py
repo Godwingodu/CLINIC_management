@@ -471,12 +471,12 @@ def schedule_appointment(request, patient_id=None):
             'working_days': list(therapist.working_days.values_list('weekday_number', flat=True)),
         }
         therapists_list.append(therapist_dict)
-
+                
     context = {
         'form': form,
-        'therapists': json.dumps(therapists_list),
+        'therapists': therapists_list,
     }
-
+      
     return render(request, 'schedule_appointment.html', context)
 
 # Function to get available slots
