@@ -261,12 +261,14 @@ def add_new_therapist(request):
                             start, end = time.split("-")
                             new_time_slot = TimeSlot.objects.create(start_time=start, end_time=end)
                             working_day_rel.time_slots.add(new_time_slot)
-
+                    
+                    print("Therapist added successfully")
                     return redirect('therapist_list')
 
             except IntegrityError as e:  # Changed Exception to IntegrityError
                 context['error'] = f"Integrity Error: {e}"
                 transaction.rollback()
+                print(f"Error: {e}")
             except Exception as e:  # General exception
                 context['error'] = str(e)
                 transaction.rollback()
@@ -929,3 +931,38 @@ def view_unpaid_invoice(request, invoice_id):
 
 
 
+
+# reception physiotherapist views
+
+def list_physiotherapists(request):
+    # Receive query parameters for filtering and pagination
+    search_query = request.GET.get('search', '')
+    is_active_filter = request.GET.get('is_active', None)
+    page_number = request.GET.get('page', 1)
+    
+    # Create the initial QuerySet
+    queryset = Therapist.objects.select_related('branch').prefetch_related('specialities')
+    
+    # Apply search and filter conditions
+    if search_query:
+        queryset = queryset.filter(
+            Q(name__icontains=search_query) | 
+            Q(branch__name__icontains=search_query) |
+            Q(specialities__name__icontains=search_query)
+        ).distinct()
+    
+    if is_active_filter is not None:
+        is_active = bool(int(is_active_filter))
+        queryset = queryset.filter(is_active=is_active)
+        
+    # Apply pagination
+    paginator = Paginator(queryset, 10)  # Show 10 therapists per page
+    therapists = paginator.get_page(page_number)
+    
+    context = {
+        'therapists': therapists,
+        'search_query': search_query,
+        'is_active_filter': is_active_filter
+    }
+    
+    return render(request, 'therapist_list.html', context)
