@@ -18,6 +18,64 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap"
             rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+
+
+        <style>
+            /* Custom Styles */
+            .sidebar {
+        width: 280px;
+        min-height: 100vh;
+        background-color: #ffffff;
+        color: #000000;
+    }
+            .logo_item {
+                padding: 20px 20px;
+            }
+    
+            .nav_link {
+                padding: 15px 20px;
+                display: flex;
+                align-items: center;
+                text-decoration: none;
+                color: #000000;
+                transition: background-color 0.3s ease;
+            }
+    
+            .nav_link:hover {
+                background-color: #2D3143;
+            }
+    
+            .navlink_icon {
+                margin-right: 10px;
+            }
+    
+            .dropdown-menu {
+                display: none;
+            }
+    
+            .nav-item:hover .dropdown-menu {
+                display: block;
+                position: absolute;
+                background-color: #ffffff;
+                border: 1px solid #2D3143;
+                margin-top: -1px;
+                margin-left: 280px;
+            }
+    
+            .dropdown-item {
+                padding: 10px 20px;
+                display: block;
+                text-decoration: none;
+                color: #000000;
+                transition: background-color 0.3s ease;
+            }
+    
+            .dropdown-item:hover {
+                background-color: #2D3143;
+                color: #FFFFFF;
+            }
+        </style>
     
     {% block additional_css %}
     {% endblock %}
@@ -46,8 +104,8 @@
             </li>
 
             <!-- Physiotherapist Dropdown -->
-            <li class="nav-item dropdown">
-                <a class="nav_link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <li class="nav-item">
+                <a class="nav_link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="navlink_icon">
                         <img src="{% static 'images/panel/doctor.svg' %}" alt="">
                     </span>
@@ -58,12 +116,12 @@
                     <li><a class="dropdown-item" href="{% url 'list_therapists' %}">List Therapists</a></li>
                 </ul>
             </li>
-            
+
             <!-- Other Dropdowns with same classes -->
-            
+
             <!-- Appointments Dropdown -->
-            <li class="nav-item dropdown">
-                <a class="nav_link dropdown-toggle" href="#" id="navbarDropdownAppointments" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <li class="nav-item">
+                <a class="nav_link" href="#" id="navbarDropdownAppointments" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="navlink_icon">
                         <img src="{% static 'images/panel/icon-park-solid_order.svg' %}" alt="">
                     </span>
@@ -77,8 +135,8 @@
             </li>
 
             <!-- Patient Dropdown -->
-            <li class="nav-item dropdown">
-                <a class="nav_link dropdown-toggle" href="#" id="navbarDropdownPatient" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <li class="nav-item">
+                <a class="nav_link" href="#" id="navbarDropdownPatient" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="navlink_icon">
                         <img src="{% static 'images/panel/patient_list.svg' %}" alt="">
                     </span>
@@ -91,8 +149,8 @@
             </li>
 
             <!-- Accounts Dropdown -->
-            <li class="nav-item dropdown">
-                <a class="nav_link dropdown-toggle" href="#" id="navbarDropdownAccounts" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <li class="nav-item">
+                <a class="nav_link" href="#" id="navbarDropdownAccounts" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="navlink_icon">
                         <img src="{% static 'images/panel/moneybag.svg' %}" alt="">
                     </span>
@@ -109,6 +167,7 @@
         </ul>
     </div>
 </nav>
+
 
     <!-- main content -->
 
