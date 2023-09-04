@@ -140,7 +140,7 @@ def patient_list(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'patient_list.html', {'form': form, 'page_obj': page_obj})
+    return render(request, 'reception/patient_list.html', {'form': form, 'page_obj': page_obj})
 
 # Viewing a Single Patient Profile
 class PatientProfileView(View):
@@ -175,7 +175,8 @@ def get_patient_details(request, patient_id):
 
 # Updating Patient Information
 def update_patient(request, patient_id):
-    patient = get_object_or_404(Patient, patient_id=patient_id)
+    patient = get_object_or_404(Patient, id=patient_id)
+
 
     if request.method == 'POST':
         form = AddPatientForm(request.POST, request.FILES, instance=patient)
@@ -190,7 +191,8 @@ def update_patient(request, patient_id):
 
 # Deleting a Patient
 def delete_patient(request, patient_id):
-    patient = get_object_or_404(Patient, patient_id=patient_id)
+    patient = get_object_or_404(Patient, id=patient_id)
+
     
     if request.method == 'POST':
         patient.delete()
