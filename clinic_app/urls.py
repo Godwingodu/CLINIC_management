@@ -23,8 +23,11 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('receptionist.urls')),  
-    path('superadmin/', include('superadmin.urls'))
+    path('reception/', include('receptionist.urls')),  
+    path('superadmin/', include('superadmin.urls')),
+    path('patient/', include('patient.urls')),
+    path('therapist/', include('therapist.urls')),
+    
 ]
  
 if settings.DEBUG:

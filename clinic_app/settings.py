@@ -48,6 +48,8 @@ INSTALLED_APPS = [
 
     'superadmin',
     'phonenumber_field',
+    'patient',
+    'therapist'
 ]
     
 
