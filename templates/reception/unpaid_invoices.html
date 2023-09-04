@@ -1,5 +1,6 @@
 
 {% extends 'reception/base.html' %}
+{% load static %}
 
 {% block title %}
 Unpaid Invoices
@@ -32,15 +33,84 @@ Unpaid Invoices
 </div> -->
 
 <style>
-  table th{
-    background-color: #F2FEFB;
-  }
+  .create-invoice {
+   border: none;
+   width: 97% !important;
+   height: 11rem;
+   margin-bottom: 4rem;
+   border-radius: 22px;
+   background-color: #6196C6;
+   font-size: 24px;
+   color: #000;
+   margin: 0 auto;
+   height: 10rem;
+   margin-bottom: 3rem;
+   }
+   .custom-inner-wrapper {
+       background-color: #f9f9f9;
+       padding: 38px 21px;
+       width: 125rem;
+   height: 125rem;
+   }
+
+   .create-invoice {
+       display: flex;
+       align-items: center; /* Vertically align content */
+       width: 1252px;
+   }
+
+   .create-invoice img {
+       max-width: 100%; /* Ensure the image does not exceed the button's width */
+       margin-right: 10px; /* Add some spacing between the image and text */
+   }
+
+   .green-btn{
+     width: 6rem;
+   height: 3rem;
+   border-radius: 11px;
+   margin-left: 2rem;
+   }
+   .export-btn{
+     background-color: #78D596;
+   width: 3rem;
+   height: 3rem;
+   border-radius: 10px;
+   margin-left: 2rem;
+   color: #fff !important;
+   
+   
+   }
 </style>
 
 <!-- Invoices Table -->
 <div class="row">
+  <button class="create-invoice" style="width: 1252px">
+    <img src="{% static 'images/unpaid-invoice.png' %}" alt="" style="margin-left: 5rem" />
+    <p style="font-size: 24px; color: #000">Unpaid Invoice</p>
+</button>
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <h1 style="font-size: 20px; font-size: 30px; margin-bottom: 2rem;">Unpaid Invoices</h1>
+  <div>
+    <div class="row">
+      <div class="col-md-3">
+          <form method="get" action="#">
+              {{ search_form.as_p }}
+              <button type="submit" style="background-color: #78D596; color: #fff;" class="green-btn"><img src="{% static 'images/actions/search-white.svg' %}" alt="" style="margin-left: -7px;
+                margin-top: -1px;">Search</button>
+          </form>
+      </div>
+      <div class="col-md-3">
+          <button id="exportButton" style="background-color: #78D596; color: #fff;" class="green-btn"><img src="{% static 'images/actions/export.svg' %}" alt="" style="margin-left: -7px;
+            margin-top: -1px;">Export</button>
+      </div>
+      <div class="col-md-3">
+        <button id="exportButton" style="background-color: #78D596;" class="export-btn"><img src="{% static 'images/actions/filter.svg' %}" alt=""></button>
+    </div>
+  </div>
+</div>
+</div>
     <div class="col-md-12">
-        <h1 style="font-size: 20px; font-size: 30px; margin-bottom: 2rem;">Unpaid Invoices</h1>
+        
         <table class="table table-striped">
             <thead style="background-color: #F2FEFB !important;">
                 <tr>
