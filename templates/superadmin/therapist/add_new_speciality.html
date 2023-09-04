@@ -1,0 +1,117 @@
+{% extends 'superadmin/panel.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{% static 'css/add_new_speciality_style.css' %}" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
+
+  <!-- google font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="custom-inner-wrapper">
+    <div class="container custom-container p-5">
+      <h4 class="mb-5">Add New Speciality</h4>
+      <form method="post" action="">
+        {% csrf_token %}
+        <div class="row mb-4 d-flex align-items-center">
+          <div class="col-md-5 input-container">
+            {{form.name}}
+            {% for err in form.name.errors %}
+            <small class="text-danger">{{err}}</small>
+            {% endfor %}
+          </div>
+          <div class="col-md-5 input-container">
+            {{form.description}}
+            {% for err in form.description.errors %}
+            <small class="text-danger">{{err}}</small>
+            {% endfor %}
+          </div>
+
+          <div class="col-md-2">
+            <button type="submit" class="btn button-custom px-4"><img
+                src="{% static 'icons/branch_list/akar-icons_plus.svg' %}" alt="">Add</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <div class="custom-table-wrapper">
+    <div class="container custom-table-container p-4">
+      <h4 class="mb-4 mx-5">Specialities</h4>
+      <div class="row">
+        <div class="col-6">
+          <table class="table text-center">
+            <thead class="table-head-bg">
+              <tr class="">
+                <th>No.</th>
+                <th>Name</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="">
+                <td>1</td>
+                <td>Mr Famith Qube</td>
+                <td>
+                  <a href=""><img src="./images/carbon_view.svg" alt="" /></a>
+                  <a href=""><img src="./images/ri_edit-fill.svg" alt="" /></a>
+                </td>
+              </tr>
+
+              <tr class="">
+                <td>2</td>
+                <td>Ms Janitha Jinham</td>
+                <td>
+                  <a href=""><img src="./images/carbon_view.svg" alt="" /></a>
+                  <a href=""><img src="./images/ri_edit-fill.svg" alt="" /></a>
+                </td>
+              </tr>
+              <tr class="">
+                <td>3</td>
+                <td>Mr Famith Qube</td>
+                <td>
+                  <a href=""><img src="./images/carbon_view.svg" alt="" /></a>
+                  <a href=""><img src="./images/ri_edit-fill.svg" alt="" /></a>
+                </td>
+              </tr>
+
+              <tr class="">
+                <td>4</td>
+                <td>Ms Janitha Jinham</td>
+                <td>
+                  <a href=""><img src="./images/carbon_view.svg" alt="" /></a>
+                  <a href=""><img src="./images/ri_edit-fill.svg" alt="" /></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+
+</html>
+
+{% endblock content %}

@@ -1,0 +1,23 @@
+# Ignore database files
+db.sqlite3
+
+# Ignore Python virtual environment folders (if you're using venv or virtualenv)
+venv/
+.venv/
+
+# Ignore log files
+*.log
+
+# Ignore media files (if you use Django's MEDIA_ROOT)
+media/
+
+
+# Ignore local development settings (if you use settings.local.py)
+settings/local.py
+
+# Ignore secret keys and sensitive information
+.env
+
+# Ignore compiled Python files
+__pycache__/
+*.pyc

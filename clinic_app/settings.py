@@ -44,7 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'receptionist.apps.ReceptionistConfig',
-    'widget_tweaks'
+    'widget_tweaks',
+
+    'superadmin',
+    'phonenumber_field',
 ]
     
 

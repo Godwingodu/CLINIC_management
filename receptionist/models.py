@@ -99,9 +99,8 @@ class Patient(models.Model):
     weight = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     blood_group = models.CharField(max_length=5, choices=BLOOD_GROUP_CHOICES, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
-    profile_photo = models.ImageField(upload_to='receptionist/patients/', default='path/to/default/image.jpg')
+    profile_photo = models.ImageField(upload_to='receptionist/patients/', default='default/bear.png')
     
-    # Login Information
     # Login Information
     email = models.EmailField(max_length=255, unique=True, default='unknown@email.com') 
 
