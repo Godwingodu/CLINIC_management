@@ -8,8 +8,8 @@ urlpatterns = [
     # Patient URLs
     path('patient/add/', views.add_new_patient, name='add_new_patient'),
     path('patient/list/', views.patient_list, name='patient_list'),
-    path('patient/profile/<int:patient_id>/', views.PatientProfileView.as_view(), name='patient_profile'),
-    path('patient/update/<int:patient_id>/', views.update_patient, name='update_patient'),
+    path('patient/profile/<int:pk>/', views.PatientProfileView.as_view(), name='patient_profile'),
+    path('patient/update/<int:pk>/', views.update_patient, name='update_patient'),
     path('patient/delete/<int:patient_id>/', views.delete_patient, name='delete_patient'),
     path('path_to_get_patient_details/<int:patient_id>/', views.get_patient_details, name='get_patient_details'),
 
