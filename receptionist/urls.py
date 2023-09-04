@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views  # Import the views module, rather than all individual views
+from receptionist import views  # Import the views module, rather than all individual views
 
 urlpatterns = [
     # Receptionist Dashboard

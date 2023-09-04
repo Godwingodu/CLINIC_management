@@ -64,7 +64,7 @@ class TherapistList(TemplateView):
 
 class AddNewTherapist(FormView):
     form_class = TherapistCreationForm
-    template_name = 'superadmin/therapist/add_new_therapist.html'
+    template_name = 'receptionist/therapist/add_new_therapist.html'
 
 
 class AddNewSpeciality(FormView):
