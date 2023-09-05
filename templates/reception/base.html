@@ -80,8 +80,9 @@
             .logo_img {
             margin-top: 1px;
             margin-left: 15px;
-            width: 186px;
-            height: 60px;
+            width: 165px;
+            height: 55px;
+
             }
 
             .super-admin-container{
@@ -97,6 +98,28 @@
             .sidebar-ico{
                 width: 41%;
             }
+            .search_bar input{
+                font-size: 15px;
+            }
+            .super-admin-container{
+                height: 47px;
+                width: 13rem;
+            }
+
+            .search_bar input {
+            font-size: 14px;
+            }
+            .admin-img{
+                width: 7%;
+            }
+            .main-text{
+                font-size: 14px !important;
+            }
+
+            .container {
+            width: 100% !important;
+            }
+
         </style>
     
     {% block additional_css %}
@@ -203,7 +226,7 @@
         <div class="container-fluid g-0">
             <div class="row">
                 <div class="col-lg-12 p-0">
-                    <div class="header_iner d-flex justify-content-between align-items-center">
+                    <div class="header_iner d-flex justify-content-between align-items-center" style="margin-bottom: -2rem;">
                         <div class="toggle-switch">
                             <i class="bx bx-menu" id="sidebarOpen"></i>
                         </div>
@@ -215,7 +238,8 @@
 
 
                         <div class="navbar_content">
-                            <div class="notification-container">
+                            <div class="notification-container" style="width: 9%;
+                            height: 21%;">
                                 <img src="{% static 'images/panel/bell.svg' %}" alt="" />
                             </div>
                             <div class="super-admin-container">
