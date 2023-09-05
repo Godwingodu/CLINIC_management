@@ -93,9 +93,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'clinic_management',
         'USER': 'root',
-        'PASSWORD': '12345678',
-        'HOST': 'localhost',  # or the hostname where your MySQL server is running
-        'PORT': '3306',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '3308',
     }
 }
 

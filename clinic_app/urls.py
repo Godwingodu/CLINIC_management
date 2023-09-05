@@ -20,9 +20,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from receptionist.views import Index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('',Index,name='index'),
     path('reception/', include('receptionist.urls')),  
     path('superadmin/', include('superadmin.urls')),
     path('patient/', include('patient.urls')),
