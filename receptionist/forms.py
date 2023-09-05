@@ -328,15 +328,24 @@ class PrescriptionForm(forms.ModelForm):
 
 
 class AppointmentForm(forms.ModelForm):
+    speciality_filter = forms.ModelChoiceField(
+        queryset=Speciality.objects.all(),
+        empty_label="Department",
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-select'}),
+    )
+
     class Meta:
         model = Appointment
-        fields = ['patient', 'therapist', 'appointment_date', 'time_slot', 'status']
+        fields = ['patient', 'therapist', 'appointment_date', 'time_slot', 'status', 'remarks']
         widgets = {
-            'patient': forms.Select(attrs={'class': 'form-control'}),
-            'therapist': forms.Select(attrs={'class': 'form-control'}),
+            'patient': forms.Select(attrs={'class': 'form-select'}),
+            # 'speciality': forms.Select(attrs={'class: form-select'}),
+            'therapist': forms.Select(attrs={'class': 'form-select'}),
             'appointment_date': forms.DateInput(attrs={'class': 'form-control datepicker'}),
-            'time_slot': forms.Select(attrs={'class': 'form-control'}),
+            'time_slot': forms.Select(attrs={'class': 'form-select'}),
             'status': forms.Select(attrs={'class': 'form-control'}),
+            'remarks': forms.Textarea(attrs={'class': 'form-textarea'})
         }
         
 
@@ -355,6 +364,19 @@ class AppointmentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         patient = kwargs.pop('patient', None)
         super().__init__(*args, **kwargs)
+
+        self.fields['patient'].empty_label = "Select patient"
+        self.fields['therapist'].empty_label = "Doctor"
+        self.fields['time_slot'].empty_label = "Select time slot"
+        self.fields['status'].empty_label = "Select status"
+
+        if 'speciality_filter' in self.data:
+            speciality_id = int(self.data.get('speciality_filter'))
+            # Modify the queryset for 'therapist' field based on the selected speciality
+            self.fields['therapist'].queryset = Therapist.objects.filter(speciality=speciality_id)
+
+
+
 
         if patient:
             self.fields['patient'].initial = patient

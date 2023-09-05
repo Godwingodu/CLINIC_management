@@ -21,3 +21,5 @@ settings/local.py
 # Ignore compiled Python files
 __pycache__/
 *.pyc
+
+settings.py

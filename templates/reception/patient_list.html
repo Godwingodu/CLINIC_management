@@ -182,7 +182,7 @@
                     <td>{{ patient.gender }}</td>
                     <td>{{ patient.date_added|date:"Y-m-d" }}</td>
                     <td>{{ patient.date_added|time:"H:i:s" }}</td>
-                    <td>
+                    <td class="d-flex flex-row align-items-center justify-content-center">
                         <a href="{% url 'update_patient' patient.id %}"><img
                                 src="{% static 'images/actions/edit_icon.svg' %}" alt=""></a>
                         <a href="{% url 'delete_patient' patient.id %}"><img
@@ -190,7 +190,7 @@
                         <!-- <a href="{% url 'patient_profile' patient.id %}" data-patient-id="{{ patient.id }}"
                             data-toggle="modal" data-target="#patientProfileModal"><img src="{% static 'images/actions/eye_icon_dark.svg' %}" alt="">
                         </a> -->
-                        <button class="view-button" data-user-id={{patient.id}}>View</button>
+                        <button class="view-button" data-user-id={{patient.id}}><img src="{% static 'images/actions/eye_icon_dark.svg' %}" alt=""></button>
                     </td>
                 </tr>
                 {% endfor %}
