@@ -84,12 +84,15 @@
 <!-- Sidebar -->
 <nav class="sidebar">
     <!-- Logo -->
-    <div class="logo_item d-flex justify-content-between">
-        <img class="logo_img" src="{% static 'images/panel/LOGO MEDTRACE 1.png' %}" style="margin-top: 9px;">
-        <div class="sidebar-close-icon d-lg-none">
-            <i class="bx bx-x" id="sidebarClose"></i>
+    <a href="{% url 'index' %}">
+        <div class="logo_item d-flex justify-content-between">
+            <img class="logo_img" src="{% static 'images/panel/LOGO MEDTRACE 1.png' %}" style="margin-top: 9px;">
+            <div class="sidebar-close-icon d-lg-none">
+                <i class="bx bx-x" id="sidebarClose"></i>
+            </div>
         </div>
-    </div>
+    </a>
+    
 
     <!-- Menu Content -->
     <div class="menu_content">

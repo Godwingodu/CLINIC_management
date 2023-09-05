@@ -143,9 +143,15 @@
   <!-- Links -->
    <ul class="navbar-nav pl-5 text-center">
 
-     <li class="nav-item">
-       <a class="nav-link" href="{% url 'index' %}" style="color:white"><ion-icon style="margin-right:2px" name="home-sharp"></ion-icon> Home</a>
-     </li>
+    <!-- Logo -->
+    <a href="{% url 'index' %}">
+      <div class="logo_item d-flex justify-content-between">
+          <img class="logo_img" src="{% static 'images/panel/LOGO MEDTRACE 1.png' %}" style="margin-top: 9px;">
+          <div class="sidebar-close-icon d-lg-none">
+              <i class="bx bx-x" id="sidebarClose"></i>
+          </div>
+      </div>
+    </a>
 
      <li class="nav-item">
        <a class="nav-link" href="{% url 'receptionist_dashboard' %}" style="color:black"><ion-icon style="margin-right:2px" name="people"></ion-icon> Receptionist dashboard</a>
