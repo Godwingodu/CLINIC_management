@@ -8,6 +8,7 @@ from django.dispatch import receiver
 from django.apps import apps  # For deferred model import
 from django.contrib.auth.hashers import make_password, check_password
 import uuid
+from datetime import date
 
 from clinic_app.settings import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN
 from twilio.base.exceptions import TwilioRestException
@@ -248,14 +249,19 @@ class Appointment(models.Model):
     def clean(self):
         super().clean()
 
-        # Debugging: print the working days and the appointment day
-        print("Working days for therapist:", [d.weekday_number for d in self.therapist.working_days.all()])
-        print("Weekday for appointment:", self.appointment_date.weekday())
+        # Utility function to convert weekday number to name
+    def weekday_to_name(self, weekday_number):
+        return date(2021, 1, 4 + weekday_number).strftime('%A')  # 2021-01-04 is a Monday
+
+    # Custom validations
+    def clean(self):
+        super().clean()
 
         working_days = self.therapist.working_days.all()
         working_day_numbers = [d.weekday_number for d in working_days]
         if self.appointment_date.weekday() not in working_day_numbers:
-            raise ValidationError(_('The selected date is not a working day for this therapist. Available days are: {}'.format(working_day_numbers)))
+            working_day_names = [self.weekday_to_name(day) for day in working_day_numbers]
+            raise ValidationError(_('The selected date is not a working day for this therapist. Available days are: {}'.format(", ".join(working_day_names))))
 
         overlapping_appointments = Appointment.objects.filter(
             therapist=self.therapist,
@@ -267,12 +273,9 @@ class Appointment(models.Model):
         if overlapping_appointments.exists():
             raise ValidationError(_('The selected time slot is already booked.'))
         
-                
         # Debugging: print the working days details
-        print("Working days for therapist:")
         for d in self.therapist.working_days.all():
             print(f"ID: {d.id}, Weekday Number: {d.weekday_number}, Day Name: {d.day_name}")
-
     # Save method
     def save(self, *args, **kwargs):
         self.full_clean()

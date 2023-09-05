@@ -9,6 +9,8 @@ from .constants import STATUS_CHOICES,PAYMENT_MODE_CHOICES
 from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+import datetime
+
 
 from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
@@ -426,45 +428,10 @@ def get_appointment_detail(request, appointment_id):
 
 import json
 
-
-
-
-
-
-
-
-
-
-
-# View function to schedule an appointment
-def schedule_appointment(request, patient_id=None):
-    # Check if there's a patient_id passed in the URL
-    if patient_id:
-        patient = get_object_or_404(Patient, id=patient_id)
-        form = AppointmentForm(initial={'patient': patient})
-    else:
-        form = AppointmentForm()
-
-    # Handle AJAX requests for available slots
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':  # Replaced request.is_ajax()
-        therapist_id = request.GET.get('therapist_id')
-        appointment_date = request.GET.get('appointment_date')
-        if therapist_id and appointment_date:
-            return get_available_slots(request, therapist_id, appointment_date)
-    
-    # Handle POST data when the form is submitted
-    if request.method == "POST":
-        form = AppointmentForm(request.POST)
-        if form.is_valid():
-            new_appointment = form.save(commit=False)
-            new_appointment.status = 'Pending'
-            new_appointment.save()
-            
-            messages.success(request, 'Appointment is pending approval.')
-            return redirect('receptionist_dashboard')
-        else:
-            messages.error(request, 'An error occurred. Please try again.')
-    
+def get_therapists_list():
+    """
+    Helper function to create a list of therapists with required details.
+    """
     therapists = Therapist.objects.all()
     therapists_list = []
     for therapist in therapists:
@@ -474,15 +441,47 @@ def schedule_appointment(request, patient_id=None):
             'working_days': list(therapist.working_days.values_list('weekday_number', flat=True)),
         }
         therapists_list.append(therapist_dict)
-                
+    return therapists_list
+
+
+
+
+
+
+
+
+
+def schedule_appointment(request, patient_id=None):
+    if patient_id:
+        patient = get_object_or_404(Patient, id=patient_id)
+        form = AppointmentForm(initial={'patient': patient})
+    else:
+        form = AppointmentForm()
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':  # Checking for AJAX requests
+        therapist_id = request.GET.get('therapist_id')
+        appointment_date = request.GET.get('appointment_date')
+        if therapist_id and appointment_date:
+            return get_available_slots(request, therapist_id, appointment_date)
+    
+    if request.method == "POST":
+        form = AppointmentForm(request.POST)
+        if form.is_valid():
+            new_appointment = form.save(commit=False)
+            new_appointment.status = 'Pending'
+            new_appointment.save()
+            messages.success(request, 'Appointment is pending approval.')
+            return redirect('receptionist_dashboard')
+        else:
+            messages.error(request, 'An error occurred. Please try again.')
+    
     context = {
         'form': form,
-        'therapists': therapists_list,
+        'therapists': get_therapists_list(),
     }
       
     return render(request, 'reception/schedule_appointment.html', context)
 
-# Function to get available slots
 def get_available_slots(request, therapist_id, appointment_date):
     therapist = get_object_or_404(Therapist, id=therapist_id)
     existing_appointments = Appointment.objects.filter(
@@ -491,22 +490,23 @@ def get_available_slots(request, therapist_id, appointment_date):
         status__in=['Pending', 'Accepted']
     )
     booked_slots = [appointment.time_slot.id for appointment in existing_appointments]
+
+    day_num = datetime.strptime(appointment_date, "%Y-%m-%d").weekday()
+    all_slots = TimeSlot.objects.filter(therapistworkingday__therapist=therapist, therapistworkingday__working_day__weekday_number=day_num)
     
-    # Fetch all available slots for this therapist
-    all_slots = list(therapist.time_slots.values('id', 'name'))  # name is a field in time_slot model
     available_slots = []
     
     for slot in all_slots:
-        slot_id = slot['id']
+        slot_id = slot.id
         is_booked = slot_id in booked_slots
         available_slots.append({
             'id': slot_id,
-            'name': slot['name'],  
+            'name': f"{slot.start_time} - {slot.end_time}",  # Modified to generate name from start and end time 
             'is_booked': is_booked
         })
     
-    # Return the list of available slots as JSON
     return JsonResponse({'available_slots': available_slots})
+
 
 
 def list_appointments(request):
@@ -571,7 +571,8 @@ def list_appointments(request):
         return render(request, 'reception/list_appointments.html', context)
     
 
-# View function to update an appointment
+    
+
 def update_appointment(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
     form = AppointmentForm(instance=appointment)
@@ -585,19 +586,9 @@ def update_appointment(request, appointment_id):
         else:
             messages.error(request, 'An error occurred. Please try again.')
 
-    therapists = Therapist.objects.all()
-    therapists_list = []
-    for therapist in therapists:
-        therapist_dict = {
-            'id': therapist.id,
-            'name': therapist.name,
-            'working_days': list(therapist.working_days.values_list('weekday_number', flat=True)),
-        }
-        therapists_list.append(therapist_dict)
-
     context = {
         'form': form,
-        'therapists': json.dumps(therapists_list),
+        'therapists': json.dumps(get_therapists_list()),
         'appointment_id': appointment_id,
     }
 

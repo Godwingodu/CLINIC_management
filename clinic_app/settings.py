@@ -14,8 +14,8 @@ from pathlib import Path
 
 
 
-TWILIO_ACCOUNT_SID = os.getenv('TWILIO_ACCOUNT_SID')
-TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')
+TWILIO_ACCOUNT_SID="ACc917d79a232c27d17db11cef3b2bb5ff"
+TWILIO_AUTH_TOKEN="26a8fc07efe3d6a1e967298a3de9b83d"
 TWILIO_PHONE_NUMBER = '+12312259214'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -90,8 +90,12 @@ WSGI_APPLICATION = 'clinic_app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'clinic_management',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '3308',
     }
 }
 

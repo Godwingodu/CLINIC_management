@@ -5,6 +5,9 @@ from django.utils.translation import gettext as _
 from django.contrib.auth.hashers import make_password, check_password
 from .constants import STATUS_CHOICES,PAYMENT_MODE_CHOICES
 from django.forms.widgets import CheckboxSelectMultiple
+import datetime
+
+
 
 
 
@@ -350,19 +353,22 @@ class AppointmentForm(forms.ModelForm):
 
 
     def __init__(self, *args, **kwargs):
-        patient = kwargs.pop('patient', None)  # Extract the 'patient' keyword argument if available
+        patient = kwargs.pop('patient', None)
         super().__init__(*args, **kwargs)
 
         if patient:
             self.fields['patient'].initial = patient
             self.fields['patient'].queryset = Patient.objects.filter(id=patient.id)
-            self.fields['patient'].disabled = True  # Disable this field if patient is already known
+            self.fields['patient'].disabled = True
 
         if 'therapist' in self.data:
             try:
                 therapist_id = int(self.data.get('therapist'))
                 therapist = Therapist.objects.get(id=therapist_id)
-                self.fields['time_slot'].queryset = TimeSlot.objects.filter(therapist=therapist)
+                appointment_date = self.data.get('appointment_date')
+                if appointment_date:
+                    day_num = datetime.strptime(appointment_date, "%Y-%m-%d").weekday()
+                    self.fields['time_slot'].queryset = TimeSlot.objects.filter(therapistworkingday__therapist=therapist, therapistworkingday__working_day__weekday_number=day_num)
             except (ValueError, Therapist.DoesNotExist):
                 pass
 
