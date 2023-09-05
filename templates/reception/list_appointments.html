@@ -2,9 +2,18 @@
 
 {% block title %}List of Appointments{% endblock %}
 
+<style>
+  .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: var(--bs-nav-pills-link-active-color);
+    background-color: #1cbb24 !important;
+}
+</style>
+
 {% block additional_css %}
   <!-- Add any additional CSS files here -->
 {% endblock %}
+
+
 
 {% block content %}
   <!-- Search Bar -->
