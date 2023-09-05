@@ -230,6 +230,7 @@ class Appointment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=20, choices=APPOINTMENT_STATUS, default=PENDING)
+    remarks = models.TextField()
     invoice = models.OneToOneField('Invoice', null=True, blank=True, on_delete=models.SET_NULL, related_name='related_appointment')
 
     class Meta:

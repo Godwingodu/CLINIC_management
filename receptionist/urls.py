@@ -28,6 +28,7 @@ urlpatterns = [
  # Appointment URLs
     path('appointment/<int:appointment_id>/', views.get_appointment_detail, name='get_appointment_detail'),
     path('appointment/schedule/', views.schedule_appointment, name='schedule_appointment'),
+    path('filter_doctors/', views.filter_doctors, name='filter_doctors'), # to filter doctors in the appointment form based on speciality
     path('appointment/schedule/<int:patient_id>/', views.schedule_appointment, name='schedule_appointment_with_patient'),
     path('appointment/list/', views.list_appointments, name='list_appointments'),
     path('appointment/delete/<int:appointment_id>/', views.delete_appointment, name='delete_appointment'),
