@@ -39,6 +39,15 @@ import io
 
 
 
+
+def Index(request):
+    return render(request,'index.html')
+
+
+
+
+
+
 def receptionist_dashboard(request):
     return render(request, 'reception/receptionist_dashboard.html')
 
