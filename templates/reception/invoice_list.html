@@ -38,7 +38,7 @@ Recent Invoices
      margin-bottom: 4rem;
      border-radius: 22px;
      
-     font-size: 24px;
+     font-size: 16px;
      color: #000;
      margin: 0 auto;
      height: 10rem;
@@ -55,8 +55,9 @@ Recent Invoices
          display: flex;
          align-items: center; /* Vertically align content */
          width: 1252px;
+            height: 102px;
      }
- 
+
      .create-invoice img {
          max-width: 100%; /* Ensure the image does not exceed the button's width */
          margin-right: 10px; /* Add some spacing between the image and text */
@@ -91,31 +92,36 @@ Recent Invoices
      .ac-setting{
         background-color: #78EED0 !important;
      }
+
+     .inovice-pic{
+            width: 19%;
+}
+ 
  </style>
 
 <div style="display: flex; justify-content: space-around; align-items: center;">
     <div >
         <button class="create-invoice paid-invoice" style="width: 300px;">
-            <img src="{% static 'images/paid-invoice.png' %}" alt="" style="margin-left: 1rem;" />
-            <p style="font-size: 24px; color: #000;">Paid Invoice</p>
+            <img src="{% static 'images/paid-invoice.png' %}" alt="" style="margin-left: 1rem;" class="inovice-pic" />
+            <p style="font-size: 16px; color: #000;">Paid Invoice</p>
         </button>
     </div>
     <div >
         <button class="create-invoice unpaid-invoice" style="width: 300px;">
-            <img src="{% static 'images/unpaid-invoice.png' %}" alt="" style="margin-left: 1rem;" />
-            <p style="font-size: 24px; color: #000;">Unpaid Invoice</p>
+            <img src="{% static 'images/unpaid-invoice.png' %}" alt="" style="margin-left: 1rem;" class="inovice-pic" />
+            <p style="font-size: 16px; color: #000;">Unpaid Invoice</p>
         </button>
     </div>
     <div >
         <button class="create-invoice create-invoice-custom" style="width: 300px;">
-            <img src="{% static 'images/create-invoice.png' %}" alt="" style="margin-left: 1rem;" />
-            <p style="font-size: 24px; color: #000;">Create Invoice</p>
+            <img src="{% static 'images/create-invoice.png' %}" alt="" style="margin-left: 1rem;" class="inovice-pic" />
+            <p style="font-size: 16px; color: #000;">Create Invoice</p>
         </button>
     </div>
     <div >
         <button class="create-invoice ac-setting" style="width: 300px;">
-            <img src="{% static 'images/ac-setting.png' %}" alt="" style="margin-left: 1rem;" />
-            <p style="font-size: 24px; color: #000;">A/c Settings</p>
+            <img src="{% static 'images/ac-setting.png' %}" alt="" style="margin-left: 1rem;" class="inovice-pic" />
+            <p style="font-size: 16px; color: #000;">A/c Settings</p>
         </button>
     </div>
 </div>
@@ -123,7 +129,7 @@ Recent Invoices
 <!-- Invoices Table -->
 <div class="row">
     <div class="col-md-12">
-        <h1 style="font-size: 20px; font-size: 30px; margin-bottom: 2rem;">Recent Invoices</h1>
+        <h1 style="font-size: 16px; font-size: 22px; margin-bottom: 2rem;">Recent Invoices</h1>
         <table class="table table-striped">
             <thead>
                 <tr>
