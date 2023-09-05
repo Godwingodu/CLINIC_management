@@ -453,10 +453,15 @@ def get_therapists_list():
     return therapists_list
 
 
+# to get available therapists on selecting a speciality
 
-
-
-
+def filter_doctors(request):
+    speciality_id = request.GET.get('specialities')  # Assuming you pass the speciality as a GET parameter
+    if speciality_id:
+        # Perform the filtering logic to get a queryset of doctors based on speciality
+        doctors = Therapist.objects.filter(specialities=speciality_id).values('id', 'name')  # Adjust the fields accordingly
+        return JsonResponse(list(doctors), safe=False)
+    return JsonResponse([], safe=False)
 
 
 

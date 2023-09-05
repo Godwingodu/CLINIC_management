@@ -3,35 +3,108 @@
 
 
 {% block content %}
-<form id="appointmentForm" method="post">
-  {% csrf_token %}
-  
-  <div class="form-group">
-    <label for="id_patient">Patient:</label>
-    {{ form.patient|add_class:"form-control" }}
+
+<head>
+  <style>
+    .custom-inner-wrapper {
+      margin: 30px;
+      background-color: #f9f9f9;
+      border-radius: 20px;
+    }
+
+    .custom-container {
+      background-color: white;
+      padding: 10px;
+      border-radius: 12px;
+    }
+
+    .form-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .input-container input,
+    .form-check {
+      border: none;
+      border-radius: 10px;
+      min-height: 50px !important;
+      background-color: #f2fefb;
+    }
+
+    /* input select field */
+
+    .form-select {
+      background-color: #f2fefb !important;
+      border: none !important;
+      min-height: 50px;
+    }
+
+    /* input textarea */
+
+    .form-textarea {
+      background-color: #f2fefb !important;
+      height: 100px;
+      border: none !important;
+      width: 100%;
+    }
+
+
+    .button-green {
+      background-color: #78D596 !important;
+      color: #ffffff !important;
+    }
+  </style>
+</head>
+
+<div class="custom-inner-wrapper">
+  <div class="container custom-container p-5">
+    <div class="form-title mb-4">Add New Appointment</div>
+    <form id="appointmentForm" method="post">
+      {% csrf_token %}
+
+      <div class="row mb-4">
+        <div class="col-md-6 input-container">
+          {{ form.patient|add_class:"form-control" }}
+        </div>
+
+        <divv class="col-md-6">
+          {{ form.speciality_filter }}
+        </divv>
+
+      </div>
+
+      <div class="row mb-4">
+        <div class="col-md-4 input-container">
+          <label for="id_therapist">Therapist:</label>
+          {{ form.therapist|add_class:"form-control" }}
+        </div>
+
+        <div class="col-md-4 input-container">
+          <label for="id_appointment_date">Appointment Date:</label>
+          {{ form.appointment_date|add_class:"form-control" }}
+          <div id="dateError" class="text-danger"></div>
+        </div>
+
+        <div class="col-md-4 input-container">
+          <label for="id_time_slot">Time Slot:</label>
+          {{ form.time_slot|add_class:"form-control" }}
+        </div>
+      </div>
+
+      <div class="row mb-4">
+        <div class="col-12">
+          {{ form.remarks }}
+        </div>
+      </div>
+
+      <div class="d-flex flex-row align-items-center justify-content-end">
+        <button type="submit" class="btn button-green mx-2">Create Appointment</button>
+        <a href="{% url 'list_appointments' %}" class="btn btn-danger">Cancel</a>
+      </div>
+    </form>
   </div>
-  
-  <div class="form-group">
-    <label for="id_therapist">Therapist:</label>
-    {{ form.therapist|add_class:"form-control" }}
-  </div>
-  
-  <div class="form-group">
-    <label for="id_appointment_date">Appointment Date:</label>
-    {{ form.appointment_date|add_class:"form-control" }}
-    <div id="dateError" class="text-danger"></div>
-  </div>
-  
-  <div class="form-group">
-    <label for="id_time_slot">Time Slot:</label>
-    {{ form.time_slot|add_class:"form-control" }}
-  </div>
-  
-  <div class="form-group mt-4">
-    <button type="submit" class="btn btn-primary" style="background-color: #78D596;">Save</button>
-    <a href="{% url 'list_appointments' %}" class="btn btn-danger">Cancel</a>
-  </div>
-</form>
+</div>
+
 {% endblock %}
 {% block additional_js %}
 <script>
@@ -68,7 +141,7 @@
     fetch(url)
       .then(response => {
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+          throw new Error('Network response was not ok');
         }
         return response.json();
       })
@@ -101,5 +174,45 @@
       fetchAvailableSlots();
     }
   }
+</script>
+
+<script>
+  $(document).ready(function () {
+    // Get a reference to the speciality_filter field
+    const specialityFilter = $('#id_speciality_filter');
+
+    // Get a reference to the therapist field
+    const therapistField = $('#id_therapist');
+
+    // Add an event listener to the speciality_filter field
+    specialityFilter.on('change', function () {
+      // Get the selected speciality value
+      const selectedSpeciality = $(this).val();
+
+      // Make an AJAX request to a view or API endpoint
+      $.ajax({
+        url: '/reception/filter_doctors/',  // Replace with the actual endpoint URL
+        data: {
+          specialities: selectedSpeciality,
+        },
+        success: function (data) {
+          // Clear existing options and add a default option
+          therapistField.empty();
+          therapistField.append($('<option>', {
+            value: '',
+            text: 'Select a therapist',  // Change this text as needed
+          }));
+
+          // Add options for each doctor from the data array
+          $.each(data, function (index, doctor) {
+            therapistField.append($('<option>', {
+              value: doctor.id,
+              text: doctor.name,
+            }));
+          });
+        },
+      });
+    });
+  });
 </script>
 {% endblock %}

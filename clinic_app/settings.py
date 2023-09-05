@@ -13,9 +13,8 @@ import os
 from pathlib import Path
 
 
-
-TWILIO_ACCOUNT_SID="ACc917d79a232c27d17db11cef3b2bb5ff"
-TWILIO_AUTH_TOKEN="26a8fc07efe3d6a1e967298a3de9b83d"
+TWILIO_ACCOUNT_SID = "ACc917d79a232c27d17db11cef3b2bb5ff"
+TWILIO_AUTH_TOKEN = "26a8fc07efe3d6a1e967298a3de9b83d"
 TWILIO_PHONE_NUMBER = '+12312259214'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -49,9 +48,9 @@ INSTALLED_APPS = [
     'superadmin',
     'phonenumber_field',
     'patient',
-    'therapist'
+    'therapist',
+
 ]
-    
 
 
 MIDDLEWARE = [
@@ -91,11 +90,12 @@ WSGI_APPLICATION = 'clinic_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'clinic_management',
+        'NAME': 'hospital_crm',
         'USER': 'root',
-        'PASSWORD': '12345678',
+
+        'PASSWORD': 'your_password',
         'HOST': 'localhost',
-        'PORT': '3306',
+        'PORT': 3306,
     }
 }
 
@@ -185,4 +185,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #         },
 #     },
 # }
-
