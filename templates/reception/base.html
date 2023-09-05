@@ -76,6 +76,27 @@
                 background-color: #000000;
                 color: #ffffff;
             }
+
+            .logo_img {
+            margin-top: 1px;
+            margin-left: 15px;
+            width: 186px;
+            height: 60px;
+            }
+
+            .super-admin-container{
+                height: 4rem;
+                margin-top: 1px;
+            }
+            .navbar_content{
+                margin-right: 5rem;
+            }
+            .link-fix{
+                height: 53px;
+            }
+            .sidebar-ico{
+                width: 41%;
+            }
         </style>
     
     {% block additional_css %}
@@ -84,12 +105,14 @@
 <!-- Sidebar -->
 <nav class="sidebar">
     <!-- Logo -->
+
     <a href="{% url 'index' %}">
         <div class="logo_item d-flex justify-content-between">
-            <img class="logo_img" src="{% static 'images/panel/LOGO MEDTRACE 1.png' %}" style="margin-top: 9px;">
+            <img class="logo_img" src="{% static 'images/panel/LOGO MEDTRACE 1.png' %}" >
             <div class="sidebar-close-icon d-lg-none">
                 <i class="bx bx-x" id="sidebarClose"></i>
             </div>
+
         </div>
     </a>
     
@@ -99,9 +122,9 @@
         <ul class="menu_items main_menu" style="margin-top: -2rem;">
             <!-- Overview -->
             <li class="item">
-                <a href="{% url 'receptionist_dashboard' %}" class="nav_link">
+                <a href="{% url 'receptionist_dashboard' %}" class="nav_link link-fix">
                     <span class="navlink_icon">
-                        <img src="{% static 'images/panel/menu.svg' %}" alt="">
+                        <img src="{% static 'images/panel/menu.svg' %}" alt="" class="sidebar-ico">
                     </span>
                     <span class="navlink">Overview</span>
                 </a>
@@ -109,9 +132,9 @@
 
             <!-- Physiotherapist Dropdown -->
             <li class="nav-item">
-                <a class="nav_link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav_link link-fix" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="navlink_icon">
-                        <img src="{% static 'images/panel/doctor.svg' %}" alt="">
+                        <img src="{% static 'images/panel/doctor.svg' %}" alt="" class="sidebar-ico">
                     </span>
                     <span class="navlink">Physiotherapist</span>
                 </a>
@@ -126,9 +149,9 @@
 
             <!-- Appointments Dropdown -->
             <li class="nav-item">
-                <a class="nav_link" href="#" id="navbarDropdownAppointments" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav_link link-fix" href="#" id="navbarDropdownAppointments" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="navlink_icon">
-                        <img src="{% static 'images/panel/icon-park-solid_order.svg' %}" alt="">
+                        <img src="{% static 'images/panel/icon-park-solid_order.svg' %}" alt="" class="sidebar-ico">
                     </span>
                     <span class="navlink">Appointments</span>
                 </a>
@@ -141,9 +164,9 @@
 
             <!-- Patient Dropdown -->
             <li class="nav-item">
-                <a class="nav_link" href="#" id="navbarDropdownPatient" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav_link link-fix" href="#" id="navbarDropdownPatient" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="navlink_icon">
-                        <img src="{% static 'images/panel/patient_list.svg' %}" alt="">
+                        <img src="{% static 'images/panel/patient_list.svg' %}" alt="" class="sidebar-ico">
                     </span>
                     <span class="navlink">Patient</span>
                 </a>
@@ -155,9 +178,9 @@
 
             <!-- Accounts Dropdown -->
             <li class="nav-item">
-                <a class="nav_link" href="#" id="navbarDropdownAccounts" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav_link link-fix" href="#" id="navbarDropdownAccounts" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="navlink_icon">
-                        <img src="{% static 'images/panel/moneybag.svg' %}" alt="">
+                        <img src="{% static 'images/panel/moneybag.svg' %}" alt="" class="sidebar-ico">
                     </span>
                     <span class="navlink">Accounts</span>
                 </a>
