@@ -9,16 +9,16 @@ h1 {
 /* .custom-container {
     border-radius: 20px;
     background-color: #ffffff;
-} */
+}
 
 
 /* SUPER ADMIN OVERVIEW */
 
-.donut-section {
+/* .donut-section {
     height: 240px;
     border-radius: 20px;
     background-color: rgb(179, 177, 88);
-}
+} */ 
 
 .box-green {
     border-radius: 20px;
@@ -52,11 +52,11 @@ h1 {
 
 
 /* space for including graph */
-.graph-section {
+/* .graph-section {
     height: 100px;
     border-radius: 20px;
     background-color: rgb(124, 115, 115);
-}
+} */
 
 
 /* RECEPTION OVERVIEW */

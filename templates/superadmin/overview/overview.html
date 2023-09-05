@@ -53,8 +53,12 @@
     <div class="container">
         <div class="row mb-2 d-flex justify-content-center align-content-center">
             <div class="col-12 col-md-6 p-2">
-                <div class="donut-section p-5">
-                    donut-section
+                <div >
+                    <div class="">
+                        <canvas id="donutChart"></canvas>
+
+                    </div>
+                    
                 </div>
             </div>
             <div class="col-12 col-lg-6">
@@ -110,9 +114,11 @@
             </div>
         </div>
         <div class="row mb-5 d-flex justify-content-center align-content-center">
-            <div class="col-12">
+            <div class="col-6">
                 <div class="graph-section">
-                    graph section
+                    <canvas id="patientChart" width="600" height="400"></canvas> 
+
+                    {% comment %} graph section {% endcomment %}
                 </div>
             </div>
         </div>
@@ -124,6 +130,104 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
         crossorigin="anonymous"></script>
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    var ctx = document.getElementById('patientChart').getContext('2d');
+                
+                                            var months = [
+                            {"month": "January", "count": 120},
+                            {"month": "February", "count": 140},
+                            {"month": "March", "count": 130},
+                            {"month": "April", "count": 170},
+                            {"month": "May", "count": 160},
+                            {"month": "June", "count": 150},
+                            {"month": "July", "count": 165},
+                            {"month": "August", "count": 155},
+                            {"month": "September", "count": 180},
+                            {"month": "October", "count": 175},
+                            {"month": "November", "count": 190},
+                            {"month": "December", "count": 185},
+                        ];
+
+                    var labels = months.map(function(item) {
+                        return item.month;
+                    });
+                    var data = months.map(function(item) {
+                        return item.count;
+                    });
+                
+                    var patientChart = new Chart(ctx, {
+                        type: 'bar',
+
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Number of Patients',
+                                data: data,
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 2,
+                                fill: false
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true,
+                                        callback: function(value) { 
+                                            if (value % 1 === 0) { 
+                                                return value;
+                                            }
+                                        }
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                });
+
+
+
+                
+                
+                
+        </script> 
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var donutCtx = document.getElementById('donutChart').getContext('2d');
+            
+                var donutData = {
+                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    datasets: [{
+                        label: 'My First Dataset',
+                        data: [12, 19, 3, 5, 2, 3],  // example data, you can replace this with your own
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(54, 162, 235, 0.5)',
+                            'rgba(255, 206, 86, 0.5)',
+                            'rgba(75, 192, 192, 0.5)',
+                            'rgba(153, 102, 255, 0.5)',
+                            'rgba(255, 159, 64, 0.5)'
+                        ],
+                        borderWidth: 1
+                    }]
+                };
+            
+                var donutChart = new Chart(donutCtx, {
+                    type: 'doughnut',
+                    data: donutData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+            });
+        </script>
+
+
 </body>
 
 </html>
